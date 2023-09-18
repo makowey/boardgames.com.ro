@@ -25,8 +25,8 @@
             <li class="cursor-pointer btn variant-filled-secondary" on:click={() => window.open(game.url, '_blank')}>
                 <span><Avatar src="{game.image}" class="rounded-full" alt="{game.name}"/></span>
                 <img src="{game.retailer.logo}" alt="Retailer" width="105" height="35"/>
-                <span class="flex-auto">{game.name}</span>
-                <span>{game.price}</span>
+                <span class="flex-auto truncate">{game.name}</span>
+                <span>{@html game.price}</span>
             </li>
         {/each}
     </ul>
