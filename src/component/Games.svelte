@@ -1,6 +1,7 @@
 <script>
     import {Avatar} from "@skeletonlabs/skeleton";
     import {goto} from "$app/navigation";
+    import LottieAnimation from "./player/LottieAnimation.svelte";
 
     let games;
     let retailer;
@@ -30,6 +31,7 @@
                 <span>{game.price}</span>
             </li>
         {/each}
-        <!-- ... -->
     </ul>
+{:else if searchText}
+    <LottieAnimation/>
 {/if}

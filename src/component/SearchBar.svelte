@@ -1,14 +1,13 @@
 <script>
-    export let placeholder = 'enter your search here';
+    import debounce from 'lodash.debounce'
+
     export let value = '';
 
-    let timer;
-    const debounce = v => {
-        clearTimeout(timer);
-        timer = setTimeout(() => {
-            value = v;
-        }, 750);
-    }
+    const handleInput = debounce(e => {
+        value = e.target.value;
+    }, 500)
+
+    export let placeholder = 'enter your search here';
 </script>
 
 <form>
@@ -21,6 +20,6 @@
       </span>
         <input type="search" name="q"
                class="py-2 text-sm text-white bg-gray-900 rounded-md pl-10 focus:outline-none focus:bg-white focus:text-gray-900 w-full"
-               {placeholder} autocomplete="off" bind:value on:keyup={({ target: { value } }) => debounce(value)}>
+               {placeholder} autocomplete="off" bind:value on:input={handleInput}>
     </div>
 </form>
