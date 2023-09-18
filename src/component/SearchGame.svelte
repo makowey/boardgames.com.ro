@@ -4,6 +4,7 @@
     import {browser} from "$app/environment";
 
     export let findGame;
+    let games = [];
 
     $: if (browser && window.location.search) {
         const queryString = window.location.search;
@@ -13,9 +14,13 @@
 </script>
 
 <main>
+    {#if games.length > 0}
+        <span class="text-right text-sm right-0.5 mr-20 italic mr-10">{games.length} jocuri gasite pentru `{findGame}`</span>
+    {/if}
+
     <SearchBar placeholder="Cauta joc..." bind:value={findGame}/>
 
     {#if findGame?.length > 2}
-        <Games searchText={findGame}/>
+        <Games searchText={findGame} bind:games/>
     {/if}
 </main>

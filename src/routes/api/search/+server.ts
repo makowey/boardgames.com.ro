@@ -1,4 +1,5 @@
 import {json} from '@sveltejs/kit';
+import {findRetailerByIndex} from "../../../component/retailers";
 
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
@@ -11,19 +12,27 @@ export async function GET({url, fetch}) {
             headers: {'Content-Type': 'application/json'}
         });
     }
-    const response = await fetch('https://pionul.ro/index.php?route=journal2/search&search=' + search);
-    let data = await response.json();
-    data = [...data.results];
-    const responseBody = {
+
+    let data: any[] = [];
+
+    const PION: any = findRetailerByIndex('PION');
+    let response = await fetch(PION.search + search);
+    let dataPion = await response.json();
+    dataPion = [...dataPion.results.map( game => {
+        return {...game, retailer: PION}
+    })];
+    data = [...data, ...dataPion];
+
+    const LEXSHOP: any = findRetailerByIndex('LEXSHOP');
+    response = await fetch(LEXSHOP.search + search);
+    let dataLexshop = await response.json();
+    dataLexshop = [...dataLexshop.suggestions].map(game => {
+        return {"name": game.value, "image": game.cover?.split("src=\"")[1]?.split("&crop=")[0], "url": LEXSHOP.site + game.link, "price": game.pret, retailer: LEXSHOP}
+    });
+    data = [...data, ...dataLexshop];
+
+    return json({
         status: 'success',
-        games: data,
-        retailer: 'https://pionul.ro/image/cache/data/Daniel/logo-final-200x56.jpg'
-    };
-
-    return json(responseBody);
-
-    // return new Response(JSON.stringify(responseBody), {
-    // 	status: 200,
-    // 	headers: { 'Content-Type': 'application/json' }
-    // });
+        games: data.sort((a, b) => parseFloat(b.price) - parseFloat(a.price))
+    });
 }
