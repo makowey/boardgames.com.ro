@@ -10,7 +10,7 @@
     const toastStore = getToastStore();
 
     const t = {
-        message: 'Portalul este in lucru, in incercarea de a inlocui o solutie mai veche...',
+        message: 'Portalul este in lucru, in incercarea de a inlocui o solutie mai veche... Pentru intrebari, sugestii folositi puteti folosi #discord(link-ul de sus): @cmakowey',
         autohide: false
     };
     toastStore.trigger(t);
