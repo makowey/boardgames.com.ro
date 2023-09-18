@@ -1,15 +1,11 @@
 <script>
+    import SearchBar from "./SearchBar.svelte";
+
     export let findGame;
 </script>
 
 <main>
-    <input
-            class="input"
-            type="search"
-            name="autocomplete-search"
-            bind:value={findGame}
-            placeholder="Cauta joc..."
-    />
+    <SearchBar placeholder="Cauta joc..." bind:value={findGame}/>
 
     {#if findGame}
         Se cauta dupa `{findGame}`...
