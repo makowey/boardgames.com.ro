@@ -20,11 +20,13 @@
 </script>
 
 {#if games?.length > 0}
-    <ul class="list mt-2 w-3/4 lg:w-fit mx-auto">
+    <ul class="list mt-1 w-7/12 lg:w-fit mx-auto">
         {#each games as game}
             <li class="cursor-pointer btn variant-filled-secondary" on:click={() => window.open(game.url, '_blank')}>
-                <span><Avatar src="{game.image}" class="rounded-full" alt="{game.name}"/></span>
-                <img src="{game.retailer.logo}" alt="Retailer" width="105" height="35"/>
+                <span>
+                    <img src="{game.retailer.logo}" alt="Retailer" width="55" height="15" class="left-0.5 pb-1"/>
+                    <Avatar src="{game.image}" class="rounded-full" alt="{game.name}" width="35"/>
+                </span>
                 <span class="flex-auto truncate">{game.name}</span>
                 <span>{@html game.price}</span>
             </li>

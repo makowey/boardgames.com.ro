@@ -17,6 +17,9 @@ export const retailers = [
     }
 ];
 
+/**
+ * @param {string} index
+ */
 export function findRetailerByIndex(index) {
     return retailers.find(r => r.index === index);
 }
