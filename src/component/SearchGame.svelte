@@ -3,7 +3,7 @@
     import Games from "./Games.svelte";
     import {browser} from "$app/environment";
 
-    export let findGame = "boardgame";
+    export let findGame = "";
     let games = [];
 
     $: if (browser && window.location.search) {
