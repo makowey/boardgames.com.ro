@@ -1,11 +1,11 @@
 <script>
-    import {retailers} from "./retailers";
+	import { retailers } from './retailers';
 </script>
 
-<div class="grid grid-cols-6 space-x-2">
-    {#each retailers as retailer}
-        <a href="{retailer.site}" target="_blank" class="card-hover">
-            <img src="{retailer.logo}" width="130" height="30" alt="{retailer.name}">
-        </a>
-    {/each}
-</div>
+<footer class="mt-auto p-6 flex justify-center items-center gap-10">
+	{#each retailers as retailer}
+		<a href={retailer.site} target="_blank">
+			<img src={retailer.logo} alt={retailer.name} class="w-32" />
+		</a>
+	{/each}
+</footer>

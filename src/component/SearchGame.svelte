@@ -1,31 +1,28 @@
-<script>
-    import SearchBar from "./SearchBar.svelte";
-    import Games from "./Games.svelte";
-    import {browser} from "$app/environment";
+<script lang="ts">
+	import SearchBar from './SearchBar.svelte';
+	import Games from './Games.svelte';
+	import { browser } from '$app/environment';
+	import type { Game } from '$lib/types';
 
-    export let findGame = "";
-    let games = [];
+	export let findGame = '';
+	let games: Game[] = [];
 
-    $: if (browser && window.location.search) {
-        const queryString = window.location.search;
-        const urlParams = new URLSearchParams(queryString);
-        findGame = urlParams.get('q');
-    }
+	$: if (browser && window.location.search) {
+		const queryString = window.location.search;
+		const urlParams = new URLSearchParams(queryString);
+		findGame = urlParams.get('q') || '';
+	}
 </script>
 
-<main>
-    <div class="w-3/4 m-auto">
-        <SearchBar placeholder="Cauta joc..." bind:value={findGame}/>
-        {#if games.length > 0}
-            <div class="text-sm right-0.5 m-auto italic">
-                {games.length} intrari gasite pentru [{findGame}]
-            </div>
-        {/if}
-    </div>
+<SearchBar placeholder="Cauta joc..." bind:value={findGame} />
 
-    {#if findGame?.length > 2}
-        <div class="w-11/12 -ml-8">
-            <Games searchText={findGame} bind:games/>
-        </div>
-    {/if}
-</main>
+{#if findGame?.length > 2}
+	<div class="mx-auto max-w-7xl px-6">
+		{#if games.length > 0}
+			<p class="italic mb-3">
+				{games.length} intrari gasite pentru [{findGame}]
+			</p>
+		{/if}
+		<Games searchText={findGame} bind:games />
+	</div>
+{/if}
