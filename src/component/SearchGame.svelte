@@ -15,12 +15,18 @@
 
 <main>
     {#if games.length > 0}
-        <span class="text-right text-sm right-0.5 mr-20 italic mr-10">{games.length} jocuri gasite pentru `{findGame}`</span>
+        <div class="text-sm right-0.5 m-auto italic">
+            {games.length} jocuri gasite pentru [{findGame}]
+        </div>
     {/if}
 
-    <SearchBar placeholder="Cauta joc..." bind:value={findGame}/>
+    <div class="w-3/4 m-auto">
+        <SearchBar placeholder="Cauta joc..." bind:value={findGame}/>
+    </div>
 
     {#if findGame?.length > 2}
-        <Games searchText={findGame} bind:games/>
+        <div class="w-fit -ml-8">
+            <Games searchText={findGame} bind:games/>
+        </div>
     {/if}
 </main>

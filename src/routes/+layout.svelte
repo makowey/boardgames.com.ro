@@ -23,7 +23,7 @@
         <!-- App Bar -->
         <AppBar>
             <svelte:fragment slot="lead">
-                <strong class="text-xl uppercase">Boadgames.com.ro</strong>
+                <strong class="text-sm uppercase">🎲 Boardgames 🇷🇴 Search Portal</strong>
             </svelte:fragment>
             <svelte:fragment slot="trail">
                 <a

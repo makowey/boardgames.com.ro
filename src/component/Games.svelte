@@ -4,7 +4,7 @@
     import LottieAnimation from "./player/LottieAnimation.svelte";
 
     export let games;
-    export let searchText;
+    export let searchText = "boardgame";
 
     async function searchForGame() {
         const response = await fetch('/api/search?search=' + searchText);
@@ -20,7 +20,7 @@
 </script>
 
 {#if games?.length > 0}
-    <ul class="list mt-2">
+    <ul class="list mt-2 w-3/4 lg:w-fit mx-auto">
         {#each games as game}
             <li class="cursor-pointer btn variant-filled-secondary" on:click={() => window.open(game.url, '_blank')}>
                 <span><Avatar src="{game.image}" class="rounded-full" alt="{game.name}"/></span>
