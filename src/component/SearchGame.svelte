@@ -14,14 +14,13 @@
 </script>
 
 <main>
-    {#if games.length > 0}
-        <div class="text-sm right-0.5 m-auto italic">
-            {games.length} jocuri gasite pentru [{findGame}]
-        </div>
-    {/if}
-
     <div class="w-3/4 m-auto">
         <SearchBar placeholder="Cauta joc..." bind:value={findGame}/>
+        {#if games.length > 0}
+            <div class="text-sm right-0.5 m-auto italic">
+                {games.length} intrari gasite pentru [{findGame}]
+            </div>
+        {/if}
     </div>
 
     {#if findGame?.length > 2}
