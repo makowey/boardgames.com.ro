@@ -16,7 +16,11 @@
 		<h2 class="card-title text-left font-bold">{game.name}</h2>
 		<div class="badge bg-violet-400 rounded-full max-w-max text-black">{game.price}</div>
 		<div class="flex justify-end mt-auto w-full">
-			<button class="btn bg-yellow-400 font-bold rounded-md text-orange-950">Cumpara</button>
+			<a
+				href={game.url}
+				target="_blank"
+				class="btn bg-yellow-400 font-bold rounded-md text-orange-950">Cumpara</a
+			>
 		</div>
 	</div>
 </li>
