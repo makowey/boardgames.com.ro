@@ -1,7 +1,7 @@
 <script>
-    import {Avatar, ProgressBar} from "@skeletonlabs/skeleton";
+    import {Avatar} from "@skeletonlabs/skeleton";
     import LottieAnimation from "./player/LottieAnimation.svelte";
-    import {navigating} from "$app/stores";
+    import {fly} from "svelte/transition";
 
     export let games;
     export let searchText = "boardgame";
@@ -26,9 +26,10 @@
     <LottieAnimation path="loading"/>
 {:else if games?.length > 0}
     <ul class="list mt-1 w-7/12 lg:w-full mx-auto">
-        {#each games as game}
+        {#each games as game, index}
             <li class="cursor-pointer btn variant-filled-secondary"
-                on:click={() => window.open(game.url, '_blank')}>
+                on:click={() => window.open(game.url, '_blank')}
+                in:fly={{ y: -100, duration: 500, delay: index * 100 }}>
                 <span>
                     <img src="{game.retailer.logo}" alt="Retailer" width="55" height="15" class="left-0.5 pb-1"/>
                     <span class="max-w-64">
