@@ -1,14 +1,18 @@
 <script>
-    import {Avatar} from "@skeletonlabs/skeleton";
+    import {Avatar, ProgressBar} from "@skeletonlabs/skeleton";
     import LottieAnimation from "./player/LottieAnimation.svelte";
+    import {navigating} from "$app/stores";
 
     export let games;
     export let searchText = "boardgame";
+    let isNavigating = false;
 
     async function searchForGame() {
+        isNavigating = true;
         const response = await fetch('/api/search?search=' + searchText);
         const data = await response.json();
         games = [...data.games];
+        isNavigating = false;
 
         console.log(`Found ${games.length} games...`, games)
     }
@@ -18,10 +22,13 @@
     }
 </script>
 
-{#if games?.length > 0}
-    <ul class="list mt-1 w-7/12 lg:w-fit mx-auto">
+{#if isNavigating}
+    <LottieAnimation path="loading"/>
+{:else if games?.length > 0}
+    <ul class="list mt-1 w-7/12 lg:w-full mx-auto">
         {#each games as game}
-            <li class="cursor-pointer btn variant-filled-secondary" on:click={() => window.open(game.url, '_blank')}>
+            <li class="cursor-pointer btn variant-filled-secondary"
+                on:click={() => window.open(game.url, '_blank')}>
                 <span>
                     <img src="{game.retailer.logo}" alt="Retailer" width="55" height="15" class="left-0.5 pb-1"/>
                     <span class="max-w-64">

@@ -25,7 +25,7 @@
     </div>
 
     {#if findGame?.length > 2}
-        <div class="w-fit -ml-8">
+        <div class="w-11/12 -ml-8">
             <Games searchText={findGame} bind:games/>
         </div>
     {/if}
