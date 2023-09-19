@@ -1,5 +1,5 @@
 <script>
-    import {retailers} from "./retailers.js";
+    import {retailers} from "./retailers";
 </script>
 
 <div class="grid grid-cols-6 space-x-2">

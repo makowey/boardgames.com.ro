@@ -1,6 +1,5 @@
 <script>
     import {Avatar} from "@skeletonlabs/skeleton";
-    import {goto} from "$app/navigation";
     import LottieAnimation from "./player/LottieAnimation.svelte";
 
     export let games;
@@ -25,7 +24,9 @@
             <li class="cursor-pointer btn variant-filled-secondary" on:click={() => window.open(game.url, '_blank')}>
                 <span>
                     <img src="{game.retailer.logo}" alt="Retailer" width="55" height="15" class="left-0.5 pb-1"/>
-                    <Avatar src="{game.image}" class="rounded-full" alt="{game.name}" width="35"/>
+                    <span class="max-w-64">
+                        <Avatar src="{game.image}" class="rounded-full" alt="{game.name}"/>
+                    </span>
                 </span>
                 <span class="flex-auto truncate">{game.name}</span>
                 <span>{@html game.price}</span>

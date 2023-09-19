@@ -31,6 +31,14 @@ export async function GET({url, fetch}) {
     });
     data = [...data, ...dataLexshop];
 
+    const OZONE: any = findRetailerByIndex('OZONE');
+    response = await fetch(OZONE.search + search);
+    let dataOzone = await response.json();
+    dataOzone = [...dataOzone.items].map(game => {
+        return {"name": game.l, "image": game.t2, "url": game.u, "price": game.p, retailer: OZONE}
+    });
+    data = [...data, ...dataOzone];
+
     return json({
         status: 'success',
         games: data.sort((a, b) => parseFloat(b.price) - parseFloat(a.price))
