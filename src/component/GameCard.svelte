@@ -19,7 +19,7 @@
 			<a
 				href={game.url}
 				target="_blank"
-				class="btn bg-yellow-400 font-bold rounded-md text-orange-950">Cumpara</a
+				class="btn bg-yellow-400 font-bold rounded-md text-orange-950">Mergi la magazin</a
 			>
 		</div>
 	</div>
