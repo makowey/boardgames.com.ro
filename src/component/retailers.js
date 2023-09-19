@@ -20,7 +20,7 @@ export const retailers = [
         name: "Ozone.ro",
         logo: "https://www.ozone.ro/skin/frontend/stenik/site-ro/images/ozone.svg?ver=1",
         site: "https://ozone.ro",
-        search: "https://api.fastsimon.com/?UUID=71de66ee-d2e2-4de2-b0bd-f51e3f0ee99e&q=",
+        search: "https://api.fastsimon.com/?UUID=71de66ee-d2e2-4de2-b0bd-f51e3f0ee99e&q=joc:",
         index: "OZONE"
     }
 ];
