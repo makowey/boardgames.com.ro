@@ -8,6 +8,7 @@
 		storePopup,
 		Toast
 	} from '@skeletonlabs/skeleton';
+	import Icon from '@iconify/svelte';
 
 	// Floating UI for Popups
 	import { arrow, autoUpdate, computePosition, flip, offset, shift } from '@floating-ui/dom';
@@ -40,7 +41,7 @@
 					target="_blank"
 					rel="noreferrer"
 				>
-					Discord
+					<Icon icon="line-md:discord-twotone" width="24"/>Discord
 				</a>
 			</svelte:fragment>
 		</AppBar>

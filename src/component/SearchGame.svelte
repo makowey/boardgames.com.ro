@@ -26,7 +26,7 @@
     }
 
     function mix() {
-        randomDice = Math.round(Math.random() * 12) + 1;
+        randomDice = Math.round(Math.random() * 12);
     }
 </script>
 
