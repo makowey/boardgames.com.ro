@@ -13,6 +13,21 @@
         const urlParams = new URLSearchParams(queryString);
         findGame = urlParams.get('q') || '';
     }
+
+    let randomDice: number = 0;
+    let currentFrame: number = 0;
+
+    $: if (parseInt(currentFrame) === 21) {
+        mix();
+    }
+
+    $: if (parseInt(currentFrame) === 90) {
+        randomDice = 0;
+    }
+
+    function mix() {
+        randomDice = Math.round(Math.random() * 12) + 1;
+    }
 </script>
 
 <SearchBar placeholder="Cauta joc..." bind:value={findGame}/>
@@ -27,6 +42,9 @@
         <Games searchText={findGame} bind:games/>
     </div>
 {:else }
-    <LottieAnimation path="dice" moreClass="w-48"/>
-
+    <div>
+        <LottieAnimation path="dice" bind:currentFrame>
+            <p class="text-center text-3xl text-cyan-300 font-bold animate-pulse">{randomDice ? randomDice : ''}</p>
+        </LottieAnimation>
+    </div>
 {/if}

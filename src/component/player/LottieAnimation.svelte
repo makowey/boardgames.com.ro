@@ -8,6 +8,7 @@
     export let replayFrameFrom = 0;
     export let replayFrameTo = 0;
     export let stopTo = 1;
+    export let currentFrame =  0;
 
     let animation;
     onMount(() => {
@@ -33,6 +34,7 @@
         }
 
         animation.onEnterFrame = function() {
+            currentFrame = animation.currentFrame;
             if(stopTo > 1 && animation.currentFrame > stopTo) {
                 animation.goToAndStop(stopTo, true);
             }
@@ -53,7 +55,6 @@
      class="lottie {moreClass}"
      style="max-width: 600px; max-height: 600px; margin: 0 auto"
      data-anim-loop="true"
-     data-name="ninja"
-     on:complete={() => console.log("Stop...")}>
+     data-name="ninja">
     <slot/>
 </div>
