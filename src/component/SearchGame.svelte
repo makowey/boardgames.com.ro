@@ -27,6 +27,6 @@
         <Games searchText={findGame} bind:games/>
     </div>
 {:else }
-    <LottieAnimation path="dice"/>
+    <LottieAnimation path="dice" moreClass="w-48"/>
 
 {/if}
