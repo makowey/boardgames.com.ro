@@ -30,7 +30,7 @@
     }
 </script>
 
-<SearchBar placeholder="Cauta joc..." bind:value={findGame}/>
+<SearchBar placeholder="Caută board game(joc)..." bind:value={findGame}/>
 
 {#if findGame?.length > 2}
     <div class="mx-auto max-w-7xl px-6">
@@ -44,7 +44,7 @@
 {:else }
     <div>
         <LottieAnimation path="dice" bind:currentFrame>
-            <p class="text-center text-3xl text-cyan-300 font-bold animate-pulse">{randomDice ? randomDice : '?'}</p>
+            <p class="text-center text-3xl text-cyan-300 font-bold animate-pulse absolute mt-48 ml-72">{randomDice ? randomDice : '?'}</p>
         </LottieAnimation>
     </div>
 {/if}
