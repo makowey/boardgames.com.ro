@@ -21,7 +21,7 @@
         mix();
     }
 
-    $: if (parseInt(currentFrame) === 90) {
+    $: if (parseInt(currentFrame) < 1 || parseInt(currentFrame) > 90) {
         randomDice = 0;
     }
 
@@ -44,7 +44,7 @@
 {:else }
     <div>
         <LottieAnimation path="dice" bind:currentFrame>
-            <p class="text-center text-3xl text-cyan-300 font-bold animate-pulse">{randomDice ? randomDice : ''}</p>
+            <p class="text-center text-3xl text-cyan-300 font-bold animate-pulse">{randomDice ? randomDice : '?'}</p>
         </LottieAnimation>
     </div>
 {/if}
