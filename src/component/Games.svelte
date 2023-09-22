@@ -7,6 +7,7 @@
 	export let searchText = 'boardgame';
 	let isNavigating = false;
 	let executionTime = 0;
+	export let numberOfMinimCharsForSearch = 3;
 
 	async function searchForGame() {
 		isNavigating = true;
@@ -18,7 +19,7 @@
 		// console.log(`Found ${games.length} games...`, games);
 	}
 
-	$: if (searchText?.length > 3) {
+	$: if (searchText?.length >= numberOfMinimCharsForSearch) {
 		searchForGame();
 	}
 </script>

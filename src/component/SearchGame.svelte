@@ -7,6 +7,7 @@
 
     export let findGame = '';
     let games: Game[] = [];
+    const numberOfMinimCharsForSearch = 3;
 
     $: if (browser && window.location.search) {
         const queryString = window.location.search;
@@ -32,14 +33,14 @@
 
 <SearchBar placeholder="Caută board game(joc)..." bind:value={findGame}/>
 
-{#if findGame?.length > 2}
+{#if findGame?.length >= numberOfMinimCharsForSearch}
     <div class="mx-auto max-w-7xl px-6">
         {#if games.length > 0}
             <p class="italic mb-3 text-right">
                 {games.length} intrari gasite pentru [{findGame.toUpperCase()}]
             </p>
         {/if}
-        <Games searchText={findGame} bind:games/>
+        <Games searchText={findGame} bind:games {numberOfMinimCharsForSearch}/>
     </div>
 {:else }
     <div>
