@@ -4,7 +4,7 @@
 	export let game: Game;
 </script>
 
-<li class="card flex flex-col sm:flex-row shadow-2xl overflow-hidden rounded-lg">
+<li class="card card-hover flex flex-col sm:flex-row shadow-2xl overflow-hidden rounded-lg">
 	<div class="relative aspect-video overflow-hidden sm:aspect-square sm:max-w-[270px] bg-white">
 		<img
 			class="object-contain sm:object-cover w-full h-full"

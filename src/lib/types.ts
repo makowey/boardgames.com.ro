@@ -3,6 +3,11 @@ export interface Game {
 	image: string;
 	url: string;
 	price: string;
+	yearpublished: number;
+	minplayers: number;
+	maxplayers: number;
+	playingtime: number;
+	description: string;
 	retailer: {
 		name: string;
 		logo: string;

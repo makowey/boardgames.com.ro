@@ -1,6 +1,7 @@
 <script lang="ts">
     import '../app.postcss';
     import {AppBar, AppShell, getToastStore, initializeStores, storePopup, Toast} from '@skeletonlabs/skeleton';
+    import { LightSwitch } from '@skeletonlabs/skeleton';
     import Icon from '@iconify/svelte';
 
     // Floating UI for Popups
@@ -39,6 +40,7 @@
                 </strong>
             </svelte:fragment>
             <svelte:fragment slot="trail">
+                <LightSwitch />
                 <a
                         class="btn btn-sm variant-ghost-surface"
                         href="https://discord.gg/cybPRKu2Cb"

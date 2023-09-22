@@ -4,6 +4,7 @@
     import {Autocomplete, popup} from '@skeletonlabs/skeleton';
 
     export let value = '';
+    export let gameId;
 
     export let placeholder = 'enter your search here';
     let popupSettings: PopupSettings = {
@@ -16,10 +17,11 @@
 
     function onSuggestionSelection(event: CustomEvent<AutocompleteOption>): void {
         value = event.detail.label;
+        gameId = event.detail.value;
     }
 
     function fetchSuggestions() {
-        fetch('/api/bgg?q=' + value)
+        fetch('/api/bgg/search?q=' + value)
             .then(r => r.json())
             .then(r => {
                 if (r?.data?.items) {
