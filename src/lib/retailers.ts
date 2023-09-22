@@ -1,4 +1,4 @@
-import Retailer = App.Retailer;
+import type {Retailer} from "$lib/types";
 
 export const retailers: Retailer[] = [
 
@@ -24,6 +24,14 @@ export const retailers: Retailer[] = [
         site: "https://ozone.ro",
         search: "https://api.fastsimon.com/?UUID=71de66ee-d2e2-4de2-b0bd-f51e3f0ee99e&q=joc:",
         index: "OZONE"
+    },
+
+    {
+        name: "RedGoblin.ro",
+        logo: "https://www.redgoblin.ro//img/logo-a-b.png",
+        site: "https://redgoblin.ro",
+        search: "https://www.redgoblin.ro/cauta?ajax=true&id_lang=2&maxRows=10&s=",
+        index: "RED_GOBLIN"
     }
 ];
 

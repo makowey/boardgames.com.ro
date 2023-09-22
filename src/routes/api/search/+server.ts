@@ -1,6 +1,6 @@
 import {json} from '@sveltejs/kit';
 import {findRetailerByIndex} from '$lib/retailers';
-import type {Game} from '$lib/types';
+import type {Game, Retailer} from '$lib/types';
 
 export async function GET({url, fetch}) {
     const search = url.searchParams.get('search');
@@ -14,18 +14,20 @@ export async function GET({url, fetch}) {
 
     let data: any[] = [];
 
-    const PION: App.Retailer | undefined = findRetailerByIndex('PION');
-    const LEXSHOP: App.Retailer | undefined = findRetailerByIndex('LEXSHOP');
-    const OZONE: App.Retailer | undefined = findRetailerByIndex('OZONE');
+    const PION: Retailer = findRetailerByIndex('PION');
+    const LEXSHOP: Retailer = findRetailerByIndex('LEXSHOP');
+    const OZONE: Retailer = findRetailerByIndex('OZONE');
+    const RED_GOBLIN: Retailer = findRetailerByIndex('RED_GOBLIN');
 
     const startTime: Date = new Date();
-    const [pionReq, lexshopReq, ozoneReq] = await Promise.all([
+    const [pionReq, lexshopReq, ozoneReq, redGoblinReq] = await Promise.all([
         fetch(PION.search + search),
         fetch(LEXSHOP.search + search),
-        fetch(OZONE.search + search)
+        fetch(OZONE.search + search),
+        fetch(RED_GOBLIN.search + search)
     ]);
 
-    if (pionReq.ok && lexshopReq.ok && ozoneReq.ok) {
+    if (pionReq.ok && lexshopReq.ok && ozoneReq.ok && redGoblinReq.ok) {
 
         let dataPion = await pionReq.json()
         dataPion = [
@@ -57,6 +59,15 @@ export async function GET({url, fetch}) {
         });
         data = [...data, ...dataOzone];
 
+        let dataRedGoblin = await redGoblinReq.json()
+        dataRedGoblin = dataRedGoblin
+            .filter(game => game?.pname?.length > 0)
+            .map((game) => {
+                return {name: game.pname, image: game.img, url: game.link, price: game.price, retailer: RED_GOBLIN};
+            });
+        data = [...data, ...dataRedGoblin];
+
+        console.log(`${data?.length} suggestion found...`)
         const endTime: Date = new Date();
         const executionTime: number = Math.abs(endTime.getMilliseconds() - startTime.getMilliseconds());
         return json({

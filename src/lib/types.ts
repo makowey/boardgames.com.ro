@@ -16,3 +16,11 @@ export interface Game {
 		index: string;
 	};
 }
+
+export interface Retailer {
+	name: string,
+	logo: string,
+	site: string,
+	search: string,
+	index: string
+}

@@ -6,11 +6,4 @@ declare namespace App {
     // interface PageData {}
     // interface Error {}
     // interface Platform {}
-    export interface Retailer {
-        name: string,
-        logo: string,
-        site: string,
-        search: string,
-        index: string
-    }
 }
