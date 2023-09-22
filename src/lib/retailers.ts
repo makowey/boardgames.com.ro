@@ -1,7 +1,7 @@
 import type {Retailer} from "$lib/types";
 
 // https://jocozaur.ro/search/suggest?q=brass&section_id=predictive-search
-// https://api.krit.ro/public/search/peek/brass
+// https://www.transylvaniagames.com/rokanthemes_searchsuiteautocomplete/ajax/index/?q=brass
 
 export const retailers: Retailer[] = [
 
