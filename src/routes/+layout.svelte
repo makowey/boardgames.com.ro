@@ -17,7 +17,16 @@
         background: 'variant-filled-warning'
     };
     toastStore.trigger(t);
+
+    import {isMobile} from "$lib/stores";
+
+    let innerWidth = 0
+    let innerHeight = 0;
+
+    $: isMobile.set(innerWidth <= 673), console.log("isMobile: ", $isMobile);
 </script>
+
+<svelte:window bind:innerWidth bind:innerHeight/>
 
 <!-- App Shell -->
 <AppShell>
@@ -44,6 +53,15 @@
     </svelte:fragment>
     <!-- Page Route Content -->
     <slot/>
+
+    <svelte:fragment slot="pageFooter">
+        <div class="">
+            <p class="text-xs text-left text-cyan-900 ml-2"> Inner Width: {innerWidth}, Inner
+                Height: {innerHeight},
+                mobile: {$isMobile} </p>
+        </div>
+
+    </svelte:fragment>
 </AppShell>
 
 <Toast position="b" max={3} width="w-full" rounded={'rounded-md'}/>

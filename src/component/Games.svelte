@@ -6,12 +6,14 @@
 	export let games: Game[];
 	export let searchText = 'boardgame';
 	let isNavigating = false;
+	let executionTime = 0;
 
 	async function searchForGame() {
 		isNavigating = true;
 		const response = await fetch('/api/search?search=' + searchText);
 		const data = await response.json();
 		games = [...data.games];
+		executionTime = data.executionTime;
 		isNavigating = false;
 		// console.log(`Found ${games.length} games...`, games);
 	}
@@ -29,6 +31,7 @@
 			<GameCard {game} />
 		{/each}
 	</ul>
+	<p class="text-xs text-right text-cyan-800">{executionTime}ms</p>
 {:else if searchText}
 	<LottieAnimation />
 {/if}
