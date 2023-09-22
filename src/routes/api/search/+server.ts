@@ -1,5 +1,5 @@
 import {json} from '@sveltejs/kit';
-import {findRetailerByIndex} from '../../../component/retailers';
+import {findRetailerByIndex} from '$lib/retailers';
 import type {Game} from '$lib/types';
 
 export async function GET({url, fetch}) {
@@ -14,11 +14,11 @@ export async function GET({url, fetch}) {
 
     let data: any[] = [];
 
-    const PION: any = findRetailerByIndex('PION');
-    const LEXSHOP: any = findRetailerByIndex('LEXSHOP');
-    const OZONE: any = findRetailerByIndex('OZONE');
+    const PION: App.Retailer | undefined = findRetailerByIndex('PION');
+    const LEXSHOP: App.Retailer | undefined = findRetailerByIndex('LEXSHOP');
+    const OZONE: App.Retailer | undefined = findRetailerByIndex('OZONE');
 
-    let startTime = new Date();
+    const startTime: Date = new Date();
     const [pionReq, lexshopReq, ozoneReq] = await Promise.all([
         fetch(PION.search + search),
         fetch(LEXSHOP.search + search),

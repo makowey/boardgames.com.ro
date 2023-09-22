@@ -1,4 +1,6 @@
-export const retailers = [
+import Retailer = App.Retailer;
+
+export const retailers: Retailer[] = [
 
     {
         name: "Pionul.ro",
@@ -28,6 +30,6 @@ export const retailers = [
 /**
  * @param {string} index
  */
-export function findRetailerByIndex(index) {
+export function findRetailerByIndex(index: string) {
     return retailers.find(r => r.index === index);
 }
