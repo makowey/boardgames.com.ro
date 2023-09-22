@@ -37,7 +37,7 @@
     <div class="mx-auto max-w-7xl px-6">
         {#if games.length > 0}
             <p class="italic mb-3 text-right">
-                {games.length} intrari gasite pentru [{findGame.toUpperCase()}]
+                {games.length} sugestii pentru [{findGame.toUpperCase()}]
             </p>
         {/if}
         <Games searchText={findGame} bind:games {numberOfMinimCharsForSearch}/>
