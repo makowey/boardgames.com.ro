@@ -12,20 +12,25 @@
         placement: 'bottom',
     };
 
-    const suggestions: AutocompleteOption[] = [
-        {
-            label: 'Azul',
-            value: 'Azul',
-            keywords: 'boardgame'
-        },
-        {
-            label: 'Brass',
-            value: 'Brass Birmingham',
-            keywords: 'boardgame'
-        }];
+    let suggestions: AutocompleteOption[] = [];
 
     function onSuggestionSelection(event: CustomEvent<AutocompleteOption>): void {
         value = event.detail.label;
+    }
+
+    function fetchSuggestions() {
+        fetch('/api/bgg?q=' + value)
+            .then(r => r.json())
+            .then(r => {
+                if (r?.data?.items) {
+                    suggestions = [...r.data.items.map(item => {
+                        return {
+                            label: item.name,
+                            value: item.id
+                        }
+                    })]
+                }
+            })
     }
 </script>
 
@@ -39,15 +44,17 @@
                 autocomplete="off"
                 bind:value
                 use:popup={popupSettings}
+                on:input={fetchSuggestions}
         />
 
-        <div data-popup="popupAutocomplete" class="card w-full max-w-sm max-h-48 p-4 overflow-y-auto z-10" tabindex="-1">
+        <div data-popup="popupAutocomplete" class="card w-full max-w-sm max-h-48 p-4 overflow-y-auto z-10"
+             tabindex="-1">
             <Autocomplete
                     bind:input={value}
                     options={suggestions}
                     on:selection={onSuggestionSelection}
                     emptyState='BGG: nici o sugestie...'
-                    limit=5
+                    limit=15
             />
         </div>
     </form>
