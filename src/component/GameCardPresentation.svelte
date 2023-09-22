@@ -15,7 +15,7 @@
             />
         </div>
         <div class="card-body p-6 flex flex-col gap-3 flex-1">
-            <h2 class="card-title text-left font-bold text-2xl animate-pulse">{game.name}</h2>
+            <h2 class="card-title text-left font-bold text-2xl animate-pulse">{@html game.name}</h2>
             <div class="badge bg-violet-400 rounded-full max-w-max text-black">{game.yearpublished}</div>
             <div>Players: {game.minplayers} - {game.maxplayers}, Playing time: {game.playingtime} min.</div>
             <div class="flex justify-end mt-auto w-full flex-wrap">

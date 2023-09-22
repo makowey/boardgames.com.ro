@@ -21,7 +21,7 @@
     }
 
     function fetchSuggestions() {
-        fetch('/api/bgg/search?q=' + value)
+        fetch('/api/bgg/search?q=' + value.replace('$', ''))
             .then(r => r.json())
             .then(r => {
                 if (r?.data?.items) {
@@ -55,9 +55,10 @@
                     bind:input={value}
                     options={suggestions}
                     on:selection={onSuggestionSelection}
-                    emptyState='BGG: nici o sugestie...'
-                    limit=15
+                    emptyState=''
+                    limit="10"
             />
         </div>
+
     </form>
 </div>
