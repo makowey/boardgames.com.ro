@@ -1,5 +1,8 @@
 import type {Retailer} from "$lib/types";
 
+// https://jocozaur.ro/search/suggest?q=brass&section_id=predictive-search
+// https://api.krit.ro/public/search/peek/brass
+
 export const retailers: Retailer[] = [
 
     {
@@ -32,6 +35,15 @@ export const retailers: Retailer[] = [
         site: "https://redgoblin.ro",
         search: "https://www.redgoblin.ro/cauta?ajax=true&id_lang=2&maxRows=10&s=",
         index: "RED_GOBLIN"
+    },
+
+    {
+        name: "Krit.ro",
+        logo: "https://krit.ro/img/krit-logo-mobile.png",
+        site: "https://krit.ro/produs/",
+        search: "https://api.krit.ro/public/search/peek/",
+        index: "KRIT",
+        baseImageUrl: "https://krit-content.ams3.cdn.digitaloceanspaces.com/product-images/default_$$$.jpg"
     }
 ];
 

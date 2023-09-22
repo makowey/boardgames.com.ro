@@ -15,7 +15,7 @@
 	<div class="card-body p-6 flex flex-col gap-3 flex-1">
 		<img src={game.retailer.logo} alt={game.retailer.name} class="w-24" />
 		<h2 class="card-title text-left font-bold">{game.name}</h2>
-		<div class="badge bg-violet-400 rounded-full max-w-max text-black">{stripHtml(game.price)}</div>
+		<div class="badge bg-violet-400 rounded-full max-w-max text-black">{@html game.price}</div>
 		<div class="flex justify-end mt-auto w-full">
 			<a
 				href={game.url}

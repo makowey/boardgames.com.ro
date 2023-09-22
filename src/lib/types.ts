@@ -22,5 +22,6 @@ export interface Retailer {
 	logo: string,
 	site: string,
 	search: string,
-	index: string
+	index: string,
+	baseImageUrl?: string
 }

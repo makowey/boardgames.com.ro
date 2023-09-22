@@ -1,6 +1,5 @@
 <script lang="ts">
     import type {Game} from '$lib/types';
-    import {stripHtml} from "$lib/utils.js";
 
     export let game: Game = {};
 </script>

@@ -3,5 +3,5 @@ export function stripHtml(value: string) {
         return '';
     }
 
-    return value?.replace(/(<([^>]+)>)/gi, "");
+    return value?.replace(/(<([^>]+)>)/gi, "") || value;
 }

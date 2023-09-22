@@ -18,16 +18,18 @@ export async function GET({url, fetch}) {
     const LEXSHOP: Retailer = findRetailerByIndex('LEXSHOP');
     const OZONE: Retailer = findRetailerByIndex('OZONE');
     const RED_GOBLIN: Retailer = findRetailerByIndex('RED_GOBLIN');
+    const KRIT: Retailer = findRetailerByIndex('KRIT');
 
     const startTime: Date = new Date();
-    const [pionReq, lexshopReq, ozoneReq, redGoblinReq] = await Promise.all([
+    const [pionReq, lexshopReq, ozoneReq, redGoblinReq, kritReq] = await Promise.all([
         fetch(PION.search + search),
         fetch(LEXSHOP.search + search),
         fetch(OZONE.search + search),
-        fetch(RED_GOBLIN.search + search)
+        fetch(RED_GOBLIN.search + search),
+        fetch(KRIT.search + search)
     ]);
 
-    if (pionReq.ok && lexshopReq.ok && ozoneReq.ok && redGoblinReq.ok) {
+    if (pionReq.ok && lexshopReq.ok && ozoneReq.ok && redGoblinReq.ok && kritReq.ok) {
 
         let dataPion = await pionReq.json()
         dataPion = [
@@ -66,6 +68,14 @@ export async function GET({url, fetch}) {
                 return {name: game.pname, image: game.img, url: game.link, price: game.price, retailer: RED_GOBLIN};
             });
         data = [...data, ...dataRedGoblin];
+
+        let dataKrit = await kritReq.json()
+        dataKrit = dataKrit?.data?.products?.filter(game => game?.title).map((game) => {
+            const url = KRIT.site + "/" + game.slug;
+            const image = KRIT.baseImageUrl?.replace("$$$", game.thumbnail);
+            return {name: game.title, image: image, url: url, price: game.totalPrice, retailer: KRIT};
+        });
+        data = [...data, ...dataKrit];
 
         console.log(`${data?.length} suggestion found...`)
         const endTime: Date = new Date();
