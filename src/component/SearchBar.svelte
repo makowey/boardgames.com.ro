@@ -46,6 +46,8 @@
                     bind:input={value}
                     options={suggestions}
                     on:selection={onSuggestionSelection}
+                    emptyState='BGG: nici o sugestie...'
+                    limit=5
             />
         </div>
     </form>
