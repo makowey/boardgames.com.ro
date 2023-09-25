@@ -64,7 +64,7 @@ export const retailers: Retailer[] = [
         baseImageUrl: ""
     },
 
- {
+    {
         name: "Gameology.ro",
         logo: "https://gomagcdn.ro/domains/gameology.ro/files/company/logo-gameology-magazin-de-jocuri-de-societate9368.svg",
         site: "https://www.gameology.ro/",
@@ -74,10 +74,19 @@ export const retailers: Retailer[] = [
     },
 
     {
+        name: "MagazinulDeSah.ro",
+        logo: "https://gomagcdn.ro/domains/magazinuldesah.ro/files/company/logo3246.png",
+        site: "https://www.magazinuldesah.ro/",
+        search: "https://www.magazinuldesah.ro/autocomplete?query=",
+        index: "MAGAZINUL_DE_SAH",
+        baseImageUrl: ""
+    },
+
+    {
         name: "Jocozaur.ro",
         logo: "https://jocozaur.ro/cdn/shop/files/jocozaur-logo_92664226-5d7b-4ca7-b068-3139ad0d67fb.png?v=1630536455&width=400",
         site: "https://jocozaur.ro/",
-        search: "https://jocozaur.ro/search/suggest?q=brass&section_id=predictive-search",
+        search: "https://jocozaur.ro/search/suggest?section_id=predictive-search&q=",
         index: "JOCOZAUR",
         baseImageUrl: ""
     }
