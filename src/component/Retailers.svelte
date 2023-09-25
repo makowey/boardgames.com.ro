@@ -1,5 +1,5 @@
 <script>
-	import { retailers } from '$lib/retailers.ts';
+	import { retailers } from '$lib/retailers';
 </script>
 
 <footer class="mt-auto p-6 flex justify-center items-center gap-10">

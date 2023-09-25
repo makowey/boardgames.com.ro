@@ -44,6 +44,15 @@ export const retailers: Retailer[] = [
         search: "https://api.krit.ro/public/search/peek/",
         index: "KRIT",
         baseImageUrl: "https://krit-content.ams3.cdn.digitaloceanspaces.com/product-images/default_$$$.jpg"
+    },
+
+    {
+        name: "BarlogulCuJocuri.ro",
+        logo: "https://gomagcdn.ro/domains/barlog/files/company/logo-barlogul-psd-4563025674.png",
+        site: "https://www.barlogulcujocuri.ro/",
+        search: "https://www.barlogulcujocuri.ro/autocomplete?query=",
+        index: "BARLOG",
+        baseImageUrl: ""
     }
 ];
 
