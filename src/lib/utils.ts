@@ -8,7 +8,7 @@ export function stripHtml(value: string) {
     return value?.replace(/(<([^>]+)>)/gi, "") || value;
 }
 
-export function extractFromHtml(dom: any, retailer: Retailer) {
+export function extractGoMagGamesFromHtml(dom: any, retailer: Retailer) {
     const el = dom.window.document;
     const games: Game[] = [];
     const childBoxes = el.getElementsByClassName('ac-box');
@@ -26,4 +26,22 @@ export function extractFromHtml(dom: any, retailer: Retailer) {
     }
 
     return games;
+}
+
+export function extractShopifyGamesFromHtml(dom: any, retailer: Retailer) {
+    const el = dom.window.document;
+    const games: Game[] = [];
+    const childBoxes = el.getElementsByTagName('ul')[0].getElementsByTagName('li');
+    for (let i = 0; i < childBoxes.length; i++) {
+        const acBox = childBoxes[i];
+        games.push({
+            name: acBox.getElementsByTagName('a')[0]?.getElementsByTagName('img')[0].alt.replace("Imagine ", ''),
+            image: acBox.getElementsByTagName('a')[0]?.getElementsByTagName('img')[0].src,
+            url: retailer.site + acBox.getElementsByTagName('a')[0]?.href,
+            price: acBox.getElementsByClassName('price-item--regular')[0]?.innerHTML,
+            retailer
+        });
+    }
+
+    return games.filter(game => game.name !== undefined);
 }

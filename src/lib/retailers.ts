@@ -83,6 +83,15 @@ export const retailers: Retailer[] = [
     },
 
     {
+        name: "Ludicus.ro",
+        logo: "https://ludicus.ro/cdn/shop/files/Ludicus_Logo_Website_szinezett-02_180x@2x.png?v=1687429790",
+        site: "https://ludicus.ro/",
+        search: "https://ludicus.ro/search/suggest?resources%5Btype%5D=product&resources%5Blimit%5D=4&section_id=predictive-search&q=",
+        index: "LUDICUS",
+        baseImageUrl: ""
+    },
+
+    {
         name: "Jocozaur.ro",
         logo: "https://jocozaur.ro/cdn/shop/files/jocozaur-logo_92664226-5d7b-4ca7-b068-3139ad0d67fb.png?v=1630536455&width=400",
         site: "https://jocozaur.ro/",

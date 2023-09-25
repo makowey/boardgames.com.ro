@@ -1,7 +1,7 @@
 import {json} from '@sveltejs/kit';
 import {findRetailerByIndex} from '$lib/retailers';
 import type {Game, Retailer} from '$lib/types';
-import {extractFromHtml} from "$lib/utils";
+import {extractGoMagGamesFromHtml, extractShopifyGamesFromHtml} from "$lib/utils";
 import {JSDOM} from 'jsdom';
 
 export async function GET({url, fetch}) {
@@ -25,9 +25,10 @@ export async function GET({url, fetch}) {
     const GUILDHALL: Retailer = findRetailerByIndex('GUILDHALL');
     const GAMEOLOGY: Retailer = findRetailerByIndex('GAMEOLOGY');
     const MAGAZINUL_DE_SAH: Retailer = findRetailerByIndex('MAGAZINUL_DE_SAH');
+    const LUDICUS: Retailer = findRetailerByIndex('LUDICUS');
 
     const startTime: Date = new Date();
-    const [pionReq, lexshopReq, ozoneReq, redGoblinReq, kritReq, barlogReq, guildHallReq, gameologyReq, magazinulDeSahReq] = await Promise.all([
+    const [pionReq, lexshopReq, ozoneReq, redGoblinReq, kritReq, barlogReq, guildHallReq, gameologyReq, magazinulDeSahReq, ludicusReq] = await Promise.all([
         fetch(PION.search + search),
         fetch(LEXSHOP.search + search),
         fetch(OZONE.search + search),
@@ -36,10 +37,11 @@ export async function GET({url, fetch}) {
         fetch(BARLOG.search + search),
         fetch(GUILDHALL.search + search),
         fetch(GAMEOLOGY.search + search),
-        fetch(MAGAZINUL_DE_SAH.search + search)
+        fetch(MAGAZINUL_DE_SAH.search + search),
+        fetch(LUDICUS.search + search)
     ]);
 
-    if (pionReq.ok && lexshopReq.ok && ozoneReq.ok && redGoblinReq.ok && kritReq.ok && barlogReq.ok && guildHallReq.ok && gameologyReq.ok && magazinulDeSahReq.ok) {
+    if (pionReq.ok && lexshopReq.ok && ozoneReq.ok && redGoblinReq.ok && kritReq.ok && barlogReq.ok && guildHallReq.ok && gameologyReq.ok && magazinulDeSahReq.ok && ludicusReq.ok) {
 
         let dataPion = await pionReq.json()
         dataPion = [
@@ -93,7 +95,7 @@ export async function GET({url, fetch}) {
             ?.replaceAll("\\n", '')?.replaceAll('\\t', '')
             ?.replaceAll('\\"', '"').replaceAll('\\/', '/');
 
-        dataBarlog = extractFromHtml(new JSDOM(barlogContent), BARLOG);
+        dataBarlog = extractGoMagGamesFromHtml(new JSDOM(barlogContent), BARLOG);
         data = [...data, ...dataBarlog];
 
         let dataGuildHall: Game[] = [];
@@ -102,7 +104,7 @@ export async function GET({url, fetch}) {
             ?.replaceAll("\\n", '')?.replaceAll('\\t', '')
             ?.replaceAll('\\"', '"').replaceAll('\\/', '/');
 
-        dataGuildHall = extractFromHtml(new JSDOM(guildHallContent), GUILDHALL);
+        dataGuildHall = extractGoMagGamesFromHtml(new JSDOM(guildHallContent), GUILDHALL);
         data = [...data, ...dataGuildHall];
 
         let dataGameology: Game[] = [];
@@ -111,7 +113,7 @@ export async function GET({url, fetch}) {
             ?.replaceAll("\\n", '')?.replaceAll('\\t', '')
             ?.replaceAll('\\"', '"').replaceAll('\\/', '/');
 
-        dataGameology = extractFromHtml(new JSDOM(gameologyContent), GAMEOLOGY);
+        dataGameology = extractGoMagGamesFromHtml(new JSDOM(gameologyContent), GAMEOLOGY);
         data = [...data, ...dataGameology];
 
         let dataMagazinuldeSah: Game[] = [];
@@ -120,8 +122,13 @@ export async function GET({url, fetch}) {
             ?.replaceAll("\\n", '')?.replaceAll('\\t', '')
             ?.replaceAll('\\"', '"').replaceAll('\\/', '/');
 
-        dataMagazinuldeSah = extractFromHtml(new JSDOM(magazinulDeSahContent), MAGAZINUL_DE_SAH);
+        dataMagazinuldeSah = extractGoMagGamesFromHtml(new JSDOM(magazinulDeSahContent), MAGAZINUL_DE_SAH);
         data = [...data, ...dataMagazinuldeSah];
+
+        let dataLudicus: Game[] = [];
+        const ludicusContent = await ludicusReq.text();
+        dataLudicus = extractShopifyGamesFromHtml(new JSDOM(ludicusContent), LUDICUS);
+        data = [...data, ...dataLudicus];
 
         console.log(`${data?.length} suggestion found...`)
         const endTime: Date = new Date();
