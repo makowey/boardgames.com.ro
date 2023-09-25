@@ -1,11 +1,10 @@
 <script lang="ts">
     import type {Game} from '$lib/types';
 
-    export let game: Game = {};
+    export let game: Game;
 </script>
 
 {#if game?.name}
-    <p class="ml-16 text-3xl">BGG: prezentare joc</p>
     <li class="card card-hover flex flex-col sm:flex-row shadow-2xl overflow-hidden rounded-lg m-10">
         <div class="relative aspect-video overflow-hidden sm:aspect-square sm:max-w-[270px] bg-white">
             <img

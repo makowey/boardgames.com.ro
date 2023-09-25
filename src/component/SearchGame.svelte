@@ -6,16 +6,25 @@
     import LottieAnimation from "./player/LottieAnimation.svelte";
     import GameCardPresentation from "./GameCardPresentation.svelte";
     import {onMount} from "svelte";
+    import Gallery from "./Gallery.svelte";
 
     export let findGame = '';
     let games: Game[] = [];
     const numberOfMinimCharsForSearch = 3;
 
     let randomGameId = pickARandomGameId();
-    let randomGame = {};
+    let randomGame:Game;
+    let hotGames: Game[] = [];
+    let hotSelection: Game;
+
+    $: if(hotSelection?.id) {
+        randomGameId = hotSelection.id;
+    }
 
     onMount(() => {
         loadGame(randomGameId);
+        loadHotGames();
+        randomGame = hotGames[Math.floor(Math.random() * hotGames.length)];
     })
 
     function loadGame(gameId: number) {
@@ -23,6 +32,14 @@
             .then(r => r.json())
             .then(r => {
                 randomGame = r.data;
+            })
+    }
+
+    function loadHotGames() {
+        fetch('/api/bgg/hot')
+            .then(r => r.json())
+            .then(r => {
+                hotGames = r.data;
             })
     }
 
@@ -66,6 +83,7 @@
         <Games searchText={findGame} bind:games {numberOfMinimCharsForSearch}/>
     </div>
 {:else }
+    <Gallery games={hotGames} bind:selection={hotSelection}/>
     <GameCardPresentation game={randomGame}/>
     <div>
         <LottieAnimation path="dice" bind:currentFrame>
