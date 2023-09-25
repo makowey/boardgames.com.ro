@@ -110,9 +110,17 @@ export const retailers: Retailer[] = [
     }
 ];
 
+export const OZONE: Retailer = {
+    name: "Ozone.ro",
+    logo: "https://www.ozone.ro/skin/frontend/stenik/site-ro/images/ozone.svg?ver=1",
+    site: "https://ozone.ro",
+    search: "https://api.fastsimon.com/?UUID=71de66ee-d2e2-4de2-b0bd-f51e3f0ee99e&q=joc:",
+    index: "OZONE"
+};
+
 /**
  * @param {string} index
  */
 export function findRetailerByIndex(index: string) {
-    return retailers.find(r => r.index === index);
+    return retailers.find(r => r.index === index) || OZONE;
 }

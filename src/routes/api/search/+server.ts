@@ -14,7 +14,7 @@ export async function GET({url, fetch}) {
         });
     }
 
-    let data: any[] = [];
+    let games: Game[] = [];
 
     const PION: Retailer = findRetailerByIndex('PION');
     const LEXSHOP: Retailer = findRetailerByIndex('LEXSHOP');
@@ -30,8 +30,7 @@ export async function GET({url, fetch}) {
     const REGATUL: Retailer = findRetailerByIndex('REGATUL');
 
     const startTime: Date = new Date();
-    const [pionReq, lexshopReq, ozoneReq, redGoblinReq, kritReq, barlogReq, guildHallReq, gameologyReq,
-        magazinulDeSahReq, ludicusReq, jocozaurReq, regatReq] = await Promise.all([
+    await Promise.allSettled([
         fetch(PION.search + search),
         fetch(LEXSHOP.search + search),
         fetch(OZONE.search + search),
@@ -44,115 +43,143 @@ export async function GET({url, fetch}) {
         fetch(LUDICUS.search + search),
         fetch(JOCOZAUR.search + search),
         fetch(REGATUL.search + search)
-    ]);
+    ])
+        .then(async ([pionResponse, lexshopResponse, ozoneResponse,
+                         redGoblinResponse, kritResponse, barlogResponse,
+                         guildHallResponse, gameologyResponse,
+                         magazinulDeSahResponse, ludicusResponse,
+                         jocozaurResponse, regatResponse]) => {
 
-    if (pionReq.ok && lexshopReq.ok && ozoneReq.ok && redGoblinReq.ok && kritReq.ok && barlogReq.ok && guildHallReq.ok
-        && gameologyReq.ok && magazinulDeSahReq.ok && ludicusReq.ok && jocozaurReq.ok && regatReq.ok) {
+            if (pionResponse?.value) {
+                let dataPion = await pionResponse.value.json()
+                dataPion = [
+                    ...dataPion.results.map((game: Game) => {
+                        return {
+                            ...game,
+                            image: game.image.replace('50x50', '500x500'),
+                            retailer: PION
+                        };
+                    })
+                ];
+                games = [...games, ...dataPion];
+            }
 
-        let dataPion = await pionReq.json()
-        dataPion = [
-            ...dataPion.results.map((game: Game) => {
-                return {
-                    ...game,
-                    image: game.image.replace('50x50', '500x500'),
-                    retailer: PION
-                };
-            })
-        ];
-        data = [...data, ...dataPion];
+            if (lexshopResponse?.value) {
+                let dataLexshop = await lexshopResponse.value.json()
+                dataLexshop = [...dataLexshop.suggestions].map((game) => {
+                    return {
+                        name: game.value,
+                        image: game.cover?.split('src="')[1]?.split('&crop=')[0].replace('45-45', '500-500'),
+                        url: LEXSHOP.site + game.link,
+                        price: game.pret,
+                        retailer: LEXSHOP
+                    };
+                });
+                games = [...games, ...dataLexshop];
+            }
 
-        let dataLexshop = await lexshopReq.json()
-        dataLexshop = [...dataLexshop.suggestions].map((game) => {
-            return {
-                name: game.value,
-                image: game.cover?.split('src="')[1]?.split('&crop=')[0].replace('45-45', '500-500'),
-                url: LEXSHOP.site + game.link,
-                price: game.pret,
-                retailer: LEXSHOP
-            };
-        });
-        data = [...data, ...dataLexshop];
+            if (ozoneResponse?.value) {
+                let dataOzone = await ozoneResponse.value.json()
+                dataOzone = [...dataOzone.items].map((game) => {
+                    return {name: game.l, image: game.t2, url: game.u, price: game.p, retailer: OZONE};
+                });
+                games = [...games, ...dataOzone];
+            }
 
-        let dataOzone = await ozoneReq.json()
-        dataOzone = [...dataOzone.items].map((game) => {
-            return {name: game.l, image: game.t2, url: game.u, price: game.p, retailer: OZONE};
-        });
-        data = [...data, ...dataOzone];
+            if (redGoblinResponse?.value) {
+                let dataRedGoblin = await redGoblinResponse.value.json()
+                dataRedGoblin = dataRedGoblin
+                    .filter(game => game?.pname?.length > 0)
+                    .map((game) => {
+                        return {name: game.pname, image: game.img, url: game.link, price: game.price, retailer: RED_GOBLIN};
+                    });
+                games = [...games, ...dataRedGoblin];
+            }
 
-        let dataRedGoblin = await redGoblinReq.json()
-        dataRedGoblin = dataRedGoblin
-            .filter(game => game?.pname?.length > 0)
-            .map((game) => {
-                return {name: game.pname, image: game.img, url: game.link, price: game.price, retailer: RED_GOBLIN};
-            });
-        data = [...data, ...dataRedGoblin];
+            if (kritResponse?.value) {
+                let dataKrit = await kritResponse.value.json()
+                dataKrit = dataKrit?.data?.products?.filter(game => game?.title).map((game) => {
+                    const url = KRIT.site + "/" + game.slug;
+                    const image = KRIT.baseImageUrl?.replace("$$$", game.thumbnail);
+                    return {name: game.title, image: image, url: url, price: game.totalPrice, retailer: KRIT};
+                });
+                games = [...games, ...dataKrit];
+            }
 
-        let dataKrit = await kritReq.json()
-        dataKrit = dataKrit?.data?.products?.filter(game => game?.title).map((game) => {
-            const url = KRIT.site + "/" + game.slug;
-            const image = KRIT.baseImageUrl?.replace("$$$", game.thumbnail);
-            return {name: game.title, image: image, url: url, price: game.totalPrice, retailer: KRIT};
-        });
-        data = [...data, ...dataKrit];
+            if (barlogResponse?.value) {
+                let dataBarlog: Game[] = [];
+                let barlogContent: string = await barlogResponse.value.text()
+                barlogContent = barlogContent.split('<\\/style>')?.[1]?.split('","games":')[0]
+                    ?.replaceAll("\\n", '')?.replaceAll('\\t', '')
+                    ?.replaceAll('\\"', '"').replaceAll('\\/', '/');
 
-        let dataBarlog: Game[] = [];
-        let barlogContent: string = await barlogReq.text()
-        barlogContent = barlogContent.split('<\\/style>')?.[1]?.split('","data":')[0]
-            ?.replaceAll("\\n", '')?.replaceAll('\\t', '')
-            ?.replaceAll('\\"', '"').replaceAll('\\/', '/');
+                dataBarlog = extractGoMagGamesFromHtml(new JSDOM(barlogContent), BARLOG);
+                games = [...games, ...dataBarlog];
+            }
 
-        dataBarlog = extractGoMagGamesFromHtml(new JSDOM(barlogContent), BARLOG);
-        data = [...data, ...dataBarlog];
+            if (guildHallResponse?.value) {
+                let dataGuildHall: Game[] = [];
+                let guildHallContent = await guildHallResponse.value.text()
+                guildHallContent = guildHallContent.split('<\\/style>')?.[1]?.split('","games":')[0]
+                    ?.replaceAll("\\n", '')?.replaceAll('\\t', '')
+                    ?.replaceAll('\\"', '"').replaceAll('\\/', '/');
 
-        let dataGuildHall: Game[] = [];
-        let guildHallContent = await guildHallReq.text()
-        guildHallContent = guildHallContent.split('<\\/style>')?.[1]?.split('","data":')[0]
-            ?.replaceAll("\\n", '')?.replaceAll('\\t', '')
-            ?.replaceAll('\\"', '"').replaceAll('\\/', '/');
+                dataGuildHall = extractGoMagGamesFromHtml(new JSDOM(guildHallContent), GUILDHALL);
+                games = [...games, ...dataGuildHall];
+            }
 
-        dataGuildHall = extractGoMagGamesFromHtml(new JSDOM(guildHallContent), GUILDHALL);
-        data = [...data, ...dataGuildHall];
+            if (gameologyResponse?.value) {
+                let dataGameology: Game[] = [];
+                let gameologyContent = await gameologyResponse.value.text()
+                gameologyContent = gameologyContent.split('<\\/style>')?.[1]?.split('","games":')[0]
+                    ?.replaceAll("\\n", '')?.replaceAll('\\t', '')
+                    ?.replaceAll('\\"', '"').replaceAll('\\/', '/');
 
-        let dataGameology: Game[] = [];
-        let gameologyContent = await gameologyReq.text()
-        gameologyContent = gameologyContent.split('<\\/style>')?.[1]?.split('","data":')[0]
-            ?.replaceAll("\\n", '')?.replaceAll('\\t', '')
-            ?.replaceAll('\\"', '"').replaceAll('\\/', '/');
+                dataGameology = extractGoMagGamesFromHtml(new JSDOM(gameologyContent), GAMEOLOGY);
+                games = [...games, ...dataGameology];
+            }
 
-        dataGameology = extractGoMagGamesFromHtml(new JSDOM(gameologyContent), GAMEOLOGY);
-        data = [...data, ...dataGameology];
+            if (magazinulDeSahResponse?.value) {
+                let dataMagazinuldeSah: Game[] = [];
+                let magazinulDeSahContent = await magazinulDeSahResponse.value.text()
+                magazinulDeSahContent = magazinulDeSahContent.split('<\\/style>')?.[1]?.split('","games":')[0]
+                    ?.replaceAll("\\n", '')?.replaceAll('\\t', '')
+                    ?.replaceAll('\\"', '"').replaceAll('\\/', '/');
 
-        let dataMagazinuldeSah: Game[] = [];
-        let magazinulDeSahContent = await magazinulDeSahReq.text()
-        magazinulDeSahContent = magazinulDeSahContent.split('<\\/style>')?.[1]?.split('","data":')[0]
-            ?.replaceAll("\\n", '')?.replaceAll('\\t', '')
-            ?.replaceAll('\\"', '"').replaceAll('\\/', '/');
+                dataMagazinuldeSah = extractGoMagGamesFromHtml(new JSDOM(magazinulDeSahContent), MAGAZINUL_DE_SAH);
+                games = [...games, ...dataMagazinuldeSah];
+            }
 
-        dataMagazinuldeSah = extractGoMagGamesFromHtml(new JSDOM(magazinulDeSahContent), MAGAZINUL_DE_SAH);
-        data = [...data, ...dataMagazinuldeSah];
+            if (ludicusResponse?.value) {
+                let dataLudicus: Game[] = [];
+                const ludicusContent = await ludicusResponse.value.text();
+                dataLudicus = extractShopifyGamesFromHtml(new JSDOM(ludicusContent), LUDICUS);
+                games = [...games, ...dataLudicus];
+            }
 
-        let dataLudicus: Game[] = [];
-        const ludicusContent = await ludicusReq.text();
-        dataLudicus = extractShopifyGamesFromHtml(new JSDOM(ludicusContent), LUDICUS);
-        data = [...data, ...dataLudicus];
+            if (jocozaurResponse?.value) {
+                let dataJocozaur: Game[] = [];
+                const jocozaurContent = await jocozaurResponse.value.text();
+                dataJocozaur = extractShopifyGamesFromHtml(new JSDOM(jocozaurContent), JOCOZAUR);
+                games = [...games, ...dataJocozaur];
+            }
 
-        let dataJocozaur: Game[] = [];
-        const jocozaurContent = await jocozaurReq.text();
-        dataJocozaur = extractShopifyGamesFromHtml(new JSDOM(jocozaurContent), JOCOZAUR);
-        data = [...data, ...dataJocozaur];
+            if (regatResponse?.value) {
+                let dataRegat: Game[] = [];
+                const regatContent = await regatResponse.value.text();
+                dataRegat = extractPrestashopGamesFromHtml(new JSDOM(regatContent), REGATUL);
+                games = [...games, ...dataRegat];
+            }
 
-        let dataRegat: Game[] = [];
-        const regatContent = await regatReq.text();
-        dataRegat = extractPrestashopGamesFromHtml(new JSDOM(regatContent), REGATUL);
-        data = [...data, ...dataRegat];
+            console.log(`${games?.length} suggestion found...`)
+        })
 
-        console.log(`${data?.length} suggestion found...`)
-        const endTime: Date = new Date();
-        const executionTime: number = Math.abs(endTime.getMilliseconds() - startTime.getMilliseconds());
-        return json({
-            status: 'success',
-            games: data.sort((a, b) => parseFloat(a.price) - parseFloat(b.price)),
-            executionTime
-        });
-    }
+    const endTime: Date = new Date();
+    const executionTime: number = Math.abs(endTime.getMilliseconds() - startTime.getMilliseconds());
+
+    return json({
+        status: 'success',
+        games: games.sort((a, b) => parseFloat(a.price) - parseFloat(b.price)),
+        executionTime
+    });
 }
