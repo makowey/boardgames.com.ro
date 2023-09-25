@@ -11,6 +11,10 @@
 
     export let findGame = '';
     let games: Game[] = [];
+    $: if(findGame?.length === 0) {
+        games = [];
+    }
+    
     const numberOfMinimCharsForSearch = 3;
 
     let randomGameId = 1;
@@ -76,7 +80,7 @@
     <div class="mx-auto max-w-7xl px-6">
         {#if games.length > 0}
             <p class="italic mb-3 text-right">
-                {games.length} sugestii pentru [{findGame.toUpperCase()}] din <span class="accent-error-200 font-bold text-cyan-600">{retailers.length}</span> magazine.
+                {games.length} sugestii pentru [{findGame.toUpperCase()}] de la <span class="accent-error-200 font-bold text-cyan-600">{retailers.length}</span> magazine.
             </p>
         {/if}
         <Games searchText={findGame} bind:games {numberOfMinimCharsForSearch}/>
