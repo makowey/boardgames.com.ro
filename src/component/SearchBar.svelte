@@ -2,10 +2,15 @@
     import {fly} from 'svelte/transition';
     import type {PopupSettings} from '@skeletonlabs/skeleton';
     import {popup} from '@skeletonlabs/skeleton';
-
-    export let value = '';
+    import debounce from 'lodash.debounce'
 
     export let placeholder = 'enter your search here';
+    export let value = '';
+
+    const handleInput = debounce(e => {
+        value = e.target.value;
+    }, 600);
+
     let popupSettings: PopupSettings = {
         event: 'focus-click',
         target: 'popupAutocomplete',
@@ -21,8 +26,9 @@
                 name="q"
                 {placeholder}
                 autocomplete="off"
-                bind:value
+                {value}
                 use:popup={popupSettings}
+                on:input={handleInput}
         />
     </form>
 </div>
