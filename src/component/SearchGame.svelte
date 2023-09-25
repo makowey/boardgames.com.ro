@@ -12,20 +12,16 @@
     let games: Game[] = [];
     const numberOfMinimCharsForSearch = 3;
 
-    let randomGameId = pickARandomGameId();
-    let randomGame:Game;
+    let randomGameId = 1;
+    let randomGame: Game;
     let hotGames: Game[] = [];
     let hotSelection: Game;
 
-    $: if(hotSelection?.id) {
+    $: if (hotSelection?.id) {
         randomGameId = hotSelection.id;
     }
 
-    onMount(() => {
-        loadGame(randomGameId);
-        loadHotGames();
-        randomGame = hotGames[Math.floor(Math.random() * hotGames.length)];
-    })
+    onMount(() => loadHotGames());
 
     function loadGame(gameId: number) {
         fetch('/api/bgg/game/' + gameId)
@@ -40,6 +36,8 @@
             .then(r => r.json())
             .then(r => {
                 hotGames = r.data;
+                randomGameId = pickARandomGameId();
+                loadGame(randomGameId);
             })
     }
 
@@ -52,7 +50,6 @@
 
     let randomDice: number = 0;
     let currentFrame: string = "0";
-    $: if (browser) loadGame(randomGameId);
 
     $: if (parseInt(currentFrame) === 21) {
         mix();
@@ -67,7 +64,7 @@
     }
 
     function pickARandomGameId() {
-        return (Math.round(Math.random() * 299999)) + 1;
+        return Math.floor(Math.random() * hotGames.length);
     }
 </script>
 
