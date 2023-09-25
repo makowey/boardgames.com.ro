@@ -8,7 +8,7 @@
     export let replayFrameFrom = 0;
     export let replayFrameTo = 0;
     export let stopTo = 1;
-    export let currentFrame =  0;
+    export let currentFrame =  "0";
 
     let animation;
     onMount(() => {

@@ -34,7 +34,7 @@
     }
 
     let randomDice: number = 0;
-    let currentFrame: number = 0;
+    let currentFrame: string = "0";
     $: if (browser) loadGame(randomGameId);
 
     $: if (parseInt(currentFrame) === 21) {

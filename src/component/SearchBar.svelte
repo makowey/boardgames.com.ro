@@ -1,7 +1,7 @@
 <script lang="ts">
     import {fly} from 'svelte/transition';
     import type {AutocompleteOption, PopupSettings} from '@skeletonlabs/skeleton';
-    import {Autocomplete, popup} from '@skeletonlabs/skeleton';
+    import {popup} from '@skeletonlabs/skeleton';
 
     export let value = '';
     export let gameId;
@@ -15,11 +15,6 @@
 
     let suggestions: AutocompleteOption[] = [];
 
-    function onSuggestionSelection(event: CustomEvent<AutocompleteOption>): void {
-        value = event.detail.label;
-        gameId = event.detail.value;
-    }
-
     function fetchSuggestions() {
         fetch('/api/bgg/search?q=' + value.replace('$', ''))
             .then(r => r.json())
@@ -30,7 +25,9 @@
                             label: item.name,
                             value: item.id
                         }
-                    })]
+                    })];
+
+                    console.log(`Bgg suggestions: ${suggestions.length}`);
                 }
             })
     }
@@ -48,17 +45,6 @@
                 use:popup={popupSettings}
                 on:input={fetchSuggestions}
         />
-
-        <div data-popup="popupAutocomplete" class="card w-full max-w-sm max-h-48 p-4 overflow-y-auto z-10"
-             tabindex="-1">
-            <Autocomplete
-                    bind:input={value}
-                    options={suggestions}
-                    on:selection={onSuggestionSelection}
-                    emptyState=''
-                    limit="10"
-            />
-        </div>
 
     </form>
 </div>
