@@ -7,6 +7,7 @@
     import GameCardPresentation from "./GameCardPresentation.svelte";
     import {onMount} from "svelte";
     import Gallery from "./Gallery.svelte";
+    import {retailers} from "$lib/retailers";
 
     export let findGame = '';
     let games: Game[] = [];
@@ -75,7 +76,7 @@
     <div class="mx-auto max-w-7xl px-6">
         {#if games.length > 0}
             <p class="italic mb-3 text-right">
-                {games.length} sugestii pentru [{findGame.toUpperCase()}]
+                {games.length} sugestii pentru [{findGame.toUpperCase()}] din <span class="accent-error-200 font-bold text-cyan-600">{retailers.length}</span> magazine.
             </p>
         {/if}
         <Games searchText={findGame} bind:games {numberOfMinimCharsForSearch}/>
