@@ -62,6 +62,24 @@ export const retailers: Retailer[] = [
         search: "https://shop.guildhall.ro/autocomplete?query=",
         index: "GUILDHALL",
         baseImageUrl: ""
+    },
+
+ {
+        name: "Gameology.ro",
+        logo: "https://gomagcdn.ro/domains/gameology.ro/files/company/logo-gameology-magazin-de-jocuri-de-societate9368.svg",
+        site: "https://www.gameology.ro/",
+        search: "https://www.gameology.ro/autocomplete?query=",
+        index: "GAMEOLOGY",
+        baseImageUrl: ""
+    },
+
+    {
+        name: "Jocozaur.ro",
+        logo: "https://jocozaur.ro/cdn/shop/files/jocozaur-logo_92664226-5d7b-4ca7-b068-3139ad0d67fb.png?v=1630536455&width=400",
+        site: "https://jocozaur.ro/",
+        search: "https://jocozaur.ro/search/suggest?q=brass&section_id=predictive-search",
+        index: "JOCOZAUR",
+        baseImageUrl: ""
     }
 ];
 

@@ -23,19 +23,21 @@ export async function GET({url, fetch}) {
     const KRIT: Retailer = findRetailerByIndex('KRIT');
     const BARLOG: Retailer = findRetailerByIndex('BARLOG');
     const GUILDHALL: Retailer = findRetailerByIndex('GUILDHALL');
+    const GAMEOLOGY: Retailer = findRetailerByIndex('GAMEOLOGY');
 
     const startTime: Date = new Date();
-    const [pionReq, lexshopReq, ozoneReq, redGoblinReq, kritReq, barlogReq, guildHallReq] = await Promise.all([
+    const [pionReq, lexshopReq, ozoneReq, redGoblinReq, kritReq, barlogReq, guildHallReq, gameologyReq] = await Promise.all([
         fetch(PION.search + search),
         fetch(LEXSHOP.search + search),
         fetch(OZONE.search + search),
         fetch(RED_GOBLIN.search + search),
         fetch(KRIT.search + search),
         fetch(BARLOG.search + search),
-        fetch(GUILDHALL.search + search)
+        fetch(GUILDHALL.search + search),
+        fetch(GAMEOLOGY.search + search)
     ]);
 
-    if (pionReq.ok && lexshopReq.ok && ozoneReq.ok && redGoblinReq.ok && kritReq.ok && barlogReq.ok && guildHallReq.ok) {
+    if (pionReq.ok && lexshopReq.ok && ozoneReq.ok && redGoblinReq.ok && kritReq.ok && barlogReq.ok && guildHallReq.ok && gameologyReq.ok) {
 
         let dataPion = await pionReq.json()
         dataPion = [
@@ -92,7 +94,6 @@ export async function GET({url, fetch}) {
         dataBarlog = extractFromHtml(new JSDOM(barlogContent), BARLOG);
         data = [...data, ...dataBarlog];
 
-        console.log(dataBarlog.length)
         let dataGuildHall: Game[] = [];
         let guildHallContent = await guildHallReq.text()
         guildHallContent = guildHallContent.split('<\\/style>')?.[1]?.split('","data":')[0]
@@ -101,6 +102,15 @@ export async function GET({url, fetch}) {
 
         dataGuildHall = extractFromHtml(new JSDOM(guildHallContent), GUILDHALL);
         data = [...data, ...dataGuildHall];
+
+        let dataGameology: Game[] = [];
+        let gameologyContent = await gameologyReq.text()
+        gameologyContent = gameologyContent.split('<\\/style>')?.[1]?.split('","data":')[0]
+            ?.replaceAll("\\n", '')?.replaceAll('\\t', '')
+            ?.replaceAll('\\"', '"').replaceAll('\\/', '/');
+
+        dataGameology = extractFromHtml(new JSDOM(gameologyContent), GAMEOLOGY);
+        data = [...data, ...dataGameology];
 
         console.log(`${data?.length} suggestion found...`)
         const endTime: Date = new Date();
