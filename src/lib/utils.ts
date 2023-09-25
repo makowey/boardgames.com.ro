@@ -25,6 +25,8 @@ export function extractGoMagGamesFromHtml(dom: any, retailer: Retailer) {
         });
     }
 
+    console.log(`Filtering ${games.length} games for ${retailer.name}`);
+
     return games;
 }
 
@@ -38,10 +40,12 @@ export function extractShopifyGamesFromHtml(dom: any, retailer: Retailer) {
             name: acBox.getElementsByTagName('a')[0]?.getElementsByTagName('img')[0].alt.replace("Imagine ", ''),
             image: acBox.getElementsByTagName('a')[0]?.getElementsByTagName('img')[0].src,
             url: retailer.site + acBox.getElementsByTagName('a')[0]?.href,
-            price: acBox.getElementsByClassName('price-item--regular')[0]?.innerHTML,
+            price: acBox.getElementsByClassName('price-item--sale')[0]?.innerHTML,
             retailer
         });
     }
+
+    console.log(`Filtering ${games.length} games for ${retailer.name}`);
 
     return games.filter(game => game.name !== undefined);
 }

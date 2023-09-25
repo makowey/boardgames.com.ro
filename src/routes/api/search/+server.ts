@@ -26,9 +26,10 @@ export async function GET({url, fetch}) {
     const GAMEOLOGY: Retailer = findRetailerByIndex('GAMEOLOGY');
     const MAGAZINUL_DE_SAH: Retailer = findRetailerByIndex('MAGAZINUL_DE_SAH');
     const LUDICUS: Retailer = findRetailerByIndex('LUDICUS');
+    const JOCOZAUR: Retailer = findRetailerByIndex('JOCOZAUR');
 
     const startTime: Date = new Date();
-    const [pionReq, lexshopReq, ozoneReq, redGoblinReq, kritReq, barlogReq, guildHallReq, gameologyReq, magazinulDeSahReq, ludicusReq] = await Promise.all([
+    const [pionReq, lexshopReq, ozoneReq, redGoblinReq, kritReq, barlogReq, guildHallReq, gameologyReq, magazinulDeSahReq, ludicusReq,jocozaurReq] = await Promise.all([
         fetch(PION.search + search),
         fetch(LEXSHOP.search + search),
         fetch(OZONE.search + search),
@@ -38,10 +39,11 @@ export async function GET({url, fetch}) {
         fetch(GUILDHALL.search + search),
         fetch(GAMEOLOGY.search + search),
         fetch(MAGAZINUL_DE_SAH.search + search),
-        fetch(LUDICUS.search + search)
+        fetch(LUDICUS.search + search),
+        fetch(JOCOZAUR.search + search)
     ]);
 
-    if (pionReq.ok && lexshopReq.ok && ozoneReq.ok && redGoblinReq.ok && kritReq.ok && barlogReq.ok && guildHallReq.ok && gameologyReq.ok && magazinulDeSahReq.ok && ludicusReq.ok) {
+    if (pionReq.ok && lexshopReq.ok && ozoneReq.ok && redGoblinReq.ok && kritReq.ok && barlogReq.ok && guildHallReq.ok && gameologyReq.ok && magazinulDeSahReq.ok && ludicusReq.ok && jocozaurReq.ok) {
 
         let dataPion = await pionReq.json()
         dataPion = [
@@ -130,12 +132,17 @@ export async function GET({url, fetch}) {
         dataLudicus = extractShopifyGamesFromHtml(new JSDOM(ludicusContent), LUDICUS);
         data = [...data, ...dataLudicus];
 
+        let dataJocozaur: Game[] = [];
+        const jocozaurContent = await jocozaurReq.text();
+        dataJocozaur = extractShopifyGamesFromHtml(new JSDOM(jocozaurContent), JOCOZAUR);
+        data = [...data, ...dataJocozaur];
+
         console.log(`${data?.length} suggestion found...`)
         const endTime: Date = new Date();
         const executionTime: number = Math.abs(endTime.getMilliseconds() - startTime.getMilliseconds());
         return json({
             status: 'success',
-            games: data.sort((a, b) => parseFloat(b.price) - parseFloat(a.price)),
+            games: data.sort((a, b) => parseFloat(a.price) - parseFloat(b.price)),
             executionTime
         });
     }
