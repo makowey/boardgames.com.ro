@@ -9,7 +9,7 @@
     <h3 class="h3 ml-10">Bgg hot list</h3>
     <div class="snap-x scroll-px-4 snap-mandatory scroll-smooth flex gap-4 overflow-x-auto px-4 py-4">
         {#each games as game}
-            <div role="button" class="snap-start shrink-0 card card-hover py-8 px-2 w-48text-center"
+            <div role="button" class="snap-start shrink-0 card py-8 px-2 w-48text-center"
                  on:click={() => selection = game}>
                 <img class="h-auto max-w-full rounded-lg"
                      src="{game.thumbnail}"
