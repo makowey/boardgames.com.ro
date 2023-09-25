@@ -1,10 +1,9 @@
 <script lang="ts">
     import {fly} from 'svelte/transition';
-    import type {AutocompleteOption, PopupSettings} from '@skeletonlabs/skeleton';
+    import type {PopupSettings} from '@skeletonlabs/skeleton';
     import {popup} from '@skeletonlabs/skeleton';
 
     export let value = '';
-    export let gameId;
 
     export let placeholder = 'enter your search here';
     let popupSettings: PopupSettings = {
@@ -12,25 +11,6 @@
         target: 'popupAutocomplete',
         placement: 'bottom',
     };
-
-    let suggestions: AutocompleteOption[] = [];
-
-    function fetchSuggestions() {
-        fetch('/api/bgg/search?q=' + value.replace('$', ''))
-            .then(r => r.json())
-            .then(r => {
-                if (r?.data?.items) {
-                    suggestions = [...r.data.items.map(item => {
-                        return {
-                            label: item.name,
-                            value: item.id
-                        }
-                    })];
-
-                    console.log(`Bgg suggestions: ${suggestions.length}`);
-                }
-            })
-    }
 </script>
 
 <div class="flex justify-center py-6" in:fly={{ y: -100, duration: 500, delay: 1000 }}>
@@ -43,8 +23,6 @@
                 autocomplete="off"
                 bind:value
                 use:popup={popupSettings}
-                on:input={fetchSuggestions}
         />
-
     </form>
 </div>
