@@ -33,14 +33,14 @@ export function extractGoMagGamesFromHtml(dom: any, retailer: Retailer) {
 export function extractShopifyGamesFromHtml(dom: any, retailer: Retailer) {
     const el = dom.window.document;
     const games: Game[] = [];
-    const childBoxes = el.getElementsByTagName('ul')[0].getElementsByTagName('li');
-    for (let i = 0; i < childBoxes.length; i++) {
+    const childBoxes = el?.getElementsByTagName('ul')[0]?.getElementsByTagName('li');
+    for (let i = 0; i < childBoxes?.length; i++) {
         const acBox = childBoxes[i];
         games.push({
-            name: acBox.getElementsByTagName('a')[0]?.getElementsByTagName('img')[0].alt.replace("Imagine ", ''),
-            image: acBox.getElementsByTagName('a')[0]?.getElementsByTagName('img')[0].src,
+            name: acBox?.getElementsByTagName('a')[0]?.getElementsByTagName('img')[0].alt.replace("Imagine ", ''),
+            image: acBox?.getElementsByTagName('a')[0]?.getElementsByTagName('img')[0].src,
             url: retailer.site + acBox.getElementsByTagName('a')[0]?.href,
-            price: acBox.getElementsByClassName('price-item--sale')[0]?.innerHTML,
+            price: acBox?.getElementsByClassName('price-item--sale')[0]?.innerHTML,
             retailer
         });
     }
