@@ -1,7 +1,7 @@
 import {json} from '@sveltejs/kit';
 import {findRetailerByIndex} from '$lib/retailers';
 import type {Game, Retailer} from '$lib/types';
-import {extractGoMagGamesFromHtml, extractShopifyGamesFromHtml} from "$lib/utils";
+import {extractGoMagGamesFromHtml, extractPrestashopGamesFromHtml, extractShopifyGamesFromHtml} from "$lib/utils";
 import {JSDOM} from 'jsdom';
 
 export async function GET({url, fetch}) {
@@ -27,9 +27,11 @@ export async function GET({url, fetch}) {
     const MAGAZINUL_DE_SAH: Retailer = findRetailerByIndex('MAGAZINUL_DE_SAH');
     const LUDICUS: Retailer = findRetailerByIndex('LUDICUS');
     const JOCOZAUR: Retailer = findRetailerByIndex('JOCOZAUR');
+    const REGATUL: Retailer = findRetailerByIndex('REGATUL');
 
     const startTime: Date = new Date();
-    const [pionReq, lexshopReq, ozoneReq, redGoblinReq, kritReq, barlogReq, guildHallReq, gameologyReq, magazinulDeSahReq, ludicusReq,jocozaurReq] = await Promise.all([
+    const [pionReq, lexshopReq, ozoneReq, redGoblinReq, kritReq, barlogReq, guildHallReq, gameologyReq,
+        magazinulDeSahReq, ludicusReq, jocozaurReq, regatReq] = await Promise.all([
         fetch(PION.search + search),
         fetch(LEXSHOP.search + search),
         fetch(OZONE.search + search),
@@ -40,10 +42,12 @@ export async function GET({url, fetch}) {
         fetch(GAMEOLOGY.search + search),
         fetch(MAGAZINUL_DE_SAH.search + search),
         fetch(LUDICUS.search + search),
-        fetch(JOCOZAUR.search + search)
+        fetch(JOCOZAUR.search + search),
+        fetch(REGATUL.search + search)
     ]);
 
-    if (pionReq.ok && lexshopReq.ok && ozoneReq.ok && redGoblinReq.ok && kritReq.ok && barlogReq.ok && guildHallReq.ok && gameologyReq.ok && magazinulDeSahReq.ok && ludicusReq.ok && jocozaurReq.ok) {
+    if (pionReq.ok && lexshopReq.ok && ozoneReq.ok && redGoblinReq.ok && kritReq.ok && barlogReq.ok && guildHallReq.ok
+        && gameologyReq.ok && magazinulDeSahReq.ok && ludicusReq.ok && jocozaurReq.ok && regatReq.ok) {
 
         let dataPion = await pionReq.json()
         dataPion = [
@@ -136,6 +140,11 @@ export async function GET({url, fetch}) {
         const jocozaurContent = await jocozaurReq.text();
         dataJocozaur = extractShopifyGamesFromHtml(new JSDOM(jocozaurContent), JOCOZAUR);
         data = [...data, ...dataJocozaur];
+
+        let dataRegat: Game[] = [];
+        const regatContent = await regatReq.text();
+        dataRegat = extractPrestashopGamesFromHtml(new JSDOM(regatContent), REGATUL);
+        data = [...data, ...dataRegat];
 
         console.log(`${data?.length} suggestion found...`)
         const endTime: Date = new Date();

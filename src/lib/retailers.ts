@@ -98,6 +98,15 @@ export const retailers: Retailer[] = [
         search: "https://jocozaur.ro/search/suggest?section_id=predictive-search&q=",
         index: "JOCOZAUR",
         baseImageUrl: ""
+    },
+
+    {
+        name: "RegatulJocurilor.ro",
+        logo: "https://regatuljocurilor.ro/img/regatul-jocurilor-logo-1630002296.jpg",
+        site: "https://regatuljocurilor.ro/",
+        search: "https://regatuljocurilor.ro/modules/tmajaxsearch/tm_ajax_search.php?search_key=",
+        index: "REGATUL",
+        baseImageUrl: ""
     }
 ];
 

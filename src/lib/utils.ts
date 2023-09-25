@@ -49,3 +49,23 @@ export function extractShopifyGamesFromHtml(dom: any, retailer: Retailer) {
 
     return games.filter(game => game.name !== undefined);
 }
+
+export function extractPrestashopGamesFromHtml(dom: any, retailer: Retailer) {
+    const el = dom.window.document;
+    const games: Game[] = [];
+    const items = el.getElementsByClassName('results')[0].getElementsByClassName('item');
+    for (let i = 0; i < items.length; i++) {
+        const item = items[i];
+        games.push({
+            name: item.getElementsByTagName('a')[0]?.title,
+            image: item.getElementsByTagName('a')[0]?.getElementsByTagName('img')[0].src,
+            url: item.getElementsByTagName('a')[0]?.href,
+            price: item.getElementsByClassName('price')[0]?.innerHTML || '?',
+            retailer
+        });
+    }
+
+    console.log(`Filtering ${games.length} games for ${retailer.name}`);
+
+    return games.filter(game => game.name !== undefined);
+}
