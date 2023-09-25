@@ -13,7 +13,7 @@ export async function GET({params}) {
         videos: 1,
         comments: 0,
         marketplace: 1,
-        stats: 0,
+        stats: 1,
         type: "boardgame",
         pagesize: 10
     });

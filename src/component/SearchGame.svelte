@@ -85,7 +85,7 @@
     <GameCardPresentation game={randomGame}/>
     <div>
         <LottieAnimation path="dice" bind:currentFrame>
-            <p class="text-center text-3xl  font-bold animate-pulse absolute mt-48 ml-72">{randomDice ? randomDice : '?'}</p>
+            <p class="text-center text-3xl  font-bold animate-pulse">{randomDice ? randomDice : '?'}</p>
         </LottieAnimation>
     </div>
 {/if}
