@@ -53,6 +53,15 @@ export const retailers: Retailer[] = [
         search: "https://www.barlogulcujocuri.ro/autocomplete?query=",
         index: "BARLOG",
         baseImageUrl: ""
+    },
+
+    {
+        name: "GuildHall.ro",
+        logo: "https://gomagcdn.ro/domains/guildhall.ro/files/company/tgh-logo-horizontal-white-87150442254571.png",
+        site: "https://shop.guildhall.ro",
+        search: "https://shop.guildhall.ro/autocomplete?query=",
+        index: "GUILDHALL",
+        baseImageUrl: ""
     }
 ];
 

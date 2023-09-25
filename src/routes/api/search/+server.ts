@@ -22,18 +22,20 @@ export async function GET({url, fetch}) {
     const RED_GOBLIN: Retailer = findRetailerByIndex('RED_GOBLIN');
     const KRIT: Retailer = findRetailerByIndex('KRIT');
     const BARLOG: Retailer = findRetailerByIndex('BARLOG');
+    const GUILDHALL: Retailer = findRetailerByIndex('GUILDHALL');
 
     const startTime: Date = new Date();
-    const [pionReq, lexshopReq, ozoneReq, redGoblinReq, kritReq, barlogReq] = await Promise.all([
+    const [pionReq, lexshopReq, ozoneReq, redGoblinReq, kritReq, barlogReq, guildHallReq] = await Promise.all([
         fetch(PION.search + search),
         fetch(LEXSHOP.search + search),
         fetch(OZONE.search + search),
         fetch(RED_GOBLIN.search + search),
         fetch(KRIT.search + search),
-        fetch(BARLOG.search + search)
+        fetch(BARLOG.search + search),
+        fetch(GUILDHALL.search + search)
     ]);
 
-    if (pionReq.ok && lexshopReq.ok && ozoneReq.ok && redGoblinReq.ok && kritReq.ok && barlogReq.ok) {
+    if (pionReq.ok && lexshopReq.ok && ozoneReq.ok && redGoblinReq.ok && kritReq.ok && barlogReq.ok && guildHallReq.ok) {
 
         let dataPion = await pionReq.json()
         dataPion = [
@@ -82,13 +84,23 @@ export async function GET({url, fetch}) {
         data = [...data, ...dataKrit];
 
         let dataBarlog: Game[] = [];
-        let content: string = await barlogReq.text()
-        content = content.split('<\\/style>')?.[1]?.split('","data":')[0]
+        let barlogContent: string = await barlogReq.text()
+        barlogContent = barlogContent.split('<\\/style>')?.[1]?.split('","data":')[0]
             ?.replaceAll("\\n", '')?.replaceAll('\\t', '')
             ?.replaceAll('\\"', '"').replaceAll('\\/', '/');
 
-        dataBarlog = extractFromHtml(new JSDOM(content), BARLOG);
+        dataBarlog = extractFromHtml(new JSDOM(barlogContent), BARLOG);
         data = [...data, ...dataBarlog];
+
+        console.log(dataBarlog.length)
+        let dataGuildHall: Game[] = [];
+        let guildHallContent = await guildHallReq.text()
+        guildHallContent = guildHallContent.split('<\\/style>')?.[1]?.split('","data":')[0]
+            ?.replaceAll("\\n", '')?.replaceAll('\\t', '')
+            ?.replaceAll('\\"', '"').replaceAll('\\/', '/');
+
+        dataGuildHall = extractFromHtml(new JSDOM(guildHallContent), GUILDHALL);
+        data = [...data, ...dataGuildHall];
 
         console.log(`${data?.length} suggestion found...`)
         const endTime: Date = new Date();
