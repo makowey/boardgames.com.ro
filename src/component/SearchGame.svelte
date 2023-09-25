@@ -19,6 +19,7 @@
 
     $: if (hotSelection?.id) {
         randomGameId = hotSelection.id;
+        loadGame(randomGameId)
     }
 
     onMount(() => loadHotGames());
