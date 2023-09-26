@@ -102,7 +102,7 @@ export const retailers: Retailer[] = [
 
     {
         name: "RegatulJocurilor.ro",
-        logo: "https://regatuljocurilor.ro/img/regatul-jocurilor-logo-1630002296.jpg",
+        logo: "https://regatuljocurilor.ro/modules/ps_banner/img/dbc3c0d57653ddab5827a9edf2ce972d.png",
         site: "https://regatuljocurilor.ro/",
         search: "https://regatuljocurilor.ro/modules/tmajaxsearch/tm_ajax_search.php?search_key=",
         index: "REGATUL",
