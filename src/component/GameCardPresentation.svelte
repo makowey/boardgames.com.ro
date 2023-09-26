@@ -1,7 +1,14 @@
 <script lang="ts">
     import type {Game} from '$lib/types';
+    import Youtube from "svelte-youtube-embed";
 
     export let game: Game;
+    let youtubeId: string;
+
+    $: if (game?.videos?.total > 0) {
+        const urls = game.videos.items?.filter(v => v.language === 'English');
+        youtubeId = urls[Math.ceil(Math.random() * urls?.length)]?.link?.split('watch?v=')?.[1]
+    }
 </script>
 
 {#if game?.name}
@@ -20,6 +27,12 @@
             <div class="flex justify-end mt-auto w-full flex-wrap">
                 <p class="text-sm italic">{@html game.description}</p>
             </div>
+
+            {#if youtubeId}
+                <div class="w-3/4 place-self-center">
+                    <Youtube id="{youtubeId}"/>
+                </div>
+            {/if}
         </div>
     </li>
 {/if}

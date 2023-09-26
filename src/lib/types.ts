@@ -11,6 +11,7 @@ export interface Game {
 	rank?: number;
 	description?: string;
 	stoc?: string;
+	videos?: any;
 	retailer: {
 		name: string;
 		logo: string;
