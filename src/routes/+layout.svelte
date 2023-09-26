@@ -66,5 +66,4 @@
     </svelte:fragment>
 </AppShell>
 
-
 <Toast position="b" max={3} width="w-full" rounded={'rounded-md'}/>

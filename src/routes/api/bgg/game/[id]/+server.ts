@@ -14,7 +14,7 @@ export async function GET({params}) {
         comments: 0,
         marketplace: 1,
         stats: 1,
-        type: "boardgame",
+        type: "boardgame,boardgameexpansion",
         pagesize: 10
     });
 
