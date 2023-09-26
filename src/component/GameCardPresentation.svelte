@@ -69,7 +69,7 @@
 
     {#if tableSimple}
         <div class="card m-10 w-3/4 place-self-center">
-            <h4 class="h4 card-header p-2 text-lime-600">Geek market list:</h4>
+            <h4 class="h4 card-header p-2 text-lime-600">Geek market list(EURopa):</h4>
             <Table source={tableSimple} interactive={true}
                    on:selected={(e) => goto(e.detail[4], {replaceState: false})}/>
         </div>
