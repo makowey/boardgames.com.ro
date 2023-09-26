@@ -14,7 +14,7 @@
     $: if(findGame?.length === 0) {
         games = [];
     }
-    
+
     const numberOfMinimCharsForSearch = 3;
 
     let randomGameId = 1;

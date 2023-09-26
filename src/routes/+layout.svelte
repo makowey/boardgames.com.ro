@@ -35,9 +35,9 @@
         <!-- App Bar -->
         <AppBar>
             <svelte:fragment slot="lead">
-                <strong class="text-sm uppercase">🎲 Boardgames 🇷🇴
+                <a href="/" class="text-sm uppercase">🎲 Boardgames 🇷🇴
                     <span class="text-xs align-super">Search Portal</span>
-                </strong>
+                </a>
             </svelte:fragment>
             <svelte:fragment slot="trail">
                 <LightSwitch />
@@ -65,5 +65,6 @@
 
     </svelte:fragment>
 </AppShell>
+
 
 <Toast position="b" max={3} width="w-full" rounded={'rounded-md'}/>
