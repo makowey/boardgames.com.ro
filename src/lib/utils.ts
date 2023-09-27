@@ -20,6 +20,8 @@ export function extractGoMagGamesFromHtml(dom: any, retailer: Retailer) {
             image: acBox.getElementsByClassName('ac-image')[0].getElementsByTagName('img')[0].src,
             url: acBox.getElementsByClassName('ac-image')[0]?.href,
             price: acBox.getElementsByClassName('text-main')[0]?.innerHTML,
+            promotion: acBox.getElementsByClassName('ac-price')[0]?.getElementsByTagName("s")[0] ?
+                promotionCalculator(parseInt(acBox.getElementsByClassName('ac-price')[0]?.getElementsByTagName("s")[0].innerHTML?.replaceAll("RON")), parseInt(acBox.getElementsByClassName('text-main')[0]?.innerHTML?.replaceAll("RON"))) : 0,
             stoc: acBox.getElementsByClassName('ac-stock-status')[0]?.innerHTML,
             retailer
         });
