@@ -1,7 +1,12 @@
 import {json} from '@sveltejs/kit';
 import {findRetailerByIndex} from '$lib/retailers';
 import type {Game, Retailer} from '$lib/types';
-import {extractGoMagGamesFromHtml, extractPrestashopGamesFromHtml, extractShopifyGamesFromHtml} from "$lib/utils";
+import {
+    extractGoMagGamesFromHtml,
+    extractPrestashopGamesFromHtml,
+    extractShopifyGamesFromHtml,
+    promotionCalculator
+} from "$lib/utils";
 import {JSDOM} from 'jsdom';
 
 export async function GET({url, fetch}) {
@@ -56,6 +61,8 @@ export async function GET({url, fetch}) {
                     ...dataPion.results.map((game: Game) => {
                         return {
                             ...game,
+                            price: game?.special ? game.special : game.price,
+                            promotion: game?.special ? promotionCalculator(parseInt(game.special), parseInt(game.price)) : 0,
                             image: game.image.replace('50x50', '500x500'),
                             retailer: PION
                         };
@@ -81,7 +88,7 @@ export async function GET({url, fetch}) {
             if (ozoneResponse?.value) {
                 let dataOzone = await ozoneResponse.value.json()
                 dataOzone = [...dataOzone.items].map((game) => {
-                    return {name: game.l, image: game.t2, url: game.u, price: game.p, promotion: Math.abs((game.p / game.p_c - 1) * 100).toFixed(0), retailer: OZONE};
+                    return {name: game.l, image: game.t2, url: game.u, price: game.p, promotion: promotionCalculator(game.p, game.p_c), retailer: OZONE};
                 });
                 games = [...games, ...dataOzone];
             }

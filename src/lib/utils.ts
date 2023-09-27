@@ -69,3 +69,7 @@ export function extractPrestashopGamesFromHtml(dom: any, retailer: Retailer) {
 
     return games.filter(game => game.name !== undefined);
 }
+
+export function promotionCalculator(special: number, normal: number) {
+    return Math.abs((special / normal - 1) * 100).toFixed(0);
+}
