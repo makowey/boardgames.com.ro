@@ -8,10 +8,11 @@
     import {onMount} from "svelte";
     import Gallery from "./Gallery.svelte";
     import {retailers} from "$lib/retailers";
+    import {navigating} from "$app/stores";
 
     export let findGame = '';
     let games: Game[] = [];
-    $: if(findGame?.length === 0) {
+    $: if (findGame?.length === 0) {
         games = [];
     }
 
@@ -30,6 +31,7 @@
     onMount(() => loadHotGames());
 
     function loadGame(gameId: number) {
+        randomGame = undefined;
         fetch('/api/bgg/game/' + gameId)
             .then(r => r.json())
             .then(r => {
@@ -80,14 +82,20 @@
     <div class="mx-auto max-w-7xl px-6">
         {#if games.length > 0}
             <p class="italic mb-3 text-right">
-                {games.length} sugestii pentru [{findGame.toUpperCase()}] de la <span class="accent-error-200 font-bold text-cyan-600">{retailers.length}</span> magazine.
+                {games.length} sugestii pentru [{findGame.toUpperCase()}] de la <span
+                    class="accent-error-200 font-bold text-cyan-600">{retailers.length}</span> magazine.
             </p>
         {/if}
         <Games searchText={findGame} bind:games {numberOfMinimCharsForSearch}/>
     </div>
 {:else }
     <Gallery games={hotGames} bind:selection={hotSelection}/>
-    <GameCardPresentation game={randomGame}/>
+
+    {#if !randomGame}
+        <LottieAnimation path="handLoading"/>
+    {:else }
+        <GameCardPresentation game={randomGame}/>
+    {/if}
     <div>
         <LottieAnimation path="dice" bind:currentFrame>
             <p class="text-center text-3xl  font-bold animate-pulse">{randomDice ? randomDice : '?'}</p>
