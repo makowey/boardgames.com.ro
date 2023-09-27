@@ -8,7 +8,6 @@
     import {onMount} from "svelte";
     import Gallery from "./Gallery.svelte";
     import {retailers} from "$lib/retailers";
-    import {navigating} from "$app/stores";
 
     export let findGame = '';
     let games: Game[] = [];
@@ -22,6 +21,7 @@
     let randomGame: Game;
     let hotGames: Game[] = [];
     let hotSelection: Game;
+    let loading: boolean = false;
 
     $: if (hotSelection?.id) {
         randomGameId = hotSelection.id;
@@ -31,11 +31,12 @@
     onMount(() => loadHotGames());
 
     function loadGame(gameId: number) {
-        randomGame = undefined;
+        loading = true;
         fetch('/api/bgg/game/' + gameId)
             .then(r => r.json())
             .then(r => {
                 randomGame = r.data;
+                loading = false;
             })
     }
 
@@ -91,7 +92,7 @@
 {:else }
     <Gallery games={hotGames} bind:selection={hotSelection}/>
 
-    {#if !randomGame}
+    {#if loading}
         <LottieAnimation path="handLoading"/>
     {:else }
         <GameCardPresentation game={randomGame}/>
