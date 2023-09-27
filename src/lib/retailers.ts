@@ -13,7 +13,7 @@ export const retailers: Retailer[] = [
         index: "REGATUL",
         baseImageUrl: ""
     },
-    
+
     {
         name: "Pionul.ro",
         logo: "https://pionul.ro/image/cache/data/Daniel/logo-final-200x56.jpg",
