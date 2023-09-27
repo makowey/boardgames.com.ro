@@ -6,6 +6,15 @@ import type {Retailer} from "$lib/types";
 export const retailers: Retailer[] = [
 
     {
+        name: "RegatulJocurilor.ro",
+        logo: "https://regatuljocurilor.ro/img/regatul-jocurilor-logo-1630002296.jpg",
+        site: "https://regatuljocurilor.ro/",
+        search: "https://regatuljocurilor.ro/modules/tmajaxsearch/tm_ajax_search.php?search_key=",
+        index: "REGATUL",
+        baseImageUrl: ""
+    },
+    
+    {
         name: "Pionul.ro",
         logo: "https://pionul.ro/image/cache/data/Daniel/logo-final-200x56.jpg",
         site: "https://pionul.ro",
@@ -97,15 +106,6 @@ export const retailers: Retailer[] = [
         site: "https://jocozaur.ro/",
         search: "https://jocozaur.ro/search/suggest?section_id=predictive-search&q=",
         index: "JOCOZAUR",
-        baseImageUrl: ""
-    },
-
-    {
-        name: "RegatulJocurilor.ro",
-        logo: "https://regatuljocurilor.ro/modules/ps_banner/img/dbc3c0d57653ddab5827a9edf2ce972d.png",
-        site: "https://regatuljocurilor.ro/",
-        search: "https://regatuljocurilor.ro/modules/tmajaxsearch/tm_ajax_search.php?search_key=",
-        index: "REGATUL",
         baseImageUrl: ""
     }
 ];
