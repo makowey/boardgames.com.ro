@@ -16,6 +16,9 @@
         <img src={game.retailer.logo} alt={game.retailer.name} class="w-24"/>
         <h2 class="card-title text-left font-bold">{@html game.name}</h2>
         <div class="badge bg-violet-400 rounded-full max-w-max text-black">{@html game.price}</div>
+        {#if game.promotion > 0}
+            <div class="badge bg-red-600 rounded-full max-w-max text-black">{game.promotion}%</div>
+        {/if}
         <div class="flex justify-end mt-auto w-full">
             <a
                     href={game.url}

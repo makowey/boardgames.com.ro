@@ -81,7 +81,7 @@ export async function GET({url, fetch}) {
             if (ozoneResponse?.value) {
                 let dataOzone = await ozoneResponse.value.json()
                 dataOzone = [...dataOzone.items].map((game) => {
-                    return {name: game.l, image: game.t2, url: game.u, price: game.p, retailer: OZONE};
+                    return {name: game.l, image: game.t2, url: game.u, price: game.p, promotion: Math.abs((game.p / game.p_c - 1) * 100).toFixed(0), retailer: OZONE};
                 });
                 games = [...games, ...dataOzone];
             }
