@@ -21,7 +21,8 @@ export function extractGoMagGamesFromHtml(dom: any, retailer: Retailer) {
             url: acBox.getElementsByClassName('ac-image')[0]?.href,
             price: acBox.getElementsByClassName('text-main')[0]?.innerHTML,
             promotion: acBox.getElementsByClassName('ac-price')[0]?.getElementsByTagName("s")[0] ?
-                promotionCalculator(parseInt(acBox.getElementsByClassName('ac-price')[0]?.getElementsByTagName("s")[0].innerHTML?.replaceAll("RON")), parseInt(acBox.getElementsByClassName('text-main')[0]?.innerHTML?.replaceAll("RON"))) : 0,
+                promotionCalculator(parseInt(acBox.getElementsByClassName('text-main')[0]?.innerHTML?.replaceAll("RON")),
+                    parseInt(acBox.getElementsByClassName('ac-price')[0]?.getElementsByTagName("s")[0].innerHTML?.replaceAll("RON"))) : 0,
             stoc: acBox.getElementsByClassName('ac-stock-status')[0]?.innerHTML,
             retailer
         });
@@ -73,5 +74,5 @@ export function extractPrestashopGamesFromHtml(dom: any, retailer: Retailer) {
 }
 
 export function promotionCalculator(special: number, normal: number) {
-    return Math.abs((special / normal - 1) * 100).toFixed(0);
+    return Math.abs((1 - (special / normal)) * 100).toFixed(0);
 }
