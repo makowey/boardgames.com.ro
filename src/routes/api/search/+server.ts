@@ -186,7 +186,8 @@ export async function GET({url, fetch}) {
 
     return json({
         status: 'success',
-        games: games.sort((a, b) => parseFloat(a.price) - parseFloat(b.price)),
+        games: games
+            .sort((a, b) => (b.promotion - a.promotion) || (parseFloat(a.price) - parseFloat(b.price))),
         executionTime
     });
 }
