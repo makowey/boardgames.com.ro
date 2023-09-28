@@ -1,7 +1,7 @@
 import type {Game, Retailer} from "$lib/types";
 
 export function stripHtml(value: string) {
-    if (value === null || value?.length === 0) {
+    if (value === null || value === undefined || value?.length === 0) {
         return '';
     }
 
