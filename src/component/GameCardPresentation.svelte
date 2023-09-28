@@ -27,7 +27,7 @@
     $: if (howtoplay?.length > 0 && game?.name) {
         const howToPlaySuggestions = howtoplay.filter(g => g.name.indexOf(game?.name) > -1);
         if (howToPlaySuggestions?.length > 0) {
-            youtubeId = howToPlaySuggestions[Math.floor(Math.random() * howToPlaySuggestions.length)].video_id;
+            //youtubeId = howToPlaySuggestions[Math.floor(Math.random() * howToPlaySuggestions.length)].video_id;
         }
     }
 
@@ -80,7 +80,7 @@
                 <img src="https://www.howtoplay.ro/logo.svg" alt="How to play {game?.name}?" width="150"/>
             </a>
             {#if youtubeId}
-                <div class="w-fit place-self-center">
+                <div class="w-full place-self-center">
                     <Youtube id="{youtubeId}"/>
                 </div>
             {/if}
