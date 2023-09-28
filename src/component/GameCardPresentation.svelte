@@ -76,11 +76,11 @@
                 </p>
             </div>
 
-            <a href="https://www.howtoplay.ro/oferte-boardgames/{game.name}" target="_blank">
+            <a href="https://www.howtoplay.ro/oferte-boardgames/{game.name}" target="_blank" class="place-self-end">
                 <img src="https://www.howtoplay.ro/logo.svg" alt="How to play {game?.name}?" width="150"/>
             </a>
             {#if youtubeId}
-                <div class="w-2/4 place-self-center">
+                <div class="w-fit place-self-center">
                     <Youtube id="{youtubeId}"/>
                 </div>
             {/if}
