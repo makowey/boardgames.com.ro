@@ -12,8 +12,8 @@ export interface Game {
     rank?: number;
     description?: string;
     stoc?: string;
-    videos?: any;
-    marketplacelistings?: any;
+    videos?: never;
+    marketplacelistings?: never;
     retailer: {
         name: string;
         logo: string;
@@ -30,4 +30,13 @@ export interface Retailer {
     search: string,
     index: string,
     baseImageUrl?: string
+}
+
+export interface HowToPlay {
+    "id": string,
+    "name": string,
+    "video_id": string,
+    "channel_id": string,
+    "published": string,
+    "channel_name": string
 }

@@ -1,18 +1,34 @@
 <script lang="ts">
-    import type {Game} from '$lib/types';
+    import type {Game, HowToPlay} from '$lib/types';
     import Youtube from "svelte-youtube-embed";
     import {Table, tableMapperValues} from "@skeletonlabs/skeleton";
     import {stripHtml} from "$lib/utils.js";
     import {goto} from "$app/navigation";
+    import {onMount} from "svelte";
 
     export let game: Game;
     let youtubeId: string;
     let sourceData = [];
+    let howtoplay: HowToPlay[] = [];
 
+    onMount(() => {
+        fetch('/api/howtoplay')
+            .then(r => r.json())
+            .then(r => {
+                howtoplay = r.games;
+            });
+    })
     let tableSimple: any;
     $: if (game?.videos?.total > 0) {
         const urls = game.videos.items?.filter(v => v.language === 'English');
         youtubeId = urls[Math.ceil(Math.random() * urls?.length)]?.link?.split('watch?v=')?.[1]
+    }
+
+    $: if (howtoplay?.length > 0 && game?.name) {
+        const howToPlaySuggestions = howtoplay.filter(g => g.name.indexOf(game?.name) > -1);
+        if (howToPlaySuggestions?.length > 0) {
+            youtubeId = howToPlaySuggestions[Math.floor(Math.random() * howToPlaySuggestions.length)].video_id;
+        }
     }
 
     $: if (game?.marketplacelistings?.length > 0) {
@@ -56,11 +72,15 @@
             <div class="badge bg-violet-400 rounded-full max-w-max text-black">{game.yearpublished}</div>
             <div>Players: {game.minplayers} - {game.maxplayers}, Playing time: {game.playingtime} min.</div>
             <div class="flex justify-end mt-auto w-full flex-wrap">
-                <p class="text-sm italic">{@html game.description}</p>
+                <p class="text-3xl italic">
+                </p>
             </div>
 
+            <a href="https://www.howtoplay.ro/oferte-boardgames/{game.name}" target="_blank">
+                <img src="https://www.howtoplay.ro/logo.svg" alt="How to play {game?.name}?" width="150"/>
+            </a>
             {#if youtubeId}
-                <div class="w-3/4 place-self-center">
+                <div class="w-2/4 place-self-center">
                     <Youtube id="{youtubeId}"/>
                 </div>
             {/if}
