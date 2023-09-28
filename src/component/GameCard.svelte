@@ -11,9 +11,6 @@
                 src={game.image}
                 alt="Game thumbnail"
         />
-        {#if game?.promotion && game.promotion > 0}
-            <div class="ribbon ribbon-top-left animate-pulse"><span>{game.promotion}%</span></div>
-        {/if}
     </div>
     <div class="card-body p-6 flex flex-col gap-3 flex-1">
         <img src={game.retailer.logo} alt={game.retailer.name}
@@ -28,6 +25,9 @@
             >
         </div>
     </div>
+    {#if game?.promotion && game.promotion > 0}
+        <div class="ribbon ribbon-top-left"><span>{game.promotion}%</span></div>
+    {/if}
 </li>
 
 <style>
@@ -50,7 +50,7 @@
         z-index: -1;
         content: '';
         display: block;
-        border: 5px solid #2980b9;
+        border: 5px solid #b929a6;
     }
 
     .ribbon span {
@@ -58,7 +58,7 @@
         display: block;
         width: 225px;
         padding: 15px 0;
-        background-color: #3498db;
+        background-color: #ac34db;
         box-shadow: 0 5px 10px rgba(0, 0, 0, .1);
         color: #fff;
         font: 700 18px/1 'Lato', sans-serif;
