@@ -2,6 +2,7 @@
     import type {Game} from '$lib/types';
 
     export let game: Game;
+    export let ribbonPosition = 'right';
 </script>
 
 <li class="card card-hover flex flex-col sm:flex-row shadow-2xl rounded-lg box">
@@ -26,7 +27,7 @@
         </div>
     </div>
     {#if game?.promotion && game.promotion > 0}
-        <div class="ribbon ribbon-top-left"><span>{game.promotion}%</span></div>
+        <div class="ribbon ribbon-top-{ribbonPosition}"><span>{game.promotion}%</span></div>
     {/if}
 </li>
 
@@ -93,5 +94,29 @@
         right: -25px;
         top: 30px;
         transform: rotate(-45deg);
+    }
+
+    /* top right*/
+    .ribbon-top-right {
+        top: -10px;
+        right: -10px;
+    }
+    .ribbon-top-right::before,
+    .ribbon-top-right::after {
+        border-top-color: transparent;
+        border-right-color: transparent;
+    }
+    .ribbon-top-right::before {
+        top: 0;
+        left: 0;
+    }
+    .ribbon-top-right::after {
+        bottom: 0;
+        right: 0;
+    }
+    .ribbon-top-right span {
+        left: -25px;
+        top: 30px;
+        transform: rotate(45deg);
     }
 </style>
