@@ -17,7 +17,6 @@
         games = [...data.games];
         executionTime = data.executionTime;
         isNavigating = false;
-        // console.log(`Found ${games.length} games...`, games);
     }
 
     $: if (searchText?.length >= numberOfMinimCharsForSearch) {
