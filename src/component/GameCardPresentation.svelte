@@ -1,7 +1,7 @@
 <script lang="ts">
     import type {Game, HowToPlay} from '$lib/types';
     import Youtube from "svelte-youtube-embed";
-    import {Table, tableMapperValues} from "@skeletonlabs/skeleton";
+    import {SlideToggle, Table, tableMapperValues} from "@skeletonlabs/skeleton";
     import {stripHtml} from "$lib/utils.js";
     import {goto} from "$app/navigation";
     import {onMount} from "svelte";
@@ -10,6 +10,7 @@
     let youtubeId: string;
     let sourceData = [];
     let howtoplay: HowToPlay[] = [];
+    export let hTP = false;
 
     onMount(() => {
         fetch('/api/howtoplay')
@@ -24,10 +25,10 @@
         youtubeId = urls[Math.ceil(Math.random() * urls?.length)]?.link?.split('watch?v=')?.[1]
     }
 
-    $: if (howtoplay?.length > 0 && game?.name) {
-        const howToPlaySuggestions = howtoplay.filter(g => g.name.indexOf(game?.name) > -1);
+    $: if (hTP && howtoplay?.length > 0 && game?.name) {
+        const howToPlaySuggestions = howtoplay.filter(g => g.name.indexOf(game?.name) > -1).filter( g => g.channel_id != 6);
         if (howToPlaySuggestions?.length > 0) {
-            //youtubeId = howToPlaySuggestions[Math.floor(Math.random() * howToPlaySuggestions.length)].video_id;
+            youtubeId = howToPlaySuggestions[Math.floor(Math.random() * howToPlaySuggestions.length)].video_id;
         }
     }
 
@@ -76,9 +77,13 @@
                 </p>
             </div>
 
-            <a href="https://www.howtoplay.ro/oferte-boardgames/{game.name}" target="_blank" class="place-self-end">
-                <img src="https://www.howtoplay.ro/logo.svg" alt="How to play {game?.name}?" width="150"/>
-            </a>
+            <SlideToggle name="how-to-play" bind:checked={hTP} active="bg-primary-500" size="sm" label="How to play?"/>
+            {#if hTP}
+                <a href="https://www.howtoplay.ro/oferte-boardgames/{game.name}" target="_blank" class="place-self-end">
+                    <img src="https://www.howtoplay.ro/logo.svg" alt="How to play {game?.name}?" width="150"/>
+                </a>
+            {/if}
+
             {#if youtubeId}
                 <div class="w-full place-self-center">
                     <Youtube id="{youtubeId}"/>

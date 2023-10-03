@@ -10,6 +10,7 @@
     import {retailers} from "$lib/retailers";
 
     export let findGame = '';
+    let hTP: boolean = false;
     let games: Game[] = [];
     $: if (findGame?.length === 0) {
         games = [];
@@ -95,7 +96,7 @@
     {#if loading}
         <LottieAnimation path="handLoading"/>
     {:else }
-        <GameCardPresentation game={randomGame}/>
+        <GameCardPresentation game={randomGame} bind:hTP={hTP}/>
     {/if}
     <div>
         <LottieAnimation path="dice" bind:currentFrame>
