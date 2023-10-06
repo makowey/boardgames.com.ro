@@ -98,7 +98,7 @@ export async function GET({url, fetch}) {
                 dataRedGoblin = dataRedGoblin
                     .filter(game => game?.pname?.length > 0)
                     .map((game) => {
-                        return {name: game.pname, image: game.img, url: game.link, price: game.price, retailer: RED_GOBLIN};
+                        return {name: game.pname, image: game.img.replace('small_default', 'large_default'), url: game.link, price: game.price, retailer: RED_GOBLIN};
                     });
                 games = [...games, ...dataRedGoblin];
             }
