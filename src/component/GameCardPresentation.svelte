@@ -40,7 +40,7 @@
                 .map(list => {
                     return {
                         position: ++counter,
-                        name: stripHtml(list.notes).substring(0, 100).concat("..."),
+                        name: list.notes?.length > 0 ? stripHtml(list.notes).substring(0, 100).concat("...") : 'No notes...',
                         condition: list.condition,
                         price: (list.price.value * 4.9677).toFixed(2),
                         url: list.link.href
