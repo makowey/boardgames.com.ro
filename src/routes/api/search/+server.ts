@@ -72,7 +72,7 @@ export async function GET({url, fetch}) {
                         games = [...games, ...dataPion];
                     }
                 } catch (e) {
-                    console.log(`Exception for PION: ${e?.message}`);
+                    console.error(`Exception for PION: ${e?.message}`);
                 }
 
                 try {
@@ -90,7 +90,7 @@ export async function GET({url, fetch}) {
                         games = [...games, ...dataLexshop];
                     }
                 } catch (e) {
-                    console.log(`Exception for LEXSHOP: ${e?.message}`);
+                    console.error(`Exception for LEXSHOP: ${e?.message}`);
                 }
 
                 try {
@@ -102,7 +102,7 @@ export async function GET({url, fetch}) {
                         games = [...games, ...dataOzone];
                     }
                 } catch (e) {
-                    console.log(`Exception for OZONE: ${e?.message}`);
+                    console.error(`Exception for OZONE: ${e?.message}`);
                 }
 
                 try {
@@ -116,7 +116,7 @@ export async function GET({url, fetch}) {
                         games = [...games, ...dataRedGoblin];
                     }
                 } catch (e) {
-                    console.log(`Exception for RedGoblin: ${e?.message}`);
+                    console.error(`Exception for RedGoblin: ${e?.message}`);
                 }
 
                 try {
@@ -130,7 +130,7 @@ export async function GET({url, fetch}) {
                         games = [...games, ...dataKrit];
                     }
                 } catch (e) {
-                    console.log(`Exception for KRIT: ${e?.message}`);
+                    console.error(`Exception for KRIT: ${e?.message}`);
                 }
 
                 try {
@@ -145,7 +145,7 @@ export async function GET({url, fetch}) {
                         games = [...games, ...dataBarlog];
                     }
                 } catch (e) {
-                    console.log(`Exception for BARLOG: ${e?.message}`);
+                    console.error(`Exception for BARLOG: ${e?.message}`);
                 }
 
                 try {
@@ -160,7 +160,7 @@ export async function GET({url, fetch}) {
                         games = [...games, ...dataGuildHall];
                     }
                 } catch (e) {
-                    console.log(`Exception for GuildHall: ${e?.message}`);
+                    console.error(`Exception for GuildHall: ${e?.message}`);
                 }
 
                 try {
@@ -175,7 +175,7 @@ export async function GET({url, fetch}) {
                         games = [...games, ...dataGameology];
                     }
                 } catch (e) {
-                    console.log(`Exception for Gameology: ${e?.message}`);
+                    console.error(`Exception for Gameology: ${e?.message}`);
                 }
 
                 try {
@@ -190,7 +190,7 @@ export async function GET({url, fetch}) {
                         games = [...games, ...dataMagazinuldeSah];
                     }
                 } catch (e) {
-                    console.log(`Exception for MAGAZINUL DE SAH: ${e?.message}`);
+                    console.error(`Exception for MAGAZINUL DE SAH: ${e?.message}`);
                 }
 
                 try {
@@ -201,7 +201,7 @@ export async function GET({url, fetch}) {
                         games = [...games, ...dataLudicus];
                     }
                 } catch (e) {
-                    console.log(`Exception for LUDICUS: ${e?.message}`);
+                    console.error(`Exception for LUDICUS: ${e?.message}`);
                 }
 
                 try {
@@ -212,7 +212,7 @@ export async function GET({url, fetch}) {
                         games = [...games, ...dataJocozaur];
                     }
                 } catch (e) {
-                    console.log(`Exception for JOCOZAUR: ${e?.message}`);
+                    console.error(`Exception for JOCOZAUR: ${e?.message}`);
                 }
 
                 try {
@@ -223,7 +223,7 @@ export async function GET({url, fetch}) {
                         games = [...games, ...dataRegat];
                     }
                 } catch (e) {
-                    console.log(`Exception for REGATUL: ${e?.message}`);
+                    console.error(`Exception for REGATUL: ${e?.message}`);
                 }
 
                 console.log(`${games?.length} suggestion found...`)
