@@ -40,3 +40,11 @@ export interface HowToPlay {
     "published": string,
     "channel_name": string
 }
+
+export interface Kickstarter {
+    name: string,
+    progress: number,
+    images: any,
+    orrderUrl: string,
+    pledged: number
+}

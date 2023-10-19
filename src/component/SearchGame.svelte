@@ -2,7 +2,7 @@
     import SearchBar from './SearchBar.svelte';
     import Games from './Games.svelte';
     import {browser} from '$app/environment';
-    import type {Game} from '$lib/types';
+    import type {Game, Kickstarter} from '$lib/types';
     import LottieAnimation from "./player/LottieAnimation.svelte";
     import GameCardPresentation from "./GameCardPresentation.svelte";
     import {onMount} from "svelte";
@@ -21,6 +21,7 @@
     let randomGameId = 1;
     let randomGame: Game;
     let hotGames: Game[] = [];
+    let kickstarters: Game[] = [];
     let hotSelection: Game;
     let loading: boolean = false;
 
@@ -29,7 +30,10 @@
         loadGame(randomGameId)
     }
 
-    onMount(() => loadHotGames());
+    onMount(() => {
+        loadHotGames();
+        loadKickstarters();
+    });
 
     function loadGame(gameId: number) {
         loading = true;
@@ -48,6 +52,14 @@
                 hotGames = r.data;
                 randomGameId = pickARandomGameId();
                 loadGame(randomGameId);
+            })
+    }
+
+    function loadKickstarters() {
+        fetch('/api/bgg/kickstarters')
+            .then(r => r.json())
+            .then(r => {
+                kickstarters = r.data.map((k: Kickstarter) => { return {id: k.item?.id, name: k.name, thumbnail: k.images?.mediacard?.src, url: k.orderUrl, price: 0, retailer: {name: "Kickstarter"}}});
             })
     }
 
@@ -91,7 +103,8 @@
         <Games searchText={findGame} bind:games {numberOfMinimCharsForSearch}/>
     </div>
 {:else }
-    <Gallery games={hotGames} bind:selection={hotSelection}/>
+    <Gallery title="BGG Hotlist" games={hotGames} bind:selection={hotSelection}/>
+    <Gallery title="Kickstarters" games={kickstarters} bind:selection={hotSelection}/>
 
     {#if loading}
         <LottieAnimation path="handLoading"/>
