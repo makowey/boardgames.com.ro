@@ -30,7 +30,8 @@ export interface Retailer {
     site: string,
     search: string,
     index: string,
-    baseImageUrl?: string
+    baseImageUrl?: string,
+    maintainance?: boolean
 }
 
 export interface HowToPlay {

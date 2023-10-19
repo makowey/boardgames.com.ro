@@ -43,7 +43,8 @@ export const retailers: Retailer[] = [
         logo: "https://www.redgoblin.ro//img/logo-a-b.png",
         site: "https://redgoblin.ro",
         search: "https://www.redgoblin.ro/cauta?ajax=true&id_lang=2&maxRows=10&s=",
-        index: "RED_GOBLIN"
+        index: "RED_GOBLIN",
+        maintainance: true
     },
 
     {
