@@ -5,6 +5,7 @@ export interface Game {
     url: string;
     price: string;
     promotion?: number;
+    progress?: number;
     yearpublished?: number;
     minplayers?: number;
     maxplayers?: number;

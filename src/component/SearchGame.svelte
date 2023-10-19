@@ -59,7 +59,9 @@
         fetch('/api/bgg/kickstarters')
             .then(r => r.json())
             .then(r => {
-                kickstarters = r.data.map((k: Kickstarter) => { return {id: k.item?.id, name: k.name, thumbnail: k.images?.mediacard?.src, url: k.orderUrl, price: 0, retailer: {name: "Kickstarter"}}});
+                kickstarters = r.data.map((k: Kickstarter) => {
+                    return {id: k.item?.id, name: k.name, thumbnail: k.images?.mediacard?.src, url: k.orderUrl, price: 0, retailer: {name: "Kickstarter"}, progress: k.progress}
+                });
             })
     }
 
