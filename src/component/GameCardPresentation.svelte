@@ -54,7 +54,7 @@
             body: tableMapperValues(sourceData, ['position', 'name', 'condition', 'price']),
             // Optional: The data returned when interactive is enabled and a row is clicked.
             meta: tableMapperValues(sourceData, ['position', 'name', 'price', 'currency', 'url']),
-            foot: ['Media', '', '', `<code class="code">${(sourceData.map(l => l.price).reduce((a, b) => parseInt(a) + parseInt(b)) / sourceData?.length).toFixed(2)} RON</code>`]
+            foot: ['Media', '', '', `<code class="code">${ sourceData?.length ? (sourceData.map(l => l.price).reduce((a, b) => parseInt(a) + parseInt(b)) / sourceData?.length).toFixed(2) : '?'} RON</code>`]
         };
     }
 </script>
