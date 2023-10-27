@@ -73,6 +73,28 @@ export function extractPrestashopGamesFromHtml(dom: any, retailer: Retailer) {
     return games.filter(game => game.name !== undefined);
 }
 
+export function extractFromRedGoblinHtml(dom: any, retailer: Retailer) {
+    const rootElement = dom.window.document.getElementsByClassName('search-flydown--product-items')[0].getElementsByClassName('search-flydown__group-list')[0];
+
+    const games = [];
+    const childBoxes = rootElement.getElementsByTagName('li');
+    for ( let i = 0; i< childBoxes.length; i++) {
+        const acBox = childBoxes[i];
+        games.push({
+            name: acBox.getElementsByTagName('a')[0].getAttribute('aria-label'),
+            image: acBox.getElementsByTagName('img')[0].src?.replace('file://', '//')?.replace('70x70','700x700'),
+            url: retailer.site + acBox.getElementsByTagName('a')[0].href?.replace('file://', '/'),
+            price: acBox.getElementsByClassName('money')[5]?.innerHTML?.trim(),
+            stoc: acBox.getElementsByClassName('product-stock-level__badge-text')[0].innerHTML.trim(),
+            retailer
+        });
+    }
+
+    console.log(`Loaded ${games.length} games from ${retailer.name}`);
+
+    return games;
+}
+
 export function promotionCalculator(special: number, normal: number) {
     return Math.abs((1 - (special / normal)) * 100).toFixed(0);
 }

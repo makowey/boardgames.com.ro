@@ -2,6 +2,7 @@ import {json} from '@sveltejs/kit';
 import {findRetailerByIndex} from '$lib/retailers';
 import type {Game, Retailer} from '$lib/types';
 import {
+    extractFromRedGoblinHtml,
     extractGoMagGamesFromHtml,
     extractPrestashopGamesFromHtml,
     extractShopifyGamesFromHtml,
@@ -107,12 +108,8 @@ export async function GET({url, fetch}) {
 
                 try {
                     if (redGoblinResponse?.value) {
-                        let dataRedGoblin = await redGoblinResponse.value.json()
-                        dataRedGoblin = dataRedGoblin
-                            .filter(game => game?.pname?.length > 0)
-                            .map((game) => {
-                                return {name: game.pname, image: game.img.replace('small_default', 'large_default'), url: game.link, price: game.price, retailer: RED_GOBLIN};
-                            });
+                        let dataRedGoblin = await redGoblinResponse.value.text()
+                        dataRedGoblin = extractFromRedGoblinHtml(new JSDOM(dataRedGoblin), RED_GOBLIN);
                         games = [...games, ...dataRedGoblin];
                     }
                 } catch (e) {
