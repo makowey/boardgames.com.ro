@@ -223,6 +223,11 @@ export async function GET({url, fetch}) {
                     console.error(`Exception for REGATUL: ${e?.message}`);
                 }
 
+                if (search.split(' ')?.length === 1) {
+                    console.log(`Filtering from ${games?.length} suggestions for single term [${search}]...`);
+                    games = games.filter(game => game.name?.toLowerCase().indexOf(search.trim().toLowerCase()) > -1);
+                }
+
                 console.log(`${games?.length} suggestion found...`)
             }
         )
