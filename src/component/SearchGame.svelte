@@ -113,9 +113,4 @@
     {:else }
         <GameCardPresentation game={randomGame} bind:hTP={hTP}/>
     {/if}
-    <div>
-        <LottieAnimation path="dice" bind:currentFrame>
-            <p class="text-center text-3xl  font-bold animate-pulse">{randomDice ? randomDice : '?'}</p>
-        </LottieAnimation>
-    </div>
 {/if}
