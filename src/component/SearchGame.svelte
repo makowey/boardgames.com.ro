@@ -106,11 +106,12 @@
     </div>
 {:else }
     <Gallery title="BGG Hotlist" games={hotGames} bind:selection={hotSelection}/>
-    <Gallery title="Kickstarters" games={kickstarters} bind:selection={hotSelection}/>
 
     {#if loading}
         <LottieAnimation path="handLoading"/>
     {:else }
         <GameCardPresentation game={randomGame} bind:hTP={hTP}/>
     {/if}
+
+    <Gallery title="Kickstarters" games={kickstarters} bind:selection={hotSelection}/>
 {/if}
