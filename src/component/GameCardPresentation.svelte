@@ -1,10 +1,11 @@
 <script lang="ts">
     import type {Game, HowToPlay} from '$lib/types';
     import Youtube from "svelte-youtube-embed";
-    import {SlideToggle, Table, tableMapperValues} from "@skeletonlabs/skeleton";
+    import {Ratings, SlideToggle, Table, tableMapperValues} from "@skeletonlabs/skeleton";
     import {stripHtml} from "$lib/utils.js";
     import {goto} from "$app/navigation";
     import {onMount} from "svelte";
+    import Icon from "@iconify/svelte";
 
     export let game: Game;
     let youtubeId: string;
@@ -20,6 +21,8 @@
             });
     })
     let tableSimple: any;
+    let rating = 0;
+    let rank = 0;
     $: if (game?.videos?.total > 0) {
         const urls = game.videos.items?.filter(v => v.language === 'English');
         youtubeId = urls[Math.ceil(Math.random() * urls?.length)]?.link?.split('watch?v=')?.[1]
@@ -47,6 +50,9 @@
                     }
                 });
 
+        rating = game?.statistics?.ratings?.average;
+        rank = game?.statistics?.ratings?.ranks[0].value;
+
         tableSimple = {
             // A list of heading labels.
             head: ['Pozitie', 'Descriere', 'Stare', 'RON'],
@@ -69,15 +75,26 @@
             />
         </div>
         <div class="card-body p-6 flex flex-col gap-3 flex-1">
-            <h2 class="card-title text-left font-bold text-2xl animate-pulse">{@html game.name}</h2>
+            <h2 class="card-title text-left font-bold text-2xl animate-pulse">
+                <a href="https://boardgamegeek.com/boardgame/{game.id}" target="_blank">
+                    {@html game.name}
+                </a>
+            </h2>
             <div class="badge bg-violet-400 rounded-full max-w-max text-black">{game.yearpublished}</div>
-            <div>Players: {game.minplayers} - {game.maxplayers}, Playing time: {game.playingtime} min.</div>
+            <div>Players: {game.minplayers} - {game.maxplayers}, Playing time: {game.playingtime} min. (Rank: {rank} - {rating})</div>
+            <div>
+                <Ratings bind:value={rating} max={10}>
+                    <svelte:fragment slot="empty"><Icon icon="tabler:meeple" /></svelte:fragment>
+                    <svelte:fragment slot="half"><Icon icon="game-icons:abbot-meeple" /></svelte:fragment>
+                    <svelte:fragment slot="full"><Icon icon="game-icons:meeple" /></svelte:fragment>
+                </Ratings>
+            </div>
             <div class="flex justify-end mt-auto w-full flex-wrap">
                 <p class="text-3xl italic">
                 </p>
             </div>
 
-            <SlideToggle name="how-to-play" bind:checked={hTP} active="bg-primary-500" size="sm" label="How to play?"/>
+<!--            <SlideToggle name="how-to-play" bind:checked={hTP} active="bg-primary-500" size="sm" label="How to play?"/>-->
             {#if hTP}
                 <a href="https://www.howtoplay.ro/oferte-boardgames/{game.name}" target="_blank" class="place-self-end">
                     <img src="https://www.howtoplay.ro/logo.svg" alt="How to play {game?.name}?" width="150"/>
