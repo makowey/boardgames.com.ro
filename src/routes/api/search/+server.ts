@@ -22,6 +22,27 @@ export async function GET({url, fetch}) {
     }
 
     let games: Game[] = [];
+    const startTime: Date = new Date();
+
+    try {
+        if (howToPlay) {
+            const response = await fetch('/api/howtoplay?q=' + search);
+            const responseJSON: Game[] = await response.json();
+            games = [...responseJSON.games];
+
+            const endTime: Date = new Date();
+            const executionTime: number = Math.abs(endTime.getMilliseconds() - startTime.getMilliseconds());
+
+            return json({
+                status: 'success',
+                games: games
+                    .sort((a, b) => (b.promotion - a.promotion) || (parseFloat(a.price) - parseFloat(b.price))),
+                executionTime
+            });
+        }
+    } catch (e) {
+        console.error(`Exception for HOW TO PLAY: ${e?.message}`);
+    }
 
     const PION: Retailer = findRetailerByIndex('PION');
     const LEXSHOP: Retailer = findRetailerByIndex('LEXSHOP');
@@ -36,7 +57,6 @@ export async function GET({url, fetch}) {
     const JOCOZAUR: Retailer = findRetailerByIndex('JOCOZAUR');
     const REGATUL: Retailer = findRetailerByIndex('REGATUL');
 
-    const startTime: Date = new Date();
     await Promise.allSettled([
         fetch(PION.search + search),
         fetch(LEXSHOP.search + search),
@@ -49,14 +69,13 @@ export async function GET({url, fetch}) {
         fetch(MAGAZINUL_DE_SAH.search + search),
         fetch(LUDICUS.search + search),
         fetch(JOCOZAUR.search + search),
-        fetch(REGATUL.search + search),
-        fetch('/api/howtoplay?q=' + search)
+        fetch(REGATUL.search + search)
     ])
         .then(async ([pionResponse, lexshopResponse, ozoneResponse,
                          redGoblinResponse, kritResponse, barlogResponse,
                          guildHallResponse, gameologyResponse,
                          magazinulDeSahResponse, ludicusResponse,
-                         jocozaurResponse, regatResponse, howToPlayResponse]) => {
+                         jocozaurResponse, regatResponse]) => {
 
                 try {
                     if (pionResponse?.value) {
@@ -223,16 +242,6 @@ export async function GET({url, fetch}) {
                     }
                 } catch (e) {
                     console.error(`Exception for REGATUL: ${e?.message}`);
-                }
-
-                try {
-                    if (howToPlay && howToPlayResponse?.value) {
-                        const response = howToPlayResponse.value;
-                        const responseJSON: Game[] = await response.json();
-                        games = [...games, ...responseJSON?.games];
-                    }
-                } catch (e) {
-                    console.error(`Exception for HOW TO PLAY: ${e?.message}`);
                 }
 
                 if (search.split(' ')?.length === 1) {

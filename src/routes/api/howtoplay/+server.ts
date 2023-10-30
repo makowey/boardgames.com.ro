@@ -13,7 +13,7 @@ export async function GET({url}) {
     const q = url.searchParams.get('q').replaceAll(' ', '+');
     if (q?.length > 0) {
 
-        const response = await fetch('https://www.howtoplay.ro/api/get?&sort=3&stock=1&page=1&limit=100&search=' + q, {
+        const response = await fetch('https://www.howtoplay.ro/api/get?&sort=3&stock=3&page=1&limit=100&search=' + q, {
             headers: {
                 'Authorization': '3c55267c7d1099f5813f6b67fd2bf1f73f87'
             }
@@ -22,6 +22,7 @@ export async function GET({url}) {
 
         return json({
             status: 'success',
+            // results,
             games: results.result.offers.map(offer => {
                 return {
                     name: offer.name,
@@ -29,12 +30,13 @@ export async function GET({url}) {
                     image: offer.image,
                     shop: offer.shop,
                     url: 'https://howtoplay.ro/go?product=' + offer.id,
+                    promotion: offer.discount,
                     retailer: {
                         name: offer.shop,
                         logo: offer.icon,
                         url: offer.shop,
                         index: offer.shop.toUpperCase(),
-                        search: 'q=' + offer.name
+                        search: '?q=' + offer.name
                     }
                 }
             })
