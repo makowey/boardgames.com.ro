@@ -12,7 +12,8 @@ import {JSDOM} from 'jsdom';
 
 export async function GET({url, fetch}) {
     const search = url.searchParams.get('search');
-    console.log(`Search for [${search}]`);
+    const howToPlay: boolean = url.searchParams.get('howToPlay') === 'true';
+    console.log(`Search for [${search}], [howToPlay: ${howToPlay}]`);
     if (search && search.length < 3) {
         return new Response(JSON.stringify({}), {
             status: 403,
@@ -48,13 +49,14 @@ export async function GET({url, fetch}) {
         fetch(MAGAZINUL_DE_SAH.search + search),
         fetch(LUDICUS.search + search),
         fetch(JOCOZAUR.search + search),
-        fetch(REGATUL.search + search)
+        fetch(REGATUL.search + search),
+        fetch('/api/howtoplay?q=' + search)
     ])
         .then(async ([pionResponse, lexshopResponse, ozoneResponse,
                          redGoblinResponse, kritResponse, barlogResponse,
                          guildHallResponse, gameologyResponse,
                          magazinulDeSahResponse, ludicusResponse,
-                         jocozaurResponse, regatResponse]) => {
+                         jocozaurResponse, regatResponse, howToPlayResponse]) => {
 
                 try {
                     if (pionResponse?.value) {
@@ -221,6 +223,16 @@ export async function GET({url, fetch}) {
                     }
                 } catch (e) {
                     console.error(`Exception for REGATUL: ${e?.message}`);
+                }
+
+                try {
+                    if (howToPlay && howToPlayResponse?.value) {
+                        const response = howToPlayResponse.value;
+                        const responseJSON: Game[] = await response.json();
+                        games = [...games, ...responseJSON?.games];
+                    }
+                } catch (e) {
+                    console.error(`Exception for HOW TO PLAY: ${e?.message}`);
                 }
 
                 if (search.split(' ')?.length === 1) {

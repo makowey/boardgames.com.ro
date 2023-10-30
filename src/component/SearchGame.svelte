@@ -8,6 +8,7 @@
     import {onMount} from "svelte";
     import Gallery from "./Gallery.svelte";
     import {retailers} from "$lib/retailers";
+    import {SlideToggle} from "@skeletonlabs/skeleton";
 
     export let findGame = '';
     let hTP: boolean = false;
@@ -24,6 +25,7 @@
     let kickstarters: Game[] = [];
     let hotSelection: Game;
     let loading: boolean = false;
+    let howToPlay: boolean = false;
 
     $: if (hotSelection?.id) {
         randomGameId = hotSelection.id;
@@ -102,7 +104,14 @@
                     class="accent-error-200 font-bold text-cyan-600">{retailers.length}</span> magazine.
             </p>
         {/if}
-        <Games searchText={findGame} bind:games {numberOfMinimCharsForSearch}/>
+        <div class="fixed bottom-0.5 right-1.5 scale-75">
+            <SlideToggle name="howToPlay" size="sm" bind:checked="{howToPlay}"
+                         on:change={() => {
+                             games = games.filter(game => (howToPlay && game?.shop) || (!howToPlay));
+                             findGame = findGame.concat(' ');
+                         }}/>
+        </div>
+        <Games searchText={findGame} bind:games {numberOfMinimCharsForSearch} {howToPlay}/>
     </div>
 {:else }
     <Gallery title="BGG Hotlist" games={hotGames} bind:selection={hotSelection}/>

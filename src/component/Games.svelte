@@ -8,11 +8,12 @@
     export let searchText = 'boardgame';
     let isNavigating = false;
     let executionTime = 0;
+    export let howToPlay = false;
     export let numberOfMinimCharsForSearch = 3;
 
     async function searchForGame() {
         isNavigating = true;
-        const response = await fetch('/api/search?search=' + searchText);
+        const response = await fetch(`/api/search?search=${searchText}&howToPlay=${howToPlay}`);
         const data = await response.json();
         games = [...data.games];
         executionTime = data.executionTime;
