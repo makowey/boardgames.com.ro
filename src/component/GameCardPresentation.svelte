@@ -1,7 +1,7 @@
 <script lang="ts">
     import type {Game, HowToPlay} from '$lib/types';
     import Youtube from "svelte-youtube-embed";
-    import {Ratings, SlideToggle, Table, tableMapperValues} from "@skeletonlabs/skeleton";
+    import {Ratings, Table, tableMapperValues} from "@skeletonlabs/skeleton";
     import {stripHtml} from "$lib/utils.js";
     import {goto} from "$app/navigation";
     import {onMount} from "svelte";
@@ -29,7 +29,7 @@
     }
 
     $: if (hTP && howtoplay?.length > 0 && game?.name) {
-        const howToPlaySuggestions = howtoplay.filter(g => g.name.indexOf(game?.name) > -1).filter( g => g.channel_id != 6);
+        const howToPlaySuggestions = howtoplay.filter(g => g.name.indexOf(game?.name) > -1).filter(g => g.channel_id != 6);
         if (howToPlaySuggestions?.length > 0) {
             youtubeId = howToPlaySuggestions[Math.floor(Math.random() * howToPlaySuggestions.length)].video_id;
         }
@@ -60,7 +60,7 @@
             body: tableMapperValues(sourceData, ['position', 'name', 'condition', 'price']),
             // Optional: The data returned when interactive is enabled and a row is clicked.
             meta: tableMapperValues(sourceData, ['position', 'name', 'price', 'currency', 'url']),
-            foot: ['Media', '', '', `<code class="code">${ sourceData?.length ? (sourceData.map(l => l.price).reduce((a, b) => parseInt(a) + parseInt(b)) / sourceData?.length).toFixed(2) : '?'} RON</code>`]
+            foot: ['Media', '', '', `<code class="code">${sourceData?.length ? (sourceData.map(l => l.price).reduce((a, b) => parseInt(a) + parseInt(b)) / sourceData?.length).toFixed(2) : '?'} RON</code>`]
         };
     }
 </script>
@@ -81,12 +81,20 @@
                 </a>
             </h2>
             <div class="badge bg-violet-400 rounded-full max-w-max text-black">{game.yearpublished}</div>
-            <div>Players: {game.minplayers} - {game.maxplayers}, Playing time: {game.playingtime} min. (Rank: {rank} - {rating})</div>
-            <div>
+            <div>Players: {game.minplayers} - {game.maxplayers}, Playing time: {game.playingtime} min. (Rank: {rank}
+                - {rating})
+            </div>
+            <div class="text-2xl">
                 <Ratings bind:value={rating} max={10}>
-                    <svelte:fragment slot="empty"><Icon icon="tabler:meeple" /></svelte:fragment>
-                    <svelte:fragment slot="half"><Icon icon="game-icons:abbot-meeple" /></svelte:fragment>
-                    <svelte:fragment slot="full"><Icon icon="game-icons:meeple" /></svelte:fragment>
+                    <svelte:fragment slot="empty">
+                        <Icon icon="tabler:meeple"/>
+                    </svelte:fragment>
+                    <svelte:fragment slot="half">
+                        <Icon icon="game-icons:abbot-meeple"/>
+                    </svelte:fragment>
+                    <svelte:fragment slot="full">
+                        <Icon icon="game-icons:meeple"/>
+                    </svelte:fragment>
                 </Ratings>
             </div>
             <div class="flex justify-end mt-auto w-full flex-wrap">
@@ -94,7 +102,7 @@
                 </p>
             </div>
 
-<!--            <SlideToggle name="how-to-play" bind:checked={hTP} active="bg-primary-500" size="sm" label="How to play?"/>-->
+            <!--            <SlideToggle name="how-to-play" bind:checked={hTP} active="bg-primary-500" size="sm" label="How to play?"/>-->
             {#if hTP}
                 <a href="https://www.howtoplay.ro/oferte-boardgames/{game.name}" target="_blank" class="place-self-end">
                     <img src="https://www.howtoplay.ro/logo.svg" alt="How to play {game?.name}?" width="150"/>
