@@ -56,6 +56,7 @@ export async function GET({url, fetch}) {
     const LUDICUS: Retailer = findRetailerByIndex('LUDICUS');
     const JOCOZAUR: Retailer = findRetailerByIndex('JOCOZAUR');
     const REGATUL: Retailer = findRetailerByIndex('REGATUL');
+    const OXYGAME: Retailer = findRetailerByIndex('OXYGAME');
 
     await Promise.allSettled([
         fetch(PION.search + search),
@@ -69,13 +70,14 @@ export async function GET({url, fetch}) {
         fetch(MAGAZINUL_DE_SAH.search + search),
         fetch(LUDICUS.search + search),
         fetch(JOCOZAUR.search + search),
-        fetch(REGATUL.search + search)
+        fetch(REGATUL.search + search),
+        fetch(OXYGAME.search + search)
     ])
         .then(async ([pionResponse, lexshopResponse, ozoneResponse,
                          redGoblinResponse, kritResponse, barlogResponse,
                          guildHallResponse, gameologyResponse,
                          magazinulDeSahResponse, ludicusResponse,
-                         jocozaurResponse, regatResponse]) => {
+                         jocozaurResponse, regatResponse, oxygameResponse]) => {
 
                 try {
                     if (pionResponse?.value) {
@@ -243,6 +245,20 @@ export async function GET({url, fetch}) {
                 } catch (e) {
                     console.error(`Exception for REGATUL: ${e?.message}`);
                 }
+
+            try {
+                if (oxygameResponse?.value) {
+                    let dataOxygames: Game[] = [];
+                    const oxygameContent = await oxygameResponse.value.json();
+                    dataOxygames = oxygameContent?.products?.filter(game => game?.title).map((game) => {
+                        return {name: game.title, image: game.image.replace("80x80", "1100x1100"), url: game.href, price: game.pprice, retailer: OXYGAME};
+                    });
+
+                    games = [...games, ...dataOxygames];
+                }
+            } catch (e) {
+                console.error(`Exception for OXYGAME: ${e?.message}`);
+            }
 
                 if (search.split(' ')?.length === 1) {
                     console.log(`Filtering from ${games?.length} suggestions for single term [${search}]...`);

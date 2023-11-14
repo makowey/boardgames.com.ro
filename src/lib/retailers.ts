@@ -108,6 +108,15 @@ export const retailers: Retailer[] = [
         search: "https://jocozaur.ro/search/suggest?section_id=predictive-search&q=",
         index: "JOCOZAUR",
         baseImageUrl: ""
+    },
+
+    {
+        name: "Oxygame.ro",
+        logo: "https://oxygame.ro/image/cache/catalog/oxygame-999x284.png",
+        site: "https://oxygame.ro/",
+        search: "https://oxygame.ro/index.php?route=extension/module/isearch/ajax&search=",
+        index: "OXYGAME",
+        baseImageUrl: ""
     }
 ];
 
