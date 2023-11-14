@@ -117,6 +117,15 @@ export const retailers: Retailer[] = [
         search: "https://oxygame.ro/index.php?route=extension/module/isearch/ajax&search=",
         index: "OXYGAME",
         baseImageUrl: ""
+    },
+
+    {
+        name: "Hobby-Planet.ro",
+        logo: "https://hobby-planet.ro/img/gamesstop-logo-1669044992.jpg",
+        site: "https://hobby-planet.ro/",
+        search: "https://hobby-planet.ro/modules/possearchproducts/SearchProducts.php",
+        index: "HOBBY_PLANET",
+        baseImageUrl: ""
     }
 ];
 

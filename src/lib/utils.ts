@@ -41,7 +41,7 @@ export function extractShopifyGamesFromHtml(dom: any, retailer: Retailer) {
         const acBox = childBoxes[i];
         games.push({
             name: acBox?.getElementsByTagName('a')[0]?.getElementsByTagName('img')[0]?.alt.replace("Imagine ", ''),
-            image: acBox?.getElementsByTagName('a')[0]?.getElementsByTagName('img')[0]?.src,
+            image: acBox?.getElementsByTagName('a')[0]?.getElementsByTagName('img')[0]?.src.replace('&width=150', '&width=500'),
             url: retailer.site + acBox.getElementsByTagName('a')[0]?.href,
             price: acBox?.getElementsByClassName('price-item--sale')[0]?.innerHTML,
             retailer

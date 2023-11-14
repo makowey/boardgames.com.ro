@@ -57,6 +57,7 @@ export async function GET({url, fetch}) {
     const JOCOZAUR: Retailer = findRetailerByIndex('JOCOZAUR');
     const REGATUL: Retailer = findRetailerByIndex('REGATUL');
     const OXYGAME: Retailer = findRetailerByIndex('OXYGAME');
+    const HOBBY_PLANET: Retailer = findRetailerByIndex('HOBBY_PLANET');
 
     await Promise.allSettled([
         fetch(PION.search + search),
@@ -71,13 +72,21 @@ export async function GET({url, fetch}) {
         fetch(LUDICUS.search + search),
         fetch(JOCOZAUR.search + search),
         fetch(REGATUL.search + search),
-        fetch(OXYGAME.search + search)
+        fetch(OXYGAME.search + search),
+        fetch(HOBBY_PLANET.search, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
+            },
+            body: `s=${search}&resultsPerPage=12&id_lang=1`
+        })
     ])
         .then(async ([pionResponse, lexshopResponse, ozoneResponse,
                          redGoblinResponse, kritResponse, barlogResponse,
                          guildHallResponse, gameologyResponse,
                          magazinulDeSahResponse, ludicusResponse,
-                         jocozaurResponse, regatResponse, oxygameResponse]) => {
+                         jocozaurResponse, regatResponse, oxygameResponse,
+                         hobbyPlanetResponse]) => {
 
                 try {
                     if (pionResponse?.value) {
@@ -131,9 +140,11 @@ export async function GET({url, fetch}) {
 
                 try {
                     if (redGoblinResponse?.value) {
-                        let dataRedGoblin = await redGoblinResponse.value.text()
-                        dataRedGoblin = extractFromRedGoblinHtml(new JSDOM(dataRedGoblin), RED_GOBLIN);
-                        games = [...games, ...dataRedGoblin];
+                        let dataRedGoblin = await redGoblinResponse.value.text();
+                        if(dataRedGoblin.indexOf('search-flydown__no-results') == -1) {
+                            dataRedGoblin = extractFromRedGoblinHtml(new JSDOM(dataRedGoblin), RED_GOBLIN);
+                            games = [...games, ...dataRedGoblin];
+                        }
                     }
                 } catch (e) {
                     console.error(`Exception for RedGoblin: ${e?.message}`);
@@ -228,6 +239,7 @@ export async function GET({url, fetch}) {
                     if (jocozaurResponse?.value) {
                         let dataJocozaur: Game[] = [];
                         const jocozaurContent = await jocozaurResponse.value.text();
+                        console.log(jocozaurContent)
                         dataJocozaur = extractShopifyGamesFromHtml(new JSDOM(jocozaurContent), JOCOZAUR);
                         games = [...games, ...dataJocozaur];
                     }
@@ -246,18 +258,32 @@ export async function GET({url, fetch}) {
                     console.error(`Exception for REGATUL: ${e?.message}`);
                 }
 
+                try {
+                    if (oxygameResponse?.value) {
+                        let dataOxygames: Game[] = [];
+                        const oxygameContent = await oxygameResponse.value.json();
+                        dataOxygames = oxygameContent?.products?.filter(game => game?.title).map((game) => {
+                            return {name: game.title, image: game.image?.replace("80x80", "1100x1100"), url: game.href, price: game.pprice, retailer: OXYGAME};
+                        });
+
+                        games = [...games, ...dataOxygames];
+                    }
+                } catch (e) {
+                    console.error(`Exception for OXYGAME: ${e?.message}`);
+                }
+
             try {
-                if (oxygameResponse?.value) {
-                    let dataOxygames: Game[] = [];
-                    const oxygameContent = await oxygameResponse.value.json();
-                    dataOxygames = oxygameContent?.products?.filter(game => game?.title).map((game) => {
-                        return {name: game.title, image: game.image.replace("80x80", "1100x1100"), url: game.href, price: game.pprice, retailer: OXYGAME};
+                if (hobbyPlanetResponse?.value) {
+                    let dataHobbyPlanet: Game[] = [];
+                    const hobbyPlanetContent = await hobbyPlanetResponse.value.json();
+                    dataHobbyPlanet = hobbyPlanetContent?.products?.filter(game => game?.pname).map((game) => {
+                        return {name: game.pname, image: game.ajaxsearchimage?.replace("small_", "medium_"), url: game.product_link, retailer: HOBBY_PLANET};
                     });
 
-                    games = [...games, ...dataOxygames];
+                    games = [...games, ...dataHobbyPlanet];
                 }
             } catch (e) {
-                console.error(`Exception for OXYGAME: ${e?.message}`);
+                console.error(`Exception for HOBBY_PLANET: ${e?.message}`);
             }
 
                 if (search.split(' ')?.length === 1) {
