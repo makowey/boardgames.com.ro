@@ -277,7 +277,7 @@ export async function GET({url, fetch}) {
                     let dataHobbyPlanet: Game[] = [];
                     const hobbyPlanetContent = await hobbyPlanetResponse.value.json();
                     dataHobbyPlanet = hobbyPlanetContent?.products?.filter(game => game?.pname).map((game) => {
-                        return {name: game.pname, image: game.ajaxsearchimage?.replace("small_", "medium_"), url: game.product_link, retailer: HOBBY_PLANET};
+                        return {name: game.pname, image: game.ajaxsearchimage?.replace("small_", "medium_"), price: game.pprice || '?',  url: game.product_link, retailer: HOBBY_PLANET};
                     });
 
                     games = [...games, ...dataHobbyPlanet];
