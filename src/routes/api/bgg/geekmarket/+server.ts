@@ -26,11 +26,11 @@ export async function GET({fetch, url}) {
         games: results?.products?.map(g => {
             return {
                 name: g.version?.name,
-                price: (g.price * 4.95).toFixed(2),
+                price: (g.price * 5).toFixed(2),
                 image: g.objectlink?.image?.images?.large?.src,
                 thumbnail: g.objectlink?.image?.images?.medium?.src,
                 url: `https://boardgamegeek.com${g.producthref}`,
-                promotion: '5',
+                promotion: '?',
                 retailer: {
                     name: 'GeekMarket',
                     logo: 'https://cf.geekdo-static.com/images/logos/geekmarket-logo_1.svg'
