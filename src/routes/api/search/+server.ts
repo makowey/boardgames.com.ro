@@ -55,6 +55,7 @@ export async function GET({url, fetch}) {
 
             return json({
                 status: 'success',
+                sold: responseJSON.sold,
                 games: games
                     .sort((a, b) => (b.promotion - a.promotion) || (parseFloat(a.price) - parseFloat(b.price))),
                 executionTime

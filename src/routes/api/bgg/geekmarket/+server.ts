@@ -1,6 +1,7 @@
 import {json} from "@sveltejs/kit";
 import {BggClient} from "boardgamegeekclient";
 import type {BggUserDto} from "boardgamegeekclient/dist/cjs/dto";
+import type {Game} from "$lib/types";
 
 const client = BggClient.Create();
 
@@ -16,26 +17,29 @@ export async function GET({fetch, url}) {
 
     const response = await fetch('https://api.geekdo.com/api/market/products?ajax=1&country=RO&userid=' + currentUser.id, {})
     const results = await response.json();
+    const games = results?.products?.map(g => {
+        return {
+            name: g.version?.name,
+            price: (g.price * 5).toFixed(2),
+            image: g.objectlink?.image?.images?.large?.src,
+            thumbnail: g.objectlink?.image?.images?.medium?.src,
+            url: `https://boardgamegeek.com${g.producthref}`,
+            condition: g.prettycondition,
+            retailer: {
+                name: 'GeekMarket',
+                logo: 'https://cf.geekdo-static.com/images/logos/geekmarket-logo_1.svg'
+            }
+        }
+    })
 
-    console.log(`Loaded ${results?.products?.length} games...`);
+    const sold = games.reduce((a: number, curr: Game) => a + parseFloat(curr.price), 0);
+    console.log(`Loaded ${results?.products?.length} games [sold: ${sold}]...`);
 
     return json({
         status: 'ok',
         message: 'success',
         username: currentUser,
-        games: results?.products?.map(g => {
-            return {
-                name: g.version?.name,
-                price: (g.price * 5).toFixed(2),
-                image: g.objectlink?.image?.images?.large?.src,
-                thumbnail: g.objectlink?.image?.images?.medium?.src,
-                url: `https://boardgamegeek.com${g.producthref}`,
-                condition: g.prettycondition,
-                retailer: {
-                    name: 'GeekMarket',
-                    logo: 'https://cf.geekdo-static.com/images/logos/geekmarket-logo_1.svg'
-                }
-            }
-        })
+        sold,
+        games
     })
 }

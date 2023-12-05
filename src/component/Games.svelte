@@ -8,6 +8,7 @@
     export let searchText = 'boardgame';
     let isNavigating = false;
     let executionTime = 0;
+    let sold = 0;
     export let howToPlay = false;
     export let numberOfMinimCharsForSearch = 3;
 
@@ -17,6 +18,7 @@
         const data = await response.json();
         games = [...data.games];
         executionTime = data.executionTime;
+        sold = data.sold;
         isNavigating = false;
     }
 
@@ -33,6 +35,11 @@
             <GameCard {game}/>
         {/each}
     </ul>
+
+    {#if sold}
+        <p class="text-xs text-left text-cyan-800">Sold: {sold} lei</p>
+    {/if}
+
     <p class="text-xs text-right text-cyan-800">{executionTime}ms</p>
 {:else if searchText}
     <LottieAnimation/>
