@@ -241,7 +241,6 @@ export async function GET({url, fetch}) {
                     if (jocozaurResponse?.value) {
                         let dataJocozaur: Game[] = [];
                         const jocozaurContent = await jocozaurResponse.value.text();
-                        console.log(jocozaurContent)
                         dataJocozaur = extractShopifyGamesFromHtml(new JSDOM(jocozaurContent), JOCOZAUR);
                         games = [...games, ...dataJocozaur];
                     }
