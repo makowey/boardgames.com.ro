@@ -18,7 +18,7 @@ export const retailers: Retailer[] = [
         name: "Pionul.ro",
         logo: "https://pionul.ro/image/cache/catalog/logo-final-200x56--200x56.png",
         site: "https://pionul.ro",
-        search: "https://pionul.ro/index.php?route=journal2/search&search=",
+        search: "https://pionul.ro/index.php?route=journal3/search&search=",
         index: "PION"
     },
 

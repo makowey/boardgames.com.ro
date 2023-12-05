@@ -92,12 +92,14 @@ export async function GET({url, fetch}) {
                     if (pionResponse?.value) {
                         let dataPion = await pionResponse.value.json()
                         dataPion = [
-                            ...dataPion.results.map((game: Game) => {
+                            ...dataPion.response
+                                .filter(g => g?.product_id)
+                                .map((game: Game) => {
                                 return {
                                     ...game,
                                     price: game?.special ? game.special : game.price,
                                     promotion: game?.special ? promotionCalculator(parseInt(game.special), parseInt(game.price)) : 0,
-                                    image: game.image.replace('50x50', '500x500'),
+                                    image: game?.thumb2?.replace('120x120', '500x500'),
                                     retailer: PION
                                 };
                             })
