@@ -13,7 +13,11 @@ import {JSDOM} from 'jsdom';
 export async function GET({url, fetch}) {
     const search = url.searchParams.get('search');
     const howToPlay: boolean = url.searchParams.get('howToPlay') === 'true';
-    console.log(`Search for [${search}], [howToPlay: ${howToPlay}]`);
+    const username: boolean = url.searchParams.get('username');
+
+    console.log(`Search for [${search}], [howToPlay: ${howToPlay}], [username: ${username}]`);
+
+
     if (search && search.length < 3) {
         return new Response(JSON.stringify({}), {
             status: 403,
@@ -40,8 +44,24 @@ export async function GET({url, fetch}) {
                 executionTime
             });
         }
+
+        if (username || search?.startsWith("@")) {
+            const response = await fetch('/api/bgg/geekmarket?q=' + search.replace("@", ""));
+            const responseJSON: Game[] = await response.json();
+            games = [...responseJSON.games];
+
+            const endTime: Date = new Date();
+            const executionTime: number = Math.abs(endTime.getMilliseconds() - startTime.getMilliseconds());
+
+            return json({
+                status: 'success',
+                games: games
+                    .sort((a, b) => (b.promotion - a.promotion) || (parseFloat(a.price) - parseFloat(b.price))),
+                executionTime
+            });
+        }
     } catch (e) {
-        console.error(`Exception for HOW TO PLAY: ${e?.message}`);
+        console.error(`Exception for Fast LOADING: ${e?.message}`);
     }
 
     const PION: Retailer = findRetailerByIndex('PION');
@@ -95,14 +115,14 @@ export async function GET({url, fetch}) {
                             ...dataPion.response
                                 .filter(g => g?.product_id)
                                 .map((game: Game) => {
-                                return {
-                                    ...game,
-                                    price: game?.special ? game.special : game.price,
-                                    promotion: game?.special ? promotionCalculator(parseInt(game.special), parseInt(game.price)) : 0,
-                                    image: game?.thumb2?.replace('120x120', '500x500'),
-                                    retailer: PION
-                                };
-                            })
+                                    return {
+                                        ...game,
+                                        price: game?.special ? game.special : game.price,
+                                        promotion: game?.special ? promotionCalculator(parseInt(game.special), parseInt(game.price)) : 0,
+                                        image: game?.thumb2?.replace('120x120', '500x500'),
+                                        retailer: PION
+                                    };
+                                })
                         ];
                         games = [...games, ...dataPion];
                     }
@@ -132,7 +152,14 @@ export async function GET({url, fetch}) {
                     if (ozoneResponse?.value) {
                         let dataOzone = await ozoneResponse.value.json()
                         dataOzone = [...dataOzone.items].map((game) => {
-                            return {name: game.l, image: game.t2, url: game.u, price: game.p, promotion: promotionCalculator(game.p, game.p_c), retailer: OZONE};
+                            return {
+                                name: game.l,
+                                image: game.t2,
+                                url: game.u,
+                                price: game.p,
+                                promotion: promotionCalculator(game.p, game.p_c),
+                                retailer: OZONE
+                            };
                         });
                         games = [...games, ...dataOzone];
                     }
@@ -143,7 +170,7 @@ export async function GET({url, fetch}) {
                 try {
                     if (redGoblinResponse?.value) {
                         let dataRedGoblin = await redGoblinResponse.value.text();
-                        if(dataRedGoblin.indexOf('search-flydown__no-results') == -1) {
+                        if (dataRedGoblin.indexOf('search-flydown__no-results') == -1) {
                             dataRedGoblin = extractFromRedGoblinHtml(new JSDOM(dataRedGoblin), RED_GOBLIN);
                             games = [...games, ...dataRedGoblin];
                         }
@@ -264,7 +291,13 @@ export async function GET({url, fetch}) {
                         let dataOxygames: Game[] = [];
                         const oxygameContent = await oxygameResponse.value.json();
                         dataOxygames = oxygameContent?.products?.filter(game => game?.title).map((game) => {
-                            return {name: game.title, image: game.image?.replace("80x80", "1100x1100"), url: game.href, price: game.pprice, retailer: OXYGAME};
+                            return {
+                                name: game.title,
+                                image: game.image?.replace("80x80", "1100x1100"),
+                                url: game.href,
+                                price: game.pprice,
+                                retailer: OXYGAME
+                            };
                         });
 
                         games = [...games, ...dataOxygames];
@@ -273,19 +306,25 @@ export async function GET({url, fetch}) {
                     console.error(`Exception for OXYGAME: ${e?.message}`);
                 }
 
-            try {
-                if (hobbyPlanetResponse?.value) {
-                    let dataHobbyPlanet: Game[] = [];
-                    const hobbyPlanetContent = await hobbyPlanetResponse.value.json();
-                    dataHobbyPlanet = hobbyPlanetContent?.products?.filter(game => game?.pname).map((game) => {
-                        return {name: game.pname, image: game.ajaxsearchimage?.replace("small_", "medium_"), price: game.pprice || '?',  url: game.product_link, retailer: HOBBY_PLANET};
-                    });
+                try {
+                    if (hobbyPlanetResponse?.value) {
+                        let dataHobbyPlanet: Game[] = [];
+                        const hobbyPlanetContent = await hobbyPlanetResponse.value.json();
+                        dataHobbyPlanet = hobbyPlanetContent?.products?.filter(game => game?.pname).map((game) => {
+                            return {
+                                name: game.pname,
+                                image: game.ajaxsearchimage?.replace("small_", "medium_"),
+                                price: game.pprice || '?',
+                                url: game.product_link,
+                                retailer: HOBBY_PLANET
+                            };
+                        });
 
-                    games = [...games, ...dataHobbyPlanet];
+                        games = [...games, ...dataHobbyPlanet];
+                    }
+                } catch (e) {
+                    console.error(`Exception for HOBBY_PLANET: ${e?.message}`);
                 }
-            } catch (e) {
-                console.error(`Exception for HOBBY_PLANET: ${e?.message}`);
-            }
 
                 if (search.split(' ')?.length === 1) {
                     console.log(`Filtering from ${games?.length} suggestions for single term [${search}]...`);
