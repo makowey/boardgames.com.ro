@@ -30,7 +30,7 @@ export async function GET({fetch, url}) {
                 image: g.objectlink?.image?.images?.large?.src,
                 thumbnail: g.objectlink?.image?.images?.medium?.src,
                 url: `https://boardgamegeek.com${g.producthref}`,
-                promotion: '?',
+                condition: g.prettycondition,
                 retailer: {
                     name: 'GeekMarket',
                     logo: 'https://cf.geekdo-static.com/images/logos/geekmarket-logo_1.svg'

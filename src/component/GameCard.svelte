@@ -29,4 +29,7 @@
     {#if game?.promotion && game.promotion > 0}
         <div class="ribbon ribbon-top-{ribbonPosition}"><span>{game.promotion}%</span></div>
     {/if}
+    {#if game?.condition}
+        <div class="ribbon ribbon-top-{ribbonPosition}"><span>{game.condition}</span></div>
+    {/if}
 </li>

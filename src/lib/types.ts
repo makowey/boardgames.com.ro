@@ -14,6 +14,7 @@ export interface Game {
     description?: string;
     stoc?: string;
     videos?: never;
+    condition?: string;
     marketplacelistings?: never;
     retailer: {
         name: string;
