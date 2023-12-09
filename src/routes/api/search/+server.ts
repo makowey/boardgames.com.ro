@@ -12,6 +12,7 @@ import {JSDOM} from 'jsdom';
 
 export async function GET({url, fetch}) {
     const search = url.searchParams.get('search');
+    const zone = url.searchParams.get('zone');
     const howToPlay: boolean = url.searchParams.get('howToPlay') === 'true';
 
     console.log(`Search for [${search}], [howToPlay: ${howToPlay}]`);
@@ -44,7 +45,7 @@ export async function GET({url, fetch}) {
         }
 
         if (search?.startsWith("@")) {
-            const response = await fetch('/api/bgg/geekmarket?q=' + search);
+            const response = await fetch(`/api/bgg/geekmarket?q=${search}`);
             const responseJSON: Game[] = await response.json();
             games = [...responseJSON.games];
 
@@ -101,7 +102,7 @@ export async function GET({url, fetch}) {
             },
             body: `s=${search}&resultsPerPage=12&id_lang=1`
         }),
-        fetch(GEEK_MARKET.search + search)
+        fetch(`${GEEK_MARKET.search}${search}&zone=${zone}`)
     ])
         .then(async ([pionResponse, lexshopResponse, ozoneResponse,
                          redGoblinResponse, kritResponse, barlogResponse,

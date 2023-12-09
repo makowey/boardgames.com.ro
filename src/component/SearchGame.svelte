@@ -7,8 +7,9 @@
     import GameCardPresentation from "./GameCardPresentation.svelte";
     import {onMount} from "svelte";
     import Gallery from "./Gallery.svelte";
-    import {retailers} from "$lib/retailers";
+    import {GEEK_MARKET, retailers} from "$lib/retailers";
     import {SlideToggle} from "@skeletonlabs/skeleton";
+    import Icon from "@iconify/svelte";
 
     export let findGame = '';
     let hTP: boolean = false;
@@ -26,6 +27,7 @@
     let hotSelection: Game;
     let loading: boolean = false;
     let howToPlay: boolean = false;
+    let shiparea = 'ro';
 
     $: if (hotSelection?.id) {
         randomGameId = hotSelection.id;
@@ -62,7 +64,15 @@
             .then(r => r.json())
             .then(r => {
                 kickstarters = r.data.map((k: Kickstarter) => {
-                    return {id: k.item?.id, name: k.name, thumbnail: k.images?.mediacard?.src, url: k.orderUrl, price: 0, retailer: {name: "Kickstarter"}, progress: k.progress}
+                    return {
+                        id: k.item?.id,
+                        name: k.name,
+                        thumbnail: k.images?.mediacard?.src,
+                        url: k.orderUrl,
+                        price: 0,
+                        retailer: {name: "Kickstarter"},
+                        progress: k.progress
+                    }
                 });
             })
     }
@@ -96,6 +106,22 @@
 
 <SearchBar placeholder="Caută board game(joc)..." bind:value={findGame} bind:gameId={randomGameId}/>
 
+<div class="items-center -inset-x-1 flex justify-center">
+
+    <img src="{GEEK_MARKET.logo}" alt="GeekMarget" class="h-8 mx-10"/>
+
+    {#each ['ro', 'europe', 'eu'] as c}
+        <button
+                class="chip {shiparea === c ? 'variant-filled' : 'variant-soft'} w-18 mx-0.5"
+                on:click={() => shiparea = c }
+                on:keypress
+        >
+            {#if shiparea === c}<span><Icon icon="bxs:checkbox-checked"/></span>{/if}
+            <span class="uppercase">{c}</span>
+        </button>
+    {/each}
+</div>
+
 {#if findGame?.length >= numberOfMinimCharsForSearch}
     <div class="mx-auto max-w-7xl px-6">
         {#if games.length > 0}
@@ -105,14 +131,15 @@
             </p>
         {/if}
         <div class="fixed bottom-0.5 right-1.5 scale-75 z-10">
-            <img src="https://www.howtoplay.ro/logo.svg" class="w-12 h-6 place-self-center float-left" alt="How To Play - suggestions..."/>
+            <img src="https://www.howtoplay.ro/logo.svg" class="w-12 h-6 place-self-center float-left"
+                 alt="How To Play - suggestions..."/>
             <SlideToggle name="howToPlay" size="sm" bind:checked="{howToPlay}"
                          on:change={() => {
                              games = games.filter(game => (howToPlay && game?.shop) || (!howToPlay));
                              findGame = findGame.concat(' ');
                          }}/>
         </div>
-        <Games searchText={findGame} bind:games {numberOfMinimCharsForSearch} {howToPlay}/>
+        <Games searchText={findGame} bind:games {numberOfMinimCharsForSearch} {howToPlay} {shiparea}/>
     </div>
 {:else }
     <Gallery title="BGG Hotlist" games={hotGames} bind:selection={hotSelection}/>

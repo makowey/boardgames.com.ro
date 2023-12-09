@@ -142,3 +142,5 @@ export const OZONE: Retailer = {
 export function findRetailerByIndex(index: string) {
     return retailers.find(r => r.index === index) || OZONE;
 }
+
+export const GEEK_MARKET: Retailer = findRetailerByIndex('GEEK_MARKET');

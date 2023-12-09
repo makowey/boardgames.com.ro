@@ -6,6 +6,7 @@
 
     export let games: Game[];
     export let searchText = 'boardgame';
+    export let shiparea = 'ro';
     let isNavigating = false;
     let executionTime = 0;
     let sold = 0;
@@ -14,7 +15,7 @@
 
     async function searchForGame() {
         isNavigating = true;
-        const response = await fetch(`/api/search?search=${searchText}&howToPlay=${howToPlay}`);
+        const response = await fetch(`/api/search?search=${searchText}&howToPlay=${howToPlay}&zone=${shiparea}`);
         const data = await response.json();
         games = [...data.games];
         executionTime = data.executionTime;
@@ -22,7 +23,7 @@
         isNavigating = false;
     }
 
-    $: if (searchText?.length >= numberOfMinimCharsForSearch) {
+    $: if (searchText?.length >= numberOfMinimCharsForSearch || shiparea) {
         searchForGame();
     }
 </script>
