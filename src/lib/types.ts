@@ -15,6 +15,7 @@ export interface Game {
     stoc?: string;
     videos?: never;
     condition?: string;
+    bggUser?: string;
     marketplacelistings?: never;
     retailer: {
         name: string;

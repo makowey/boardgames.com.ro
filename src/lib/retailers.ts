@@ -11,7 +11,6 @@ export const retailers: Retailer[] = [
         site: "https://regatuljocurilor.ro/",
         search: "https://regatuljocurilor.ro/modules/tmajaxsearch/tm_ajax_search.php?search_key=",
         index: "REGATUL",
-        baseImageUrl: ""
     },
 
     {
@@ -62,7 +61,6 @@ export const retailers: Retailer[] = [
         site: "https://www.barlogulcujocuri.ro/",
         search: "https://www.barlogulcujocuri.ro/autocomplete?query=",
         index: "BARLOG",
-        baseImageUrl: ""
     },
 
     {
@@ -71,7 +69,6 @@ export const retailers: Retailer[] = [
         site: "https://shop.guildhall.ro",
         search: "https://shop.guildhall.ro/autocomplete?query=",
         index: "GUILDHALL",
-        baseImageUrl: ""
     },
 
     {
@@ -80,7 +77,6 @@ export const retailers: Retailer[] = [
         site: "https://www.gameology.ro/",
         search: "https://www.gameology.ro/autocomplete?query=",
         index: "GAMEOLOGY",
-        baseImageUrl: ""
     },
 
     {
@@ -89,7 +85,6 @@ export const retailers: Retailer[] = [
         site: "https://www.magazinuldesah.ro/",
         search: "https://www.magazinuldesah.ro/autocomplete?query=",
         index: "MAGAZINUL_DE_SAH",
-        baseImageUrl: ""
     },
 
     {
@@ -98,7 +93,6 @@ export const retailers: Retailer[] = [
         site: "https://ludicus.ro/",
         search: "https://ludicus.ro/search/suggest?resources%5Btype%5D=product&resources%5Blimit%5D=4&section_id=predictive-search&q=",
         index: "LUDICUS",
-        baseImageUrl: ""
     },
 
     {
@@ -107,7 +101,6 @@ export const retailers: Retailer[] = [
         site: "https://jocozaur.ro/",
         search: "https://jocozaur.ro/search/suggest?section_id=predictive-search&q=",
         index: "JOCOZAUR",
-        baseImageUrl: ""
     },
 
     {
@@ -116,7 +109,6 @@ export const retailers: Retailer[] = [
         site: "https://oxygame.ro/",
         search: "https://oxygame.ro/index.php?route=extension/module/isearch/ajax&search=",
         index: "OXYGAME",
-        baseImageUrl: ""
     },
 
     {
@@ -125,7 +117,14 @@ export const retailers: Retailer[] = [
         site: "https://hobby-planet.ro/",
         search: "https://hobby-planet.ro/modules/possearchproducts/SearchProducts.php",
         index: "HOBBY_PLANET",
-        baseImageUrl: ""
+    },
+
+    {
+        name: 'GeekMarket',
+        logo: 'https://cf.geekdo-static.com/images/logos/geekmarket-logo_1.svg',
+        site: "https://boardgamegeek.com",
+        search: "/api/bgg/geekmarket?q=",
+        index: "GEEK_MARKET",
     }
 ];
 

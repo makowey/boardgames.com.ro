@@ -16,8 +16,13 @@
     <div class="card-body p-6 flex flex-col gap-3 flex-1">
         <img src={game.retailer.logo} alt={game.retailer.name}
              class="w-24 px-1.5 py-0.5 bg-gray-500 bg-opacity-66 rounded-3xl"/>
-        <h2 class="card-title text-left font-bold">{@html game.name}</h2>
+        <h2 class="card-title text-left font-bold">
+            {@html game.name}
+        </h2>
         <div class="badge bg-violet-400 rounded-full max-w-max text-black text-xl">{@html game.price}</div>
+        {#if game?.bggUser}
+            <div class="badge bg-amber-600 rounded-full max-w-max text-black text-md">BGG: @{game.bggUser}</div>
+        {/if}
         <div class="flex justify-end mt-auto w-full">
             <a
                     href={game.url}

@@ -13,10 +13,8 @@ import {JSDOM} from 'jsdom';
 export async function GET({url, fetch}) {
     const search = url.searchParams.get('search');
     const howToPlay: boolean = url.searchParams.get('howToPlay') === 'true';
-    const username: boolean = url.searchParams.get('username');
 
-    console.log(`Search for [${search}], [howToPlay: ${howToPlay}], [username: ${username}]`);
-
+    console.log(`Search for [${search}], [howToPlay: ${howToPlay}]`);
 
     if (search && search.length < 3) {
         return new Response(JSON.stringify({}), {
@@ -45,8 +43,8 @@ export async function GET({url, fetch}) {
             });
         }
 
-        if (username || search?.startsWith("@")) {
-            const response = await fetch('/api/bgg/geekmarket?q=' + search.replace("@", ""));
+        if (search?.startsWith("@")) {
+            const response = await fetch('/api/bgg/geekmarket?q=' + search);
             const responseJSON: Game[] = await response.json();
             games = [...responseJSON.games];
 
@@ -79,6 +77,7 @@ export async function GET({url, fetch}) {
     const REGATUL: Retailer = findRetailerByIndex('REGATUL');
     const OXYGAME: Retailer = findRetailerByIndex('OXYGAME');
     const HOBBY_PLANET: Retailer = findRetailerByIndex('HOBBY_PLANET');
+    const GEEK_MARKET: Retailer = findRetailerByIndex('GEEK_MARKET');
 
     await Promise.allSettled([
         fetch(PION.search + search),
@@ -94,20 +93,22 @@ export async function GET({url, fetch}) {
         fetch(JOCOZAUR.search + search),
         fetch(REGATUL.search + search),
         fetch(OXYGAME.search + search),
+
         fetch(HOBBY_PLANET.search, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded; charset=UTF-8'
             },
             body: `s=${search}&resultsPerPage=12&id_lang=1`
-        })
+        }),
+        fetch(GEEK_MARKET.search + search)
     ])
         .then(async ([pionResponse, lexshopResponse, ozoneResponse,
                          redGoblinResponse, kritResponse, barlogResponse,
                          guildHallResponse, gameologyResponse,
                          magazinulDeSahResponse, ludicusResponse,
                          jocozaurResponse, regatResponse, oxygameResponse,
-                         hobbyPlanetResponse]) => {
+                         hobbyPlanetResponse, geekMarketResponse]) => {
 
                 try {
                     if (pionResponse?.value) {
@@ -226,7 +227,7 @@ export async function GET({url, fetch}) {
 
                 try {
                     if (gameologyResponse?.value) {
-                        let dataGameology: Game[] = [];
+                        let dataGameology: Game[];
                         let gameologyContent = await gameologyResponse.value.text()
                         gameologyContent = gameologyContent.split('<\\/style>')?.[1]?.split('","games":')[0]
                             ?.replaceAll("\\n", '')?.replaceAll('\\t', '')
@@ -241,7 +242,7 @@ export async function GET({url, fetch}) {
 
                 try {
                     if (magazinulDeSahResponse?.value) {
-                        let dataMagazinuldeSah: Game[] = [];
+                        let dataMagazinuldeSah: Game[];
                         let magazinulDeSahContent = await magazinulDeSahResponse.value.text()
                         magazinulDeSahContent = magazinulDeSahContent.split('<\\/style>')?.[1]?.split('","games":')[0]
                             ?.replaceAll("\\n", '')?.replaceAll('\\t', '')
@@ -256,7 +257,7 @@ export async function GET({url, fetch}) {
 
                 try {
                     if (ludicusResponse?.value) {
-                        let dataLudicus: Game[] = [];
+                        let dataLudicus: Game[];
                         const ludicusContent = await ludicusResponse.value.text();
                         dataLudicus = extractShopifyGamesFromHtml(new JSDOM(ludicusContent), LUDICUS);
                         games = [...games, ...dataLudicus];
@@ -267,7 +268,7 @@ export async function GET({url, fetch}) {
 
                 try {
                     if (jocozaurResponse?.value) {
-                        let dataJocozaur: Game[] = [];
+                        let dataJocozaur: Game[];
                         const jocozaurContent = await jocozaurResponse.value.text();
                         dataJocozaur = extractShopifyGamesFromHtml(new JSDOM(jocozaurContent), JOCOZAUR);
                         games = [...games, ...dataJocozaur];
@@ -278,7 +279,7 @@ export async function GET({url, fetch}) {
 
                 try {
                     if (regatResponse?.value) {
-                        let dataRegat: Game[] = [];
+                        let dataRegat: Game[];
                         const regatContent = await regatResponse.value.text();
                         dataRegat = extractPrestashopGamesFromHtml(new JSDOM(regatContent), REGATUL);
                         games = [...games, ...dataRegat];
@@ -289,7 +290,7 @@ export async function GET({url, fetch}) {
 
                 try {
                     if (oxygameResponse?.value) {
-                        let dataOxygames: Game[] = [];
+                        let dataOxygames: Game[];
                         const oxygameContent = await oxygameResponse.value.json();
                         dataOxygames = oxygameContent?.products?.filter(game => game?.title).map((game) => {
                             return {
@@ -306,6 +307,17 @@ export async function GET({url, fetch}) {
                 } catch (e) {
                     console.error(`Exception for OXYGAME: ${e?.message}`);
                 }
+
+            try {
+                if (geekMarketResponse?.value) {
+                    let geekmarketGames: Game[];
+                    const geekmarketContent = await geekMarketResponse.value.json();
+                    geekmarketGames = geekmarketContent?.games;
+                    games = [...games, ...geekmarketGames];
+                }
+            } catch (e) {
+                console.error(`Exception for GEEK_MARKET: ${e?.message}`);
+            }
 
                 try {
                     if (hobbyPlanetResponse?.value) {
