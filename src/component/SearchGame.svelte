@@ -108,15 +108,15 @@
 
 <div class="items-center -inset-x-1 flex justify-center">
 
-    <img src="{GEEK_MARKET.logo}" alt="GeekMarget" class="h-8 mx-10"/>
+    <img src="{GEEK_MARKET.logo}" alt="GeekMarget" class="h-8 mr-5"/>
 
     {#each ['ro', 'europe', 'eu'] as c}
         <button
-                class="chip {shiparea === c ? 'variant-filled' : 'variant-soft'} w-18 mx-0.5"
+                class="chip {shiparea === c ? 'variant-filled-success' : 'variant-filled-primary'} w-18 mx-0.5"
                 on:click={() => shiparea = c }
                 on:keypress
         >
-            {#if shiparea === c}<span><Icon icon="bxs:checkbox-checked"/></span>{/if}
+            <!--{#if shiparea === c}<span><Icon icon="bxs:checkbox-checked"/></span>{/if}-->
             <span class="uppercase">{c}</span>
         </button>
     {/each}
