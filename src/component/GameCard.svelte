@@ -14,8 +14,16 @@
         />
     </div>
     <div class="card-body p-6 flex flex-col gap-3 flex-1">
-        <img src={game.retailer.logo} alt={game.retailer.name}
-             class="w-24 px-1.5 py-0.5 bg-gray-500 bg-opacity-66 rounded-3xl"/>
+        {#if game?.url?.indexOf('howtoplay') > -1}
+            <img src="https://www.howtoplay.ro/logo.svg"
+                 class="w-20 px-1.5 py-0.5"
+                 alt="How To Play - suggestions..."/>
+            <span class="capitalize text-primary-50 italic ml-20 absolute">{game.retailer.name}</span>
+        {:else}
+            <img src={game.retailer.logo} alt={game.retailer.name}
+                 class="w-24 px-1.5 py-0.5 bg-gray-500 bg-opacity-66 rounded-3xl"/>
+        {/if}
+
         <h2 class="card-title text-left font-bold">
             {@html game.name}
         </h2>

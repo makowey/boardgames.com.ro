@@ -26,7 +26,7 @@
     let kickstarters: Game[] = [];
     let hotSelection: Game;
     let loading: boolean = false;
-    let howToPlay: boolean = false;
+    let howToPlay: boolean = true;
     let shiparea = 'ro';
 
     $: if (hotSelection?.id) {

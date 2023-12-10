@@ -28,22 +28,6 @@ export async function GET({url, fetch}) {
     const startTime: Date = new Date();
 
     try {
-        if (howToPlay) {
-            const response = await fetch('/api/howtoplay?q=' + search);
-            const responseJSON: Game[] = await response.json();
-            games = [...responseJSON.games];
-
-            const endTime: Date = new Date();
-            const executionTime: number = Math.abs(endTime.getMilliseconds() - startTime.getMilliseconds());
-
-            return json({
-                status: 'success',
-                games: games
-                    .sort((a, b) => (b.promotion - a.promotion) || (parseFloat(a.price) - parseFloat(b.price))),
-                executionTime
-            });
-        }
-
         if (search?.startsWith("@")) {
             const response = await fetch(`/api/bgg/geekmarket?q=${search}`);
             const responseJSON: Game[] = await response.json();
@@ -309,16 +293,16 @@ export async function GET({url, fetch}) {
                     console.error(`Exception for OXYGAME: ${e?.message}`);
                 }
 
-            try {
-                if (geekMarketResponse?.value) {
-                    let geekmarketGames: Game[];
-                    const geekmarketContent = await geekMarketResponse.value.json();
-                    geekmarketGames = geekmarketContent?.games;
-                    games = [...games, ...geekmarketGames];
+                try {
+                    if (geekMarketResponse?.value) {
+                        let geekmarketGames: Game[];
+                        const geekmarketContent = await geekMarketResponse.value.json();
+                        geekmarketGames = geekmarketContent?.games;
+                        games = [...games, ...geekmarketGames];
+                    }
+                } catch (e) {
+                    console.error(`Exception for GEEK_MARKET: ${e?.message}`);
                 }
-            } catch (e) {
-                console.error(`Exception for GEEK_MARKET: ${e?.message}`);
-            }
 
                 try {
                     if (hobbyPlanetResponse?.value) {
@@ -338,6 +322,19 @@ export async function GET({url, fetch}) {
                     }
                 } catch (e) {
                     console.error(`Exception for HOBBY_PLANET: ${e?.message}`);
+                }
+
+                if (howToPlay) {
+                    const response = await fetch('/api/howtoplay?q=' + search);
+                    const responseJSON: Game[] = await response.json();
+                    responseJSON.games.forEach(game => {
+                        const index = games.findIndex(g => game.name === g.name && game.retailer.logo.indexOf(g.retailer.site) > -1);
+                        if (index > -1 && isNaN(games[index]?.price)) {
+                            games[index].price = game.price;
+                        } else {
+                            games.push(game);
+                        }
+                    })
                 }
 
                 if (search.split(' ')?.length === 1) {
