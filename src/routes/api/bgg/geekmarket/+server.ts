@@ -58,7 +58,10 @@ export async function GET({fetch, url}) {
     const games = allResults?.map(g => {
         return {
             name: g.version?.name,
-            price: (g.price * 5).toFixed(2),
+            itemlocation: g.itemlocation,
+            flagimgurl: g.flagimgurl,
+            currency: g.currency,
+            price: (g.price * (g.currency === 'EUR' ? 5 : (g.currency === 'USD' ? 4.6 : 5))).toFixed(2),
             image: g.objectlink?.image?.images?.large?.src,
             thumbnail: g.objectlink?.image?.images?.medium?.src,
             url: `https://boardgamegeek.com${g.producthref}`,

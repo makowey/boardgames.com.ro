@@ -30,7 +30,14 @@
         <div class="badge bg-violet-400 rounded-full max-w-max text-black text-xl">{@html game.price}</div>
         {#if game?.bggUser}
             <div class="badge bg-amber-600 rounded-full max-w-max text-black text-md hover:scale-110">
-                <a href="/?q=@{game.bggUser}" target="_self">BGG: @{game.bggUser}</a>
+                <a href="/?q=@{game.bggUser}" target="_self">
+                    <div class="absolute -ml-2 mt-7">
+                        <img src={game.flagimgurl} alt={game.itemlocation}
+                             class="w-4 float-left"/>
+                        <span class="float-left text-primary-50">({game.itemlocation})</span>
+                    </div>
+                    BGG: @{game.bggUser}
+                </a>
             </div>
         {/if}
         <div class="flex justify-end mt-auto w-full">
