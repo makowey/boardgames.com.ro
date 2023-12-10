@@ -10,7 +10,7 @@ export async function GET({fetch, url}) {
     const query = url.searchParams.get('q')?.replaceAll(' ', '+');
     const username = query?.startsWith('@') ? query?.replaceAll('@', '') : undefined;
     const zone = url.searchParams.get('zone');
-    const shiparea = zone === null || zone === 'ro' ? 'country=RO' : 'shiparea=' + zone;
+    const shiparea = zone === null || ['ro', 'bg', 'gr', 'hu'].indexOf(zone) > -1 ? `country=${zone?.toUpperCase() || 'RO'}` : 'shiparea=' + zone;
 
     let allResults = [];
     const GEEK_MARKET_API = `https://api.geekdo.com/api/market/products?ajax=1&objecttype=thing`;
@@ -32,7 +32,7 @@ export async function GET({fetch, url}) {
         const results = await response.json();
         const suggestedIds = results?.data?.items?.map(i => i.id);
 
-        let counter = 7;
+        let counter = 10;
         for (const id of suggestedIds) {
             if (id > 0 && counter-- > 0) {
                 const url = `${GEEK_MARKET_API}&objectid=${id}&${shiparea}`;

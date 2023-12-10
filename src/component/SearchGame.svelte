@@ -116,7 +116,7 @@
                 on:click={() => shiparea = c }
                 on:keypress
         >
-            <!--{#if shiparea === c}<span><Icon icon="bxs:checkbox-checked"/></span>{/if}-->
+            <span><Icon icon="flag:{c}-4x3" /></span>
             <span class="uppercase">{c}</span>
         </button>
     {/each}
