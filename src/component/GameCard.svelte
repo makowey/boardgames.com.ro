@@ -1,5 +1,6 @@
 <script lang="ts">
     import type {Game} from '$lib/types';
+    import {HOW_TO_PLAY} from "$lib/retailers";
 
     export let game: Game;
     export let ribbonPosition = 'right';
@@ -15,7 +16,7 @@
     </div>
     <div class="card-body p-6 flex flex-col gap-3 flex-1">
         {#if game?.url?.indexOf('howtoplay') > -1}
-            <img src="https://www.howtoplay.ro/logo.svg"
+            <img src="{HOW_TO_PLAY.logo}"
                  class="w-20 px-1.5 py-0.5"
                  alt="How To Play - suggestions..."/>
             <span class="capitalize text-primary-50 italic ml-20 absolute">{game.retailer.name}</span>

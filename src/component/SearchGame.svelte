@@ -130,15 +130,15 @@
                     class="accent-error-200 font-bold text-cyan-600">{retailers.length}</span> magazine.
             </p>
         {/if}
-        <div class="fixed bottom-0.5 right-1.5 scale-75 z-10">
-            <img src="https://www.howtoplay.ro/logo.svg" class="w-12 h-6 place-self-center float-left"
-                 alt="How To Play - suggestions..."/>
-            <SlideToggle name="howToPlay" size="sm" bind:checked="{howToPlay}"
-                         on:change={() => {
-                             games = games.filter(game => (howToPlay && game?.shop) || (!howToPlay));
-                             findGame = findGame.concat(' ');
-                         }}/>
-        </div>
+<!--        <div class="fixed bottom-0.5 right-1.5 scale-75 z-10">-->
+<!--            <img src="https://www.howtoplay.ro/logo.svg" class="w-12 h-6 place-self-center float-left"-->
+<!--                 alt="How To Play - suggestions..."/>-->
+<!--            <SlideToggle name="howToPlay" size="sm" bind:checked="{howToPlay}"-->
+<!--                         on:change={() => {-->
+<!--                             games = games.filter(game => (howToPlay && game?.shop) || (!howToPlay));-->
+<!--                             findGame = findGame.concat(' ');-->
+<!--                         }}/>-->
+<!--        </div>-->
         <Games searchText={findGame} bind:games {numberOfMinimCharsForSearch} {howToPlay} {shiparea}/>
     </div>
 {:else }

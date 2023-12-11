@@ -6,6 +6,7 @@
     import {goto} from "$app/navigation";
     import {onMount} from "svelte";
     import Icon from "@iconify/svelte";
+    import {HOW_TO_PLAY} from "$lib/retailers";
 
     export let game: Game;
     let youtubeId: string;
@@ -105,7 +106,7 @@
             <!--            <SlideToggle name="how-to-play" bind:checked={hTP} active="bg-primary-500" size="sm" label="How to play?"/>-->
             {#if hTP}
                 <a href="https://www.howtoplay.ro/oferte-boardgames/{game.name}" target="_blank" class="place-self-end">
-                    <img src="https://www.howtoplay.ro/logo.svg" alt="How to play {game?.name}?" width="150"/>
+                    <img src="{HOW_TO_PLAY.logo}" alt="How to play {game?.name}?" width="150"/>
                 </a>
             {/if}
 

@@ -331,7 +331,8 @@ export async function GET({url, fetch}) {
                         const index = games.findIndex(g => game.name === g.name && game.retailer.logo.indexOf(g.retailer.site) > -1);
                         if (index > -1 && isNaN(games[index]?.price)) {
                             games[index].price = game.price;
-                        } else {
+                        } else if (['Regatul Jocurilor', 'Jocozaur', 'Ozone.ro', 'Gameology',
+                            'Red Goblin', 'The Guild Hall', 'Barlogul cu Jocuri'].indexOf(game.retailer.name) < 0) {
                             games.push(game);
                         }
                     })

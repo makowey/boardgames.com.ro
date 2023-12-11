@@ -120,6 +120,14 @@ export const retailers: Retailer[] = [
     },
 
     {
+        name: 'HowToPlay',
+        logo: 'https://www.howtoplay.ro/logo.svg',
+        site: "https://www.howtoplay.ro",
+        search: "https://howtoplay.ro/go?product=",
+        index: "HOW_TO_PLAY",
+    },
+
+    {
         name: 'GeekMarket',
         logo: 'https://cf.geekdo-static.com/images/logos/geekmarket-logo_1.svg',
         site: "https://boardgamegeek.com",
@@ -144,3 +152,4 @@ export function findRetailerByIndex(index: string) {
 }
 
 export const GEEK_MARKET: Retailer = findRetailerByIndex('GEEK_MARKET');
+export const HOW_TO_PLAY: Retailer = findRetailerByIndex('HOW_TO_PLAY');
