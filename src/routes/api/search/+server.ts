@@ -332,7 +332,7 @@ export async function GET({url, fetch}) {
                         if (index > -1 && isNaN(games[index]?.price)) {
                             games[index].price = game.price;
                         } else if (['Regatul Jocurilor', 'Jocozaur', 'Ozone.ro', 'Gameology',
-                            'Red Goblin', 'The Guild Hall', 'Barlogul cu Jocuri'].indexOf(game.retailer.name) < 0) {
+                            'Red Goblin', 'The Guild Hall', 'Barlogul cu Jocuri', 'magazinuldesah.ro'].indexOf(game.retailer.name) < 0) {
                             games.push(game);
                         }
                     })

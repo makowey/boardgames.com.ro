@@ -6,7 +6,7 @@
     {#each retailers as retailer}
         {#if !retailer.maintainance}
             <a href={retailer.site} target="_blank">
-                <img src={retailer.logo} alt={retailer.name} class="w-32"/>
+                <img src={retailer.logo} alt={retailer.name} class="w-24"/>
             </a>
         {/if}
     {/each}
