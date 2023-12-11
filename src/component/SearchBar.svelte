@@ -24,5 +24,3 @@
         />
     </form>
 </div>
-
-// https://raw.githubusercontent.com/beefsack/bgg-ranking-historicals/8c069a724b222b134633cc7e75713e621fea5bd0/2023-12-11.csv
