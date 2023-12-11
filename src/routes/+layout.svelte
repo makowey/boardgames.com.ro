@@ -17,7 +17,7 @@
         timeout: 3000,
         background: 'variant-filled-warning'
     };
-    toastStore.trigger(t);
+    // toastStore.trigger(t);
 
     import {isMobile} from "$lib/stores";
 
