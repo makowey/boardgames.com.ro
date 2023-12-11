@@ -22,6 +22,7 @@
     let randomGameId = 1;
     let randomGame: Game;
     let hotGames: Game[] = [];
+    let topGames: Game[] = [];
     let kickstarters: Game[] = [];
     let hotSelection: Game;
     let loading: boolean = false;
@@ -36,6 +37,7 @@
     onMount(() => {
         loadHotGames();
         loadKickstarters();
+        loadTopGames();
     });
 
     function loadGame(gameId: number) {
@@ -53,6 +55,25 @@
             .then(r => r.json())
             .then(r => {
                 hotGames = r.data;
+                randomGameId = pickARandomGameId();
+                loadGame(randomGameId);
+            })
+    }
+
+    function loadTopGames() {
+        fetch('/api/bgg/local?size=50')
+            .then(r => r.json())
+            .then(r => {
+                topGames = r.data.map(bggGame => {
+                    return {
+                        id: bggGame.ID,
+                        name: bggGame.Name,
+                        image: bggGame.Thumbnail,
+                        thumbnail: bggGame.Thumbnail,
+                        url: bggGame.URL,
+                        rank: bggGame.Rank
+                    }
+                });
                 randomGameId = pickARandomGameId();
                 loadGame(randomGameId);
             })
@@ -133,4 +154,5 @@
     {/if}
 
     <Gallery title="Kickstarters" games={kickstarters} bind:selection={hotSelection}/>
+    <Gallery title="BGG Top 50" games={topGames} bind:selection={hotSelection}/>
 {/if}
