@@ -4,9 +4,10 @@ import {bggDB} from "$lib/bggDB";
 export async function GET({url}) {
     const q = url.searchParams.get('q');
 
-    if(q === null || q?.length === 0) {
+    if(q === null || q?.length < 3) {
         return json({
             status: 'ok',
+            message: 'Use at least three characters in order to trigger the search...',
             data: []
         })
     }
