@@ -19,7 +19,7 @@ export async function GET({url}) {
     console.log(`Search for [q:${q}] [size: ${max}] on local BGG DB`);
 
     const items: BGGGame[] = max > 0 ?
-        bggDB.slice(0, max - 1) :
+        bggDB.slice(0, max) :
         bggDB.filter(game => game.Name.toLowerCase().indexOf(q.toLowerCase()) > -1);
     if (items?.length > 0) {
         return json({
