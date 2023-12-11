@@ -8,7 +8,6 @@
     import {onMount} from "svelte";
     import Gallery from "./Gallery.svelte";
     import {GEEK_MARKET, retailers} from "$lib/retailers";
-    import {SlideToggle} from "@skeletonlabs/skeleton";
     import Icon from "@iconify/svelte";
 
     export let findGame = '';
@@ -84,19 +83,10 @@
         randomGameId = pickARandomGameId();
     }
 
-    let randomDice: number = 0;
     let currentFrame: string = "0";
 
     $: if (parseInt(currentFrame) === 21) {
         mix();
-    }
-
-    $: if (parseInt(currentFrame) < 1 || parseInt(currentFrame) > 90) {
-        randomDice = 0;
-    }
-
-    function mix() {
-        randomDice = Math.round(Math.random() * 12);
     }
 
     function pickARandomGameId() {
@@ -116,7 +106,7 @@
                 on:click={() => shiparea = c }
                 on:keypress
         >
-            <span><Icon icon="flag:{c}-4x3" /></span>
+            <span><Icon icon="flag:{c}-4x3"/></span>
             <span class="uppercase">{c}</span>
         </button>
     {/each}
@@ -130,15 +120,7 @@
                     class="accent-error-200 font-bold text-cyan-600">{retailers.length}</span> magazine.
             </p>
         {/if}
-<!--        <div class="fixed bottom-0.5 right-1.5 scale-75 z-10">-->
-<!--            <img src="https://www.howtoplay.ro/logo.svg" class="w-12 h-6 place-self-center float-left"-->
-<!--                 alt="How To Play - suggestions..."/>-->
-<!--            <SlideToggle name="howToPlay" size="sm" bind:checked="{howToPlay}"-->
-<!--                         on:change={() => {-->
-<!--                             games = games.filter(game => (howToPlay && game?.shop) || (!howToPlay));-->
-<!--                             findGame = findGame.concat(' ');-->
-<!--                         }}/>-->
-<!--        </div>-->
+
         <Games searchText={findGame} bind:games {numberOfMinimCharsForSearch} {howToPlay} {shiparea}/>
     </div>
 {:else }

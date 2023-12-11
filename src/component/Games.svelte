@@ -3,6 +3,7 @@
     import GameCard from './GameCard.svelte';
     import type {Game} from '$lib/types';
     import {loadingAnimations} from "$lib/stores.js";
+    import Quote from "./Quote.svelte";
 
     export let games: Game[];
     export let searchText = 'boardgame';
@@ -24,11 +25,13 @@
     }
 
     $: if (searchText?.length >= numberOfMinimCharsForSearch || shiparea) {
+        games = [];
         searchForGame();
     }
 </script>
 
 {#if isNavigating}
+    <Quote/>
     <LottieAnimation path={$loadingAnimations[Math.floor(Math.random() * $loadingAnimations.length)]}/>
 {:else if games?.length > 0}
     <ul class="grid lg:grid-cols-2 gap-8">
