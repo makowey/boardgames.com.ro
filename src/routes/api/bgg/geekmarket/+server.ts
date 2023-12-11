@@ -57,7 +57,7 @@ export async function GET({fetch, url}) {
 
     const games = allResults?.map(g => {
         return {
-            name: g.version?.name,
+            name: g.version?.name || g.objectlink?.name || '',
             itemlocation: g.itemlocation,
             flagimgurl: g.flagimgurl,
             currency: g.currency,
@@ -67,6 +67,7 @@ export async function GET({fetch, url}) {
             url: `https://boardgamegeek.com${g.producthref}`,
             condition: g.prettycondition,
             bggUser: g.linkeduser?.username,
+            bggUserId: g.linkeduser?.id,
             retailer: GEEK_MARKET
         }
     })
