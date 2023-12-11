@@ -55,3 +55,15 @@ export interface Kickstarter {
     orrderUrl: string,
     pledged: number
 }
+
+export interface BGGGame {
+    "ID": string,
+    "Name": string,
+    "Year": number | null,
+    "Rank": number | null,
+    "Average": number | null,
+    "Bayes average": number | null,
+    "Users rated": string ,
+    "URL": string,
+    "Thumbnail": string
+}
