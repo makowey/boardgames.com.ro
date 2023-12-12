@@ -7,8 +7,10 @@
     import {onMount} from "svelte";
     import Icon from "@iconify/svelte";
     import {HOW_TO_PLAY} from "$lib/retailers";
+    import LottieAnimation from "./player/LottieAnimation.svelte";
 
     export let game: Game;
+    export let loading: boolean = true;
     let youtubeId: string;
     let sourceData = [];
     let howtoplay: HowToPlay[] = [];
@@ -66,7 +68,10 @@
     }
 </script>
 
-{#if game?.name}
+{#if loading}
+    <LottieAnimation path="handLoading"/>
+
+{:else if game?.name}
     <div class="card card-hover flex flex-col sm:flex-row shadow-2xl overflow-hidden rounded-lg m-10">
         <div class="relative aspect-video overflow-hidden sm:aspect-square sm:max-w-[270px] bg-white">
             <img

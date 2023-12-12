@@ -3,12 +3,13 @@
     import Games from './Games.svelte';
     import {browser} from '$app/environment';
     import type {Game, Kickstarter} from '$lib/types';
-    import LottieAnimation from "./player/LottieAnimation.svelte";
     import GameCardPresentation from "./GameCardPresentation.svelte";
     import {onMount} from "svelte";
     import Gallery from "./Gallery.svelte";
     import {GEEK_MARKET, retailers} from "$lib/retailers";
     import Icon from "@iconify/svelte";
+    import {getModalStore, Modal, type ModalSettings} from "@skeletonlabs/skeleton";
+
 
     export let findGame = '';
     let hTP: boolean = false;
@@ -19,8 +20,6 @@
 
     const numberOfMinimCharsForSearch = 3;
 
-    let randomGameId = 1;
-    let randomGame: Game;
     let hotGames: Game[] = [];
     let mostPlayedGames: Game[] = [];
     let topGames: Game[] = [];
@@ -29,11 +28,8 @@
     let loading: boolean = false;
     let howToPlay: boolean = true;
     let shiparea = 'ro';
-
-    $: if (hotSelection?.id) {
-        randomGameId = hotSelection.id;
-        loadGame(randomGameId)
-    }
+    let selectedGame: Game;
+    let selectedGameId: number;
 
     onMount(() => {
         loadMostPLayedGames();
@@ -42,13 +38,16 @@
         loadTopGames();
     });
 
-    function loadGame(gameId: number) {
+    function loadGame(e) {
         loading = true;
-        fetch('/api/bgg/game/' + gameId)
+
+        selectedGame = e.detail.payload.game;
+        selectedGameId = selectedGame.id;
+        fetch('/api/bgg/game/' + selectedGameId)
             .then(r => r.json())
             .then(r => {
-                randomGame = r.data;
                 loading = false;
+                openTheModal(r.data);
             })
     }
 
@@ -57,8 +56,6 @@
             .then(r => r.json())
             .then(r => {
                 hotGames = r.data;
-                randomGameId = pickARandomGameId();
-                loadGame(randomGameId);
             })
     }
 
@@ -67,8 +64,6 @@
             .then(r => r.json())
             .then(r => {
                 mostPlayedGames = r.data;
-                randomGameId = pickARandomGameId();
-                loadGame(randomGameId);
             })
     }
 
@@ -86,8 +81,6 @@
                         rank: bggGame.Rank
                     }
                 });
-                randomGameId = pickARandomGameId();
-                loadGame(randomGameId);
             })
     }
 
@@ -113,30 +106,29 @@
         const queryString = window.location.search;
         const urlParams = new URLSearchParams(queryString);
         findGame = urlParams.get('q') || '';
-        randomGameId = pickARandomGameId();
     }
 
-    let currentFrame: string = "0";
+    const modalStore = getModalStore();
+    const openTheModal = (game) => {
+        console.log(`Loading: ${game.name}, GAME-ID: ${game.id}`)
 
-    $: if (parseInt(currentFrame) === 21) {
-        mix();
-    }
+        const modal: ModalSettings = {
+            type: 'component',
+            component: {
+                ref: GameCardPresentation,
+                props: {
+                    game: game,
+                    hTP: hTP,
+                    loading: loading
+                }
+            },
+        };
 
-    function pickARandomGameId() {
-        return Math.floor(Math.random() * hotGames.length);
-    }
-
-    let element;
-    const scrollToBottom = async (node) => {
-        node.scroll({top: node.scrollHeight, behavior: "smooth"})
-    }
-
-    const scrollToTop = async (node) => {
-        node.scroll({top: 0, behavior: "smooth"})
+        modalStore.trigger(modal);
     }
 </script>
 
-<SearchBar placeholder="Caută board game(joc)..." bind:value={findGame} bind:gameId={randomGameId}/>
+<SearchBar placeholder="Caută board game(joc)..." bind:value={findGame}/>
 
 <div class="items-center -inset-x-1 flex justify-center">
 
@@ -166,15 +158,11 @@
         <Games searchText={findGame} bind:games {numberOfMinimCharsForSearch} {howToPlay} {shiparea}/>
     </div>
 {:else }
-    <Gallery title="BGG MostPlayed [NOV 2023]" games={mostPlayedGames} bind:selection={hotSelection}/>
-    <Gallery title="BGG Hotlist" games={hotGames} bind:selection={hotSelection}/>
-
-    {#if loading}
-        <LottieAnimation path="handLoading"/>
-    {:else }
-        <GameCardPresentation game={randomGame} bind:hTP={hTP} bind:this={element}/>
-    {/if}
-
-    <Gallery title="Kickstarters" games={kickstarters} bind:selection={hotSelection}/>
-    <Gallery title="BGG Top 50" games={topGames} bind:selection={hotSelection}/>
+    <Gallery title="BGG MostPlayed [NOV 2023]" games={mostPlayedGames} bind:selection={hotSelection}
+             on:onLoad={loadGame}/>
+    <Gallery title="BGG Hotlist" games={hotGames} bind:selection={hotSelection} on:onLoad={loadGame}/>
+    <Gallery title="Kickstarters" games={kickstarters} bind:selection={hotSelection} on:onLoad={loadGame}/>
+    <Gallery title="BGG Top 50" games={topGames} bind:selection={hotSelection} on:onLoad={loadGame}/>
 {/if}
+
+<Modal/>

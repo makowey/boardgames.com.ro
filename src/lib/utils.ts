@@ -98,3 +98,11 @@ export function extractFromRedGoblinHtml(dom: any, retailer: Retailer) {
 export function promotionCalculator(special: number, normal: number) {
     return Math.abs((1 - (special / normal)) * 100).toFixed(0);
 }
+
+export const scrollToBottom = async (node) => {
+    node.scroll({top: node.scrollHeight, behavior: "smooth"})
+}
+
+export const scrollToTop = async (node) => {
+    node.scroll({top: 0, behavior: "smooth"})
+}

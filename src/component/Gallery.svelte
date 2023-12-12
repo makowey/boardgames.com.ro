@@ -1,9 +1,21 @@
 <script lang="ts">
-    import type {Game} from "$lib/types.js";
+    import type {Game} from "$lib/types";
+    import {createEventDispatcher} from "svelte"
+
+    const dispatch = createEventDispatcher()
 
     export let games: Game[] = [];
     export let selection: Game;
     export let title = "List";
+
+    function onLoad(event) {
+        const {target} = event;
+        dispatch("onLoad", {
+            target, payload: {
+                game: selection
+            }
+        });
+    }
 </script>
 
 {#if games?.length}
@@ -11,7 +23,10 @@
     <div class="snap-x scroll-px-4 snap-mandatory scroll-smooth flex gap-4 overflow-x-auto px-4 py-4">
         {#each games as game, index}
             <div role="button" class="snap-start shrink-0 card py-8 px-2 w-48 text-center box"
-                 on:click={() => selection = game}>
+                 on:click={(e) => {
+                     selection = game;
+                     onLoad(e);
+                 }}>
                 <img class="h-auto max-w-full rounded-lg"
                      src="{game.thumbnail}"
                      alt="{game.name}"/>
@@ -19,7 +34,7 @@
 
                 {#if game.description}
                     <p class="mt-1 font-serif max-h-36  scroll-py-4 overflow-auto" style="font-size: 10px;">
-                        {@html game.description?.replaceAll("[b]", "<b>")?.replaceAll("[/b]", "</b>")?.replaceAll("\n","</br>")}
+                        {@html game.description?.replaceAll("[b]", "<b>")?.replaceAll("[/b]", "</b>")?.replaceAll("\n", "</br>")}
                     </p>
                 {/if}
 
