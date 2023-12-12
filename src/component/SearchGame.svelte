@@ -130,41 +130,46 @@
     }
 </script>
 
-<SearchBar placeholder="Caută board game(joc)..." bind:value={findGame}/>
+<div class="inline-block">
+    <div class="fixed top-16 left-0 right-0 z-50 bg-primary-50-900-token">
+        <SearchBar placeholder="Caută board game(joc)..." bind:value={findGame}/>
+        <div class="items-center -inset-x-1 flex justify-center mb-5">
 
-<div class="items-center -inset-x-1 flex justify-center">
+            <img src="{GEEK_MARKET.logo}" alt="GeekMarget" class="h-8 mr-5"/>
 
-    <img src="{GEEK_MARKET.logo}" alt="GeekMarget" class="h-8 mr-5"/>
-
-    {#each ['ro', 'europe', 'eu'] as c}
-        <button
-                class="chip {shiparea === c ? 'variant-filled-success' : 'variant-filled-primary'} w-18 mx-0.5"
-                on:click={() => shiparea = c }
-                on:keypress
-        >
-            <span><Icon icon="flag:{c}-4x3"/></span>
-            <span class="uppercase">{c}</span>
-        </button>
-    {/each}
-</div>
-
-{#if findGame?.length >= numberOfMinimCharsForSearch}
-    <div class="mx-auto max-w-7xl px-6">
-        {#if games.length > 0}
-            <p class="italic mb-3 text-right">
-                {games.length} sugestii pentru [{findGame.toUpperCase()}] de la <span
-                    class="accent-error-200 font-bold text-cyan-600">{retailers.length}</span> magazine.
-            </p>
-        {/if}
-
-        <Games searchText={findGame} bind:games {numberOfMinimCharsForSearch} {howToPlay} {shiparea}/>
+            {#each ['ro', 'europe', 'eu'] as c}
+                <button
+                        class="chip {shiparea === c ? 'variant-filled-success' : 'variant-filled-primary'} w-18 mx-0.5"
+                        on:click={() => shiparea = c }
+                        on:keypress
+                >
+                    <span><Icon icon="flag:{c}-4x3"/></span>
+                    <span class="uppercase">{c}</span>
+                </button>
+            {/each}
+        </div>
     </div>
-{:else }
-    <Gallery title="BGG MostPlayed [NOV 2023]" games={mostPlayedGames} bind:selection={hotSelection}
-             on:onLoad={loadGame}/>
-    <Gallery title="BGG Hotlist" games={hotGames} bind:selection={hotSelection} on:onLoad={loadGame}/>
-    <Gallery title="Kickstarters" games={kickstarters} bind:selection={hotSelection} on:onLoad={loadGame}/>
-    <Gallery title="BGG Top 50" games={topGames} bind:selection={hotSelection} on:onLoad={loadGame}/>
-{/if}
+
+    <div class="mt-40">
+        {#if findGame?.length >= numberOfMinimCharsForSearch}
+            <div class="mx-auto max-w-7xl px-6">
+                {#if games.length > 0}
+                    <p class="italic mb-3 text-right">
+                        {games.length} sugestii pentru [{findGame.toUpperCase()}] de la <span
+                            class="accent-error-200 font-bold text-cyan-600">{retailers.length}</span> magazine.
+                    </p>
+                {/if}
+
+                <Games searchText={findGame} bind:games {numberOfMinimCharsForSearch} {howToPlay} {shiparea}/>
+            </div>
+        {:else }
+            <Gallery title="BGG MostPlayed [NOV 2023]" games={mostPlayedGames} bind:selection={hotSelection}
+                     on:onLoad={loadGame}/>
+            <Gallery title="BGG Hotlist" games={hotGames} bind:selection={hotSelection} on:onLoad={loadGame}/>
+            <Gallery title="Kickstarters" games={kickstarters} bind:selection={hotSelection} on:onLoad={loadGame}/>
+            <Gallery title="BGG Top 50" games={topGames} bind:selection={hotSelection} on:onLoad={loadGame}/>
+        {/if}
+    </div>
+</div>
 
 <Modal/>
