@@ -114,7 +114,7 @@
 
         const modal: ModalSettings = {
             type: 'component',
-            spacing: 'space-y-4',
+            spacing: 'space-y-16',
             zIndex: 'z-999',
             component: {
                 ref: GameCardPresentation,
