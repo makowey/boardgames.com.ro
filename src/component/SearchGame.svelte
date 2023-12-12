@@ -22,6 +22,7 @@
     let randomGameId = 1;
     let randomGame: Game;
     let hotGames: Game[] = [];
+    let mostPlayedGames: Game[] = [];
     let topGames: Game[] = [];
     let kickstarters: Game[] = [];
     let hotSelection: Game;
@@ -35,6 +36,7 @@
     }
 
     onMount(() => {
+        loadMostPLayedGames();
         loadHotGames();
         loadKickstarters();
         loadTopGames();
@@ -55,6 +57,16 @@
             .then(r => r.json())
             .then(r => {
                 hotGames = r.data;
+                randomGameId = pickARandomGameId();
+                loadGame(randomGameId);
+            })
+    }
+
+    function loadMostPLayedGames() {
+        fetch('/api/bgg/mostplayed')
+            .then(r => r.json())
+            .then(r => {
+                mostPlayedGames = r.data;
                 randomGameId = pickARandomGameId();
                 loadGame(randomGameId);
             })
@@ -113,6 +125,15 @@
     function pickARandomGameId() {
         return Math.floor(Math.random() * hotGames.length);
     }
+
+    let element;
+    const scrollToBottom = async (node) => {
+        node.scroll({top: node.scrollHeight, behavior: "smooth"})
+    }
+
+    const scrollToTop = async (node) => {
+        node.scroll({top: 0, behavior: "smooth"})
+    }
 </script>
 
 <SearchBar placeholder="Caută board game(joc)..." bind:value={findGame} bind:gameId={randomGameId}/>
@@ -145,12 +166,13 @@
         <Games searchText={findGame} bind:games {numberOfMinimCharsForSearch} {howToPlay} {shiparea}/>
     </div>
 {:else }
+    <Gallery title="BGG MostPlayed [NOV 2023]" games={mostPlayedGames} bind:selection={hotSelection}/>
     <Gallery title="BGG Hotlist" games={hotGames} bind:selection={hotSelection}/>
 
     {#if loading}
         <LottieAnimation path="handLoading"/>
     {:else }
-        <GameCardPresentation game={randomGame} bind:hTP={hTP}/>
+        <GameCardPresentation game={randomGame} bind:hTP={hTP} bind:this={element}/>
     {/if}
 
     <Gallery title="Kickstarters" games={kickstarters} bind:selection={hotSelection}/>

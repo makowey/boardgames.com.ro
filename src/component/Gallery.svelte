@@ -16,6 +16,13 @@
                      src="{game.thumbnail}"
                      alt="{game.name}"/>
                 <p class="text-sm mt-2 text-center italic">{game.rank ? game.rank : index + 1} - {game.name}</p>
+
+                {#if game.description}
+                    <p class="mt-1 font-serif max-h-36  scroll-py-4 overflow-auto" style="font-size: 10px;">
+                        {@html game.description?.replaceAll("[b]", "<b>")?.replaceAll("[/b]", "</b>")?.replaceAll("\n","</br>")}
+                    </p>
+                {/if}
+
                 {#if game.progress}
                     <div class="ribbon ribbon-top-right"><span>{game.progress}%</span></div>
                 {/if}
