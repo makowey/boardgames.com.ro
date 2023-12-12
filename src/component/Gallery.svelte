@@ -19,7 +19,7 @@
 </script>
 
 {#if games?.length}
-    <h3 class="h3 ml-10 mt-10 font-bold galery-title">{title}</h3>
+    <h3 class="h3 ml-10 mt-10 font-bold galery-title animate-pulse">{title}</h3>
     <div class="snap-x scroll-px-4 snap-mandatory scroll-smooth flex gap-4 overflow-x-auto px-4 py-4">
         {#each games as game, index}
             <div role="button" class="snap-start shrink-0 card py-8 px-2 w-48 text-center box"
