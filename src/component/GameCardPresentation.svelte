@@ -81,7 +81,7 @@
             />
         </div>
         <div class="card-body p-6 flex flex-col gap-3 flex-1">
-            <h2 class="card-title text-left font-bold text-2xl animate-pulse">
+            <h2 class="card-title text-left font-bold text-2xl">
                 <a href="https://boardgamegeek.com/boardgame/{game.id}" target="_blank">
                     {@html game.name}
                 </a>
