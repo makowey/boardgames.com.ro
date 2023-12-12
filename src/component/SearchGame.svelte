@@ -131,7 +131,7 @@
 </script>
 
 <div class="inline-block">
-    <div class="fixed top-16 left-0 right-0 z-50 bg-surface-50-900-token">
+    <div>
         <SearchBar placeholder="Caută board game(joc)..." bind:value={findGame}/>
         <div class="items-center -inset-x-1 flex justify-center mb-2">
 
@@ -150,7 +150,7 @@
         </div>
     </div>
 
-    <div class="mt-40">
+    <div>
         {#if findGame?.length >= numberOfMinimCharsForSearch}
             <div class="mx-auto max-w-7xl px-6">
                 {#if games.length > 0}
@@ -163,11 +163,11 @@
                 <Games searchText={findGame} bind:games {numberOfMinimCharsForSearch} {howToPlay} {shiparea}/>
             </div>
         {:else }
-            <Gallery title="BGG MostPlayed [NOV 2023]" games={mostPlayedGames} bind:selection={hotSelection}
+            <Gallery anchor="mostPlayed" title="BGG MostPlayed [NOV 2023]" games={mostPlayedGames} bind:selection={hotSelection}
                      on:onLoad={loadGame}/>
-            <Gallery title="BGG Hotlist" games={hotGames} bind:selection={hotSelection} on:onLoad={loadGame}/>
-            <Gallery title="Kickstarters" games={kickstarters} bind:selection={hotSelection} on:onLoad={loadGame}/>
-            <Gallery title="BGG Top 50" games={topGames} bind:selection={hotSelection} on:onLoad={loadGame}/>
+            <Gallery anchor="hot" title="BGG Hotlist" games={hotGames} bind:selection={hotSelection} on:onLoad={loadGame}/>
+            <Gallery anchor="kickstarters" title="Kickstarters" games={kickstarters} bind:selection={hotSelection} on:onLoad={loadGame}/>
+            <Gallery anchor="top50" title="BGG Top 50" games={topGames} bind:selection={hotSelection} on:onLoad={loadGame}/>
         {/if}
     </div>
 </div>
