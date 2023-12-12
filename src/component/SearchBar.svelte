@@ -11,7 +11,7 @@
     }, 600);
 </script>
 
-<div class="flex justify-center py-6" in:fly={{ y: -100, duration: 500, delay: 1000 }}>
+<div class="flex justify-center py-2" in:fly={{ y: -100, duration: 500, delay: 1000 }}>
     <form name="search" use:focusTrap={true}>
         <input
                 type="search"

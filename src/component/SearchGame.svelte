@@ -131,9 +131,9 @@
 </script>
 
 <div class="inline-block">
-    <div class="fixed top-16 left-0 right-0 z-50 bg-primary-50-900-token">
+    <div class="fixed top-16 left-0 right-0 z-50 bg-surface-50-900-token">
         <SearchBar placeholder="Caută board game(joc)..." bind:value={findGame}/>
-        <div class="items-center -inset-x-1 flex justify-center mb-5">
+        <div class="items-center -inset-x-1 flex justify-center mb-2">
 
             <img src="{GEEK_MARKET.logo}" alt="GeekMarget" class="h-8 mr-5"/>
 
