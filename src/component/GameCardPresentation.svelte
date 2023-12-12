@@ -90,7 +90,7 @@
             <div>Players: {game.minplayers} - {game.maxplayers}, Playing time: {game.playingtime} min. (Rank: {rank}
                 - {rating})
             </div>
-            <div class="text-xl">
+            <div class="text-md">
                 <Ratings bind:value={rating} max={10}>
                     <svelte:fragment slot="empty">
                         <Icon icon="tabler:meeple"/>
