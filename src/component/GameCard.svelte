@@ -19,7 +19,7 @@
             <img src="{HOW_TO_PLAY.logo}"
                  class="w-20 px-1.5 py-0.5"
                  alt="How To Play - suggestions..."/>
-            <span class="capitalize text-primary-50 italic ml-20 absolute">{game.retailer.name}</span>
+            <span class="capitalize text-warning-400-800-token italic ml-20 absolute">{game.retailer.name}</span>
         {:else}
             <img src={game.retailer.logo} alt={game.retailer.name}
                  class="w-24 px-1.5 py-0.5 bg-gray-500 bg-opacity-66 rounded-3xl"/>
