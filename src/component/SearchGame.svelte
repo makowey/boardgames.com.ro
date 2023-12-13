@@ -141,8 +141,7 @@
                 <button
                         class="chip {shiparea === c ? 'variant-filled-success' : 'variant-filled-primary'} w-18 mx-0.5"
                         on:click={() => shiparea = c }
-                        on:keypress
-                >
+                        on:keypress>
                     <span><Icon icon="flag:{c}-4x3"/></span>
                     <span class="uppercase">{c}</span>
                 </button>
@@ -163,11 +162,15 @@
                 <Games searchText={findGame} bind:games {numberOfMinimCharsForSearch} {howToPlay} {shiparea}/>
             </div>
         {:else }
-            <Gallery anchor="mostPlayed" title="BGG MostPlayed [NOV 2023]" games={mostPlayedGames} bind:selection={hotSelection}
+            <Gallery anchor="mostPlayed" title="BGG MostPlayed [NOV 2023]" games={mostPlayedGames}
+                     bind:selection={hotSelection}
                      on:onLoad={loadGame}/>
-            <Gallery anchor="hot" title="BGG Hotlist" games={hotGames} bind:selection={hotSelection} on:onLoad={loadGame}/>
-            <Gallery anchor="kickstarters" title="Kickstarters" games={kickstarters} bind:selection={hotSelection} on:onLoad={loadGame}/>
-            <Gallery anchor="top50" title="BGG Top 50" games={topGames} bind:selection={hotSelection} on:onLoad={loadGame}/>
+            <Gallery anchor="hot" title="BGG Hotlist" games={hotGames} bind:selection={hotSelection}
+                     on:onLoad={loadGame}/>
+            <Gallery anchor="kickstarters" title="Kickstarters" games={kickstarters} bind:selection={hotSelection}
+                     on:onLoad={loadGame}/>
+            <Gallery anchor="top50" title="BGG Top 50" games={topGames} bind:selection={hotSelection}
+                     on:onLoad={loadGame}/>
         {/if}
     </div>
 </div>

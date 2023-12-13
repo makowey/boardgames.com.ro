@@ -43,7 +43,7 @@
         <button class="btn btn-icon relative" on:click={() => {sortDown = !sortDown}}>
             <Icon icon="mingcute:sort-{sortDown ? 'descending': 'ascending'}-fill" width="24"/>
         </button>
-        <button class="btn btn-icon " on:click={() => {grid = !grid}}>
+        <button class="btn btn-icon -mr-2=10 float-left" on:click={() => {grid = !grid}}>
             <Icon icon={grid ? 'zondicons:list' :  'akar-icons:grid'} width="24"/>
         </button>
     </div>
