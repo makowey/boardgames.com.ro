@@ -35,7 +35,7 @@
                     <div class="absolute -ml-2 mt-7">
                         <img src={game.flagimgurl} alt={game.itemlocation}
                              class="w-4 float-left"/>
-                        <span class="float-left text-warning-400-800-token">({game.itemlocation})</span>
+                        <span class="float-left text-error-900-50-token">({game.itemlocation})</span>
                     </div>
                     BGG: @{game.bggUser}
                 </a>
