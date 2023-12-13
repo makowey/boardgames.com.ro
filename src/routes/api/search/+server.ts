@@ -329,10 +329,13 @@ export async function GET({url, fetch}) {
                     const responseJSON: Game[] = await response.json();
                     responseJSON.games.forEach(game => {
                         const index = games.findIndex(g => game.name === g.name && game.retailer.logo.indexOf(g.retailer.site) > -1);
+
                         if (index > -1 && isNaN(games[index]?.price)) {
                             games[index].price = game.price;
-                        } else if (['Regatul Jocurilor', 'Jocozaur', 'Ozone.ro', 'Gameology',
-                            'Red Goblin', 'The Guild Hall', 'Barlogul cu Jocuri', 'magazinuldesah.ro'].indexOf(game.retailer.name) == -1 &&
+                        } else if (['Regatul Jocurilor', 'Jocozaur', 'Ozone.ro', 'Ozone', 'Gameology',
+                                'Red Goblin', 'The Guild Hall', 'Barlogul cu Jocuri', 'magazinuldesah.ro']
+                                .map(i => i.toLocaleUpperCase())
+                                .findIndex( i => i.indexOf(game.retailer.index)) == 1 &&
                             game.retailer?.name?.indexOf('Geek Market') == -1) {
                             games.push(game);
                         }
