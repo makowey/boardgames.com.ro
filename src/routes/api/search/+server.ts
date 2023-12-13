@@ -107,6 +107,7 @@ export async function GET({url, fetch}) {
                                         price: game?.special ? game.special : game.price,
                                         promotion: game?.special ? promotionCalculator(parseInt(game.special), parseInt(game.price)) : 0,
                                         image: game?.thumb2?.replace('120x120', '500x500'),
+                                        url: game.href,
                                         retailer: PION
                                     };
                                 })

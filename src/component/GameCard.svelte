@@ -6,7 +6,7 @@
     export let ribbonPosition = 'right';
 </script>
 
-<li class="card card-hover flex flex-col sm:flex-row shadow-2xl rounded-lg box">
+<li class="card card-hover flex flex-col sm:flex-row shadow-2xl rounded-lg box {game.price === '0' ? 'hidden' : ''}">
     <div class="relative aspect-video overflow-hidden sm:aspect-square sm:max-w-[270px] bg-white">
         <img
                 class="object-contain sm:object-cover w-full h-full"
@@ -43,7 +43,7 @@
         {/if}
         <div class="flex justify-end mt-auto w-full">
             <a
-                    href={game.url}
+                    href={game.url || (game.retailer.site)}
                     target="_blank"
                     class="btn bg-yellow-400 font-bold rounded-md text-orange-950">Mergi la magazin</a
             >
