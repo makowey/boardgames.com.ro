@@ -20,7 +20,7 @@
 </script>
 
 {#if games?.length}
-    <h3 id="{anchor}" class="h3 ml-10 mt-10 font-bold galery-title animate-pulse">
+    <h3 id="{anchor}" class="h3 ml-7 mt-10 font-bold galery-title animate-pulse text-sm lg:text-xl">
         {title}
     </h3>
     <div class="snap-x scroll-px-4 snap-mandatory scroll-smooth flex gap-4 overflow-x-auto px-4 py-4">
