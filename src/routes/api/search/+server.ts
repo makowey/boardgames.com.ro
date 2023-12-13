@@ -357,7 +357,10 @@ export async function GET({url, fetch}) {
     const executionTime: number = Math.abs(endTime.getMilliseconds() - startTime.getMilliseconds());
 
     games.forEach(game => {
-        game.price = game.price?.toLowerCase()?.replace('lei', '').replace('ron', '');
+        if (game.price != undefined && isNaN(parseFloat(game.price))) {
+            game.price = game.price.toLowerCase()?.replace('lei', '')?.replace('ron', '');
+        }
+
         if (isNaN(parseFloat(game.price))) {
             game.price = "0";
         }
