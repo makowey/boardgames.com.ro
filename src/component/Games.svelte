@@ -37,8 +37,8 @@
     <Quote/>
     <LottieAnimation path={$loadingAnimations[Math.floor(Math.random() * $loadingAnimations.length)]}/>
 {:else if games?.length > 0}
-    <button class="float-left -mt-10 ml-0 cursor-pointer" on:click={() => {sortDown = !sortDown}}>
-        <Icon icon="bi:sort-{sortDown ? 'down': 'up'}" width="36"/>
+    <button class="btn btn-icon float-left -mt-10 -mr-10" on:click={() => {sortDown = !sortDown}}>
+        <Icon icon="mingcute:sort-{sortDown ? 'descending': 'ascending'}-fill" width="36"/>
     </button>
 
     <ul class="grid lg:grid-cols-2 gap-8">
