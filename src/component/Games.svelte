@@ -44,7 +44,7 @@
             <Icon icon="mingcute:sort-{sortDown ? 'descending': 'ascending'}-fill" width="24"/>
         </button>
         <button class="btn btn-icon " on:click={() => {grid = !grid}}>
-            <Icon icon={grid ? 'akar-icons:grid' : 'zondicons:list'} width="24"/>
+            <Icon icon={grid ? 'zondicons:list' :  'akar-icons:grid'} width="24"/>
         </button>
     </div>
 
