@@ -154,7 +154,7 @@
         {#if findGame?.length >= numberOfMinimCharsForSearch}
             <div class="mx-auto max-w-7xl px-6">
                 {#if games.length > 0}
-                    <p class="italic mb-3 text-right text-sm lg:text-md">
+                    <p class="italic mb-3 text-right text-xs lg:text-md">
                         {games.length} sugestii pentru [{findGame.toUpperCase()}] de la <span
                             class="accent-error-200 font-bold text-cyan-600">{retailers.length}</span> magazine.
                     </p>
