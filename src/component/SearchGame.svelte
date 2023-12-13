@@ -150,7 +150,7 @@
         </div>
     </div>
 
-    <div>
+    <div class="mt-7">
         {#if findGame?.length >= numberOfMinimCharsForSearch}
             <div class="mx-auto max-w-4xl">
                 {#if games.length > 0}
