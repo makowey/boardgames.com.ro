@@ -30,7 +30,7 @@
         searchForGame();
     }
 
-    let sortDown: boolean = true;
+    let sortDown: boolean = false;
 </script>
 
 {#if isNavigating}
