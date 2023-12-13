@@ -327,37 +327,45 @@ export async function GET({url, fetch}) {
                 if (howToPlay) {
                     const response = await fetch('/api/howtoplay?q=' + search);
                     const responseJSON: Game[] = await response.json();
+                    const htpGames: Game[] = []
                     responseJSON.games.forEach(game => {
                         const index = games.findIndex(g => game.name === g.name && game.retailer.logo.indexOf(g.retailer.site) > -1);
-
+                        game.promotion = parseFloat(game.promotion);
                         if (index > -1 && isNaN(games[index]?.price)) {
                             games[index].price = game.price;
-                        } else if (['Regatul Jocurilor', 'Jocozaur', 'Ozone.ro', 'Ozone', 'Gameology',
-                                'Red Goblin', 'The Guild Hall', 'Barlogul cu Jocuri', 'magazinuldesah.ro']
-                                .map(i => i.toLocaleUpperCase())
-                                .findIndex( i => i.indexOf(game.retailer.index)) == 1 &&
+                        } else if (['IBG.RO', 'LIBRARIE.NET', 'CARTURESTI', 'REGATUL JOCURILOR', 'MINDSPOT', 'ELEFANT.RO']
+                                .filter(i => i === game.retailer.index).length === 1 &&
                             game.retailer?.name?.indexOf('Geek Market') == -1) {
-                            games.push(game);
+                            htpGames.push(game);
                         }
                     })
+
+                    console.log(`Filtered ${htpGames.length} HowToPlay suggestions...`);
+                    games = [...games, ...htpGames];
                 }
 
-                if (search.split(' ')?.length === 1) {
+                if (search?.split(' ')?.length === 1) {
                     console.log(`Filtering from ${games?.length} suggestions for single term [${search}]...`);
                     games = games.filter(game => game.name?.toLowerCase().indexOf(search.trim().toLowerCase()) > -1);
                 }
-
-                console.log(`${games?.length} suggestion found...`)
             }
         )
 
+    console.log(`Sorting ${games.length} results...`)
     const endTime: Date = new Date();
     const executionTime: number = Math.abs(endTime.getMilliseconds() - startTime.getMilliseconds());
 
+    games.forEach(game => {
+        game.price = game.price?.toLowerCase()?.replace('lei', '').replace('ron', '');
+        if (isNaN(parseFloat(game.price))) {
+            game.price = "0";
+        }
+    })
+
     return json({
         status: 'success',
-        games: games
-            .sort((a, b) => (b.promotion - a.promotion) || (parseFloat(a.price) - parseFloat(b.price))),
+        games: games.sort((a: Game, b: Game) => parseFloat(b.price) - parseFloat(a.price)),
         executionTime
-    });
+    })
+        ;
 }
