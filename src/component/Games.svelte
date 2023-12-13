@@ -4,6 +4,7 @@
     import type {Game} from '$lib/types';
     import {loadingAnimations} from "$lib/stores.js";
     import Quote from "./Quote.svelte";
+    import Icon from "@iconify/svelte";
 
     export let games: Game[];
     export let searchText = 'boardgame';
@@ -28,14 +29,20 @@
         games = [];
         searchForGame();
     }
+
+    let sortDown: boolean = true;
 </script>
 
 {#if isNavigating}
     <Quote/>
     <LottieAnimation path={$loadingAnimations[Math.floor(Math.random() * $loadingAnimations.length)]}/>
 {:else if games?.length > 0}
+    <button class="float-left -mt-10 ml-0 cursor-pointer" on:click={() => {sortDown = !sortDown}}>
+        <Icon icon="bi:sort-{sortDown ? 'down': 'up'}" width="36"/>
+    </button>
+
     <ul class="grid lg:grid-cols-2 gap-8">
-        {#each games as game}
+        {#each games.sort((a, b) => sortDown ? parseFloat(b.price) - parseFloat(a.price) : parseFloat(a.price) - parseFloat(b.price)) as game}
             <GameCard {game}/>
         {/each}
     </ul>
