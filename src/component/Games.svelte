@@ -5,6 +5,7 @@
     import {loadingAnimations} from "$lib/stores.js";
     import Quote from "./Quote.svelte";
     import Icon from "@iconify/svelte";
+    import GameListEntry from "./GameListEntry.svelte";
 
     export let games: Game[];
     export let searchText = 'boardgame';
@@ -31,19 +32,29 @@
     }
 
     let sortDown: boolean = false;
+    let grid: boolean = true;
 </script>
 
 {#if isNavigating}
     <Quote/>
     <LottieAnimation path={$loadingAnimations[Math.floor(Math.random() * $loadingAnimations.length)]}/>
 {:else if games?.length > 0}
-    <button class="btn btn-icon float-left -mt-10 -mr-10" on:click={() => {sortDown = !sortDown}}>
-        <Icon icon="mingcute:sort-{sortDown ? 'descending': 'ascending'}-fill" width="24"/>
-    </button>
+    <div class="flex-auto flex-2 float-left -mt-10 -mr-20 -px-2">
+        <button class="btn btn-icon" on:click={() => {sortDown = !sortDown}}>
+            <Icon icon="mingcute:sort-{sortDown ? 'descending': 'ascending'}-fill" width="24"/>
+        </button>
+        <button class="btn btn-icon" on:click={() => {grid = !grid}}>
+            <Icon icon={grid ? 'akar-icons:grid' : 'zondicons:list'} width="24"/>
+        </button>
+    </div>
 
-    <ul class="grid lg:grid-cols-2 gap-8">
+    <ul class="{grid ? 'grid' : 'list'} lg:grid-cols-2 gap-8">
         {#each games.sort((a, b) => sortDown ? parseFloat(b.price) - parseFloat(a.price) : parseFloat(a.price) - parseFloat(b.price)) as game}
-            <GameCard {game}/>
+            {#if grid}
+                <GameCard {game}/>
+            {:else }
+                <GameListEntry {game}/>
+            {/if}
         {/each}
     </ul>
 
