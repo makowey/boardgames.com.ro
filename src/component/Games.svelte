@@ -39,16 +39,16 @@
     <Quote/>
     <LottieAnimation path={$loadingAnimations[Math.floor(Math.random() * $loadingAnimations.length)]}/>
 {:else if games?.length > 0}
-    <div class="flex-auto flex-2 float-left -mt-10 -mr-20 -px-2">
-        <button class="btn btn-icon" on:click={() => {sortDown = !sortDown}}>
+    <div class="flex-auto flex-2 float-left -mt-10 -mr-20">
+        <button class="btn btn-icon relative" on:click={() => {sortDown = !sortDown}}>
             <Icon icon="mingcute:sort-{sortDown ? 'descending': 'ascending'}-fill" width="24"/>
         </button>
-        <button class="btn btn-icon" on:click={() => {grid = !grid}}>
+        <button class="btn btn-icon " on:click={() => {grid = !grid}}>
             <Icon icon={grid ? 'akar-icons:grid' : 'zondicons:list'} width="24"/>
         </button>
     </div>
 
-    <ul class="{grid ? 'grid' : 'list'} lg:grid-cols-2 gap-8">
+    <ul class="{grid ? 'grid' : 'list'} lg:grid-cols-2 gap-3">
         {#each games.sort((a, b) => sortDown ? parseFloat(b.price) - parseFloat(a.price) : parseFloat(a.price) - parseFloat(b.price)) as game}
             {#if grid}
                 <GameCard {game}/>

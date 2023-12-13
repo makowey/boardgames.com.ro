@@ -152,7 +152,7 @@
 
     <div>
         {#if findGame?.length >= numberOfMinimCharsForSearch}
-            <div class="mx-auto max-w-7xl px-6">
+            <div class="mx-auto max-w-4xl">
                 {#if games.length > 0}
                     <p class="italic mb-3 text-right text-xs lg:text-md">
                         {games.length} sugestii pentru [{findGame.toUpperCase()}] de la <span
