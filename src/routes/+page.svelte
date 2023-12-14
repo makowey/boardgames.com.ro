@@ -20,7 +20,7 @@
 			url: r.site,
 			image: r.logo,
 			thumbnail: r.logo,
-			rank: ' ',
+			rank: 0,
 		}
 	})}/>
     {:else }
