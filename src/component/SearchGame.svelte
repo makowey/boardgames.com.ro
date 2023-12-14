@@ -98,7 +98,7 @@
                         thumbnail: i.image.src,
                         url: i.item.href
                     }
-                })], 'name');
+                })], 'name')?.[0];
             })
     }
 
