@@ -9,7 +9,7 @@
     import {GEEK_MARKET, retailers} from "$lib/retailers";
     import Icon from "@iconify/svelte";
     import {getModalStore, Modal, type ModalSettings} from "@skeletonlabs/skeleton";
-    import {deduplicate} from "$lib/utils";
+    import {deduplicateGames} from "$lib/utils";
 
 
     export let findGame = '';
@@ -91,14 +91,14 @@
         fetch('/api/bgg/newreleases')
             .then(r => r.json())
             .then(r => {
-                newGames = deduplicate([...new Set(r.data.map(i => {
+                newGames = deduplicateGames([r.data.map(i => {
                     return {
                         name: i.itemName,
                         id: i.item.id,
                         thumbnail: i.image.src,
                         url: i.item.href
                     }
-                }))]);
+                })], 'name');
             })
     }
 

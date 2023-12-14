@@ -107,16 +107,18 @@ export const scrollToTop = async (node) => {
     node.scroll({top: 0, behavior: "smooth"})
 }
 
-export function deduplicate(data) {
+export function deduplicateGames(data: Game[], field: string): Game[] {
     if (data.length > 0) {
-        var result = [];
+        const result:Game[] = [];
 
-        data.forEach(function (elem) {
-            if (result.findIndex(e => e.name === elem.name) === -1) {
+        data.forEach(function (elem: Game) {
+            if (result.findIndex(e => e[field] === elem[field]) === -1) {
                 result.push(elem);
             }
         });
 
         return result;
     }
+
+    return [];
 }
