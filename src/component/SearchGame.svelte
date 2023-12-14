@@ -23,6 +23,7 @@
     let hotGames: Game[] = [];
     let mostPlayedGames: Game[] = [];
     let topGames: Game[] = [];
+    let newGames: Game[] = [];
     let kickstarters: Game[] = [];
     let hotSelection: Game;
     let loading: boolean = false;
@@ -36,6 +37,7 @@
         loadHotGames();
         loadKickstarters();
         loadTopGames();
+        loadNewGames();
     });
 
     function loadGame(e) {
@@ -79,6 +81,21 @@
                         thumbnail: bggGame.Thumbnail,
                         url: bggGame.URL,
                         rank: bggGame.Rank
+                    }
+                });
+            })
+    }
+
+    function loadNewGames() {
+        fetch('/api/bgg/newreleases')
+            .then(r => r.json())
+            .then(r => {
+                newGames= r.data.map(i => {
+                    return {
+                        name: i.item.name,
+                        id: i.item.id,
+                        thumbnail: i.image.src,
+                        url: i.item.href
                     }
                 });
             })
@@ -164,6 +181,8 @@
         {:else }
             <Gallery anchor="mostPlayed" title="BGG MostPlayed [NOV 2023]" games={mostPlayedGames}
                      bind:selection={hotSelection}
+                     on:onLoad={loadGame}/>
+            <Gallery anchor="news" title="New Releases" games={newGames} bind:selection={hotSelection}
                      on:onLoad={loadGame}/>
             <Gallery anchor="hot" title="BGG Hotlist" games={hotGames} bind:selection={hotSelection}
                      on:onLoad={loadGame}/>

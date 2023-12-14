@@ -19,7 +19,6 @@ export async function GET({fetch}) {
         return {
             id: d.item.id,
             name: d.item.name,
-            image: d.linkedImage?.image?.['src@2x'],
             thumbnail: d.linkedImage?.image?.['src'],
             url: `https://boardgamegeek.com/${d.item.href}`,
             description: d.body
