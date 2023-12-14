@@ -93,7 +93,7 @@
             .then(r => {
                 newGames = deduplicate([...new Set(r.data.map(i => {
                     return {
-                        name: i.item.name,
+                        name: i.itemName,
                         id: i.item.id,
                         thumbnail: i.image.src,
                         url: i.item.href

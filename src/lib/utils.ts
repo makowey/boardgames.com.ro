@@ -112,7 +112,7 @@ export function deduplicate(data) {
         var result = [];
 
         data.forEach(function (elem) {
-            if (result.findIndex(e => e.id === elem.id) === -1) {
+            if (result.findIndex(e => e.name === elem.name) === -1) {
                 result.push(elem);
             }
         });
