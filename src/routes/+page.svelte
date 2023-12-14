@@ -13,7 +13,7 @@
 <div class="h-full flex flex-col">
     <SearchGame/>
 
-    {#if isMobile}
+    {#if $isMobile}
         <Gallery anchor="retailers" title="APIs" games={retailers.map(r => {
 		return {
 			name: ' ',
