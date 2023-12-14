@@ -33,7 +33,7 @@
                 <img class="h-auto max-w-full rounded-lg"
                      src="{game.thumbnail}"
                      alt="{game.name}"/>
-                <p class="text-sm mt-2 text-center italic">{game.rank ? game.rank + (game.rank > 0 ? ' - ' : '') : (index + 1) + ' - '}{game.name}</p>
+                <p class="text-sm mt-2 text-center italic">{game.rank ? game.rank : index + 1}. {game.name}</p>
 
                 {#if game.description}
                     <p class="mt-1 font-serif max-h-36  scroll-py-4 overflow-auto" style="font-size: 10px;">
