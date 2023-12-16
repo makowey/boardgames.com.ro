@@ -35,7 +35,7 @@
             </a>
         {/if}
     </div>
-    <div class="text-black text-xs text-center w-2/12 m-2 font-serif">
+    <div class="text-xs text-center w-2/12 m-2 font-serif">
         {@html game.price === '0' ? '?' : game.price }
     </div>
 
