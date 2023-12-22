@@ -180,12 +180,13 @@
                 <Games searchText={findGame} bind:games {numberOfMinimCharsForSearch} {howToPlay} {shiparea}/>
             </div>
         {:else }
-            <Gallery anchor="mostPlayed" title="BGG MostPlayed [NOV 2023]" games={mostPlayedGames}
-                     bind:selection={hotSelection}
-                     on:onLoad={loadGame}/>
+
             <Gallery anchor="news" title="New Releases" games={newGames} bind:selection={hotSelection}
                      on:onLoad={loadGame}/>
             <Gallery anchor="hot" title="BGG Hotlist" games={hotGames} bind:selection={hotSelection}
+                     on:onLoad={loadGame}/>
+            <Gallery anchor="mostPlayed" title="BGG MostPlayed [NOV 2023]" games={mostPlayedGames}
+                     bind:selection={hotSelection}
                      on:onLoad={loadGame}/>
             <Gallery anchor="kickstarters" title="Kickstarters" games={kickstarters} bind:selection={hotSelection}
                      on:onLoad={loadGame}/>
