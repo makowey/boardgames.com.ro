@@ -39,7 +39,7 @@
     <Quote/>
     <LottieAnimation path={$loadingAnimations[Math.floor(Math.random() * $loadingAnimations.length)]}/>
 {:else if games?.length > 0}
-    <div class="flex-auto flex-2 float-left -mt-10 -mr-20">
+    <div class="flex-auto flex-3 md:flex-2 float-left -mt-10 -mr-20">
         <button class="btn btn-icon relative" on:click={() => {sortDown = !sortDown}}>
             <Icon icon="mingcute:sort-{sortDown ? 'descending': 'ascending'}-fill" width="24"/>
         </button>

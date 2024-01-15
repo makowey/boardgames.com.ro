@@ -23,7 +23,7 @@ export async function GET({fetch, url}) {
         console.log(url);
         console.log(`Search for [geekmarket list] on BGG for [${currentUser.name}:${currentUser.id}] [${shiparea}]`);
 
-        const response = await fetch(`${GEEK_MARKET_API}&userid=${currentUser.id}`);
+        const response = await fetch(`${GEEK_MARKET_API}&userid=${currentUser.id}&stock=instock&productstate=active`);
         const result = await response.json();
         allResults = [...result?.products];
     } else {
@@ -36,7 +36,6 @@ export async function GET({fetch, url}) {
         for (const id of suggestedIds) {
             if (id > 0 && counter-- > 0) {
                 const url = `${GEEK_MARKET_API}&objectid=${id}&${shiparea}`;
-                console.log(url);
                 const localeResponse = await fetch(url);
                 const localResult = await localeResponse.json();
 
