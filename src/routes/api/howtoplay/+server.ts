@@ -35,7 +35,7 @@ export async function GET({url}) {
                         name: offer.shop,
                         logo: offer.icon,
                         url: offer.shop,
-                        index: offer.shop.toUpperCase(),
+                        index: offer.shop?.toUpperCase(),
                         search: '?q=' + offer.name
                     }
                 }
