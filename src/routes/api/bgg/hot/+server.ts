@@ -8,7 +8,7 @@ export async function GET() {
     console.log(`Search for [hot list] on BGG`);
 
     const items: BggHotDto[] = await client.hot.query({
-        type: "boardgame"
+        type: "thing"
     });
 
     if (items?.length > 0) {
