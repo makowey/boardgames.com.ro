@@ -3,7 +3,6 @@
     import {Avatar} from "@skeletonlabs/skeleton";
 
     export let game: Game;
-    export let ribbonPosition = 'right';
 </script>
 
 <li class="grid grid-cols-3 divide-x card card-hover {game.price === '0' || game.price === '?' ? 'hidden' : ''}">

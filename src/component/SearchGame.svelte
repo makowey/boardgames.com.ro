@@ -23,6 +23,7 @@
 
     let hotGames: Game[] = [];
     let mostPlayedGames: Game[] = [];
+    let mostPlayedGamesTitle: string = 'BGG MostPlayed';
     let topGames: Game[] = [];
     let newGames: Game[] = [];
     let kickstarters: Game[] = [];
@@ -67,6 +68,7 @@
             .then(r => r.json())
             .then(r => {
                 mostPlayedGames = r.data;
+                mostPlayedGamesTitle = r.title;
             })
     }
 
@@ -185,7 +187,7 @@
                      on:onLoad={loadGame}/>
             <Gallery anchor="hot" title="BGG Hotlist" games={hotGames} bind:selection={hotSelection}
                      on:onLoad={loadGame}/>
-            <Gallery anchor="mostPlayed" title="BGG MostPlayed [NOV 2023]" games={mostPlayedGames}
+            <Gallery anchor="mostPlayed" title={mostPlayedGamesTitle} games={mostPlayedGames}
                      bind:selection={hotSelection}
                      on:onLoad={loadGame}/>
             <Gallery anchor="kickstarters" title="Kickstarters" games={kickstarters} bind:selection={hotSelection}
