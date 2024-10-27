@@ -104,22 +104,6 @@ export const retailers: Retailer[] = [
     },
 
     {
-        name: "Oxygame.ro",
-        logo: "https://oxygame.ro/image/cache/catalog/oxygame-999x284.png",
-        site: "https://oxygame.ro/",
-        search: "https://oxygame.ro/index.php?route=extension/module/isearch/ajax&search=",
-        index: "OXYGAME",
-    },
-
-    {
-        name: "Hobby-Planet.ro",
-        logo: "https://hobby-planet.ro/img/gamesstop-logo-1669044992.jpg",
-        site: "https://hobby-planet.ro/",
-        search: "https://hobby-planet.ro/modules/possearchproducts/SearchProducts.php",
-        index: "HOBBY_PLANET",
-    },
-
-    {
         name: 'HowToPlay',
         logo: 'https://www.howtoplay.ro/logo.svg',
         site: "https://www.howtoplay.ro",

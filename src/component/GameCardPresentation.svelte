@@ -1,6 +1,5 @@
 <script lang="ts">
     import type {Game, HowToPlay} from '$lib/types';
-    import Youtube from "svelte-youtube-embed";
     import {Ratings, Table, tableMapperValues} from "@skeletonlabs/skeleton";
     import {stripHtml} from "$lib/utils.js";
     import {goto} from "$app/navigation";
@@ -117,7 +116,7 @@
 
             {#if youtubeId}
                 <div class="w-full place-self-center">
-                    <Youtube id="{youtubeId}"/>
+<!--                    <Youtube id="{youtubeId}"/>-->
                 </div>
             {/if}
         </div>
