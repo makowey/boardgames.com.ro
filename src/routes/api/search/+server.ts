@@ -48,6 +48,11 @@ export async function GET({url, fetch}) {
         console.error(`Exception for Fast LOADING: ${e?.message}`);
     }
 
+    const req = await fetch(`bgg/search?q=${search}`);
+    const gs = await req.json();
+    const gameIDs = gs.data.items.map(g => g.id);
+    // console.log(gameIDs);
+
     const PION: Retailer = findRetailerByIndex('PION');
     const LEXSHOP: Retailer = findRetailerByIndex('LEXSHOP');
     const OZONE: Retailer = findRetailerByIndex('OZONE');
@@ -59,6 +64,7 @@ export async function GET({url, fetch}) {
     const MAGAZINUL_DE_SAH: Retailer = findRetailerByIndex('MAGAZINUL_DE_SAH');
     const LUDICUS: Retailer = findRetailerByIndex('LUDICUS');
     const JOCOZAUR: Retailer = findRetailerByIndex('JOCOZAUR');
+    const BOARDIACS: Retailer = findRetailerByIndex('BOARDIACS');
     const REGATUL: Retailer = findRetailerByIndex('REGATUL');
     const GEEK_MARKET: Retailer = findRetailerByIndex('GEEK_MARKET');
 
@@ -74,6 +80,15 @@ export async function GET({url, fetch}) {
         fetch(MAGAZINUL_DE_SAH.search + search),
         fetch(LUDICUS.search + search),
         fetch(JOCOZAUR.search + search),
+        fetch(BOARDIACS.search, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8"
+            },
+            body: JSON.stringify({
+                id: gameIDs?.[0]
+            })
+        }),
         fetch(REGATUL.search + search),
         fetch(`${GEEK_MARKET.search}${search}&zone=${zone}`)
     ])
@@ -81,8 +96,7 @@ export async function GET({url, fetch}) {
                          redGoblinResponse, kritResponse, barlogResponse,
                          guildHallResponse, gameologyResponse,
                          magazinulDeSahResponse, ludicusResponse,
-                         jocozaurResponse, regatResponse, oxygameResponse,
-                         hobbyPlanetResponse, geekMarketResponse]) => {
+                         jocozaurResponse, boardiacsResponse, regatResponse, geekMarketResponse]) => {
 
                 try {
                     if (pionResponse?.value) {
@@ -250,6 +264,25 @@ export async function GET({url, fetch}) {
                     }
                 } catch (e) {
                     console.error(`Exception for JOCOZAUR: ${e?.message}`);
+                }
+
+                try {
+                    if (boardiacsResponse?.value) {
+                        const boardiacsContent = await boardiacsResponse.value.json();
+                        // console.log(boardiacsContent)
+                        const dataBoardiacs: Game[] = boardiacsContent.map(g => {
+                            return {
+                                ...g,
+                                image: g.thumbnail,
+                                url: `${BOARDIACS.site}/list/${g.list_id}#${g.id}`,
+                                retailer: BOARDIACS
+                            }
+                        }).filter(g => g.status === 'available');
+                        games = [...games, ...dataBoardiacs];
+                        // console.log('BOARDIACS: ', dataBoardiacs);
+                    }
+                } catch (e) {
+                    console.error(`Exception for BOARDIACS: ${e?.message}`);
                 }
 
                 try {

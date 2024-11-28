@@ -1,14 +1,13 @@
 // TOPIC
 // https://boardgamegeek.com/thread/706785/bgg-top-50-most-played-subscription-thread/page/11
 // https://api.geekdo.com/api/listitems?page=1&listid=
-// OCT: 326185, NOV: 327111, DEC: 330951
 
 import {json} from "@sveltejs/kit";
 
 export async function GET({fetch}) {
 
-    const currentMonthID: number = 344723;
-    const currentMonthName: string = 'SEPTEMBER';
+    const currentMonthID: number = 346150;
+    const currentMonthName: string = 'OCTOBER';
 
     console.log(`Search for [mostplayed list for ${currentMonthName}] on BGG`);
     const response1 = await fetch(`https://api.geekdo.com/api/listitems?page=1&listid=${currentMonthID}`);

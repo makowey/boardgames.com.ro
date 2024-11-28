@@ -25,7 +25,7 @@ export const retailers: Retailer[] = [
         name: "Lexshop.ro",
         logo: "https://d10w0d1gdgjea2.cloudfront.net/app/images/logo.png",
         site: "https://www.lexshop.ro/",
-        search: "https://www.lexshop.ro/app/search.php?q=",
+        search: "https://www.lexshop.ro/autocomplete?query=",
         index: "LEXSHOP"
     },
 
@@ -101,6 +101,14 @@ export const retailers: Retailer[] = [
         site: "https://jocozaur.ro/",
         search: "https://jocozaur.ro/search/suggest?section_id=predictive-search&q=",
         index: "JOCOZAUR",
+    },
+
+    {
+        name: "Boardiacs.com",
+        logo: "https://dinraft.boardiacs.com/images/512x512.png",
+        site: "https://dinraft.boardiacs.com",
+        search: "https://market-app.boardiacs.com/games/get",
+        index: "BOARDIACS",
     },
 
     {
