@@ -70,7 +70,7 @@ export async function GET({url, fetch}) {
 
     if(gameIDs.length > 0) {
         console.log(gameIDs);
-        const boardiacsFetches = gameIDs.slice(0, 5).map(id => {
+        const boardiacsFetches = gameIDs.slice(0, 10).map(id => {
             return fetch(BOARDIACS.search, {
                 method: "POST",
                 headers: {
