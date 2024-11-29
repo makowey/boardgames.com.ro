@@ -12,6 +12,7 @@ export interface Game {
     playingtime?: number;
     rank?: number;
     description?: string;
+    notes?: string;
     stoc?: string;
     videos?: never;
     condition?: string;

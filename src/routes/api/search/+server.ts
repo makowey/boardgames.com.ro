@@ -50,7 +50,7 @@ export async function GET({url, fetch}) {
 
     const req = await fetch(`bgg/search?q=${search}`);
     const gs = await req.json();
-    const gameIDs = gs.data.items.map(g => g.id);
+    const gameIDs = gs.data.items?.map(g => g.id) ?? [];
     // console.log(gameIDs);
 
     const PION: Retailer = findRetailerByIndex('PION');
@@ -68,6 +68,51 @@ export async function GET({url, fetch}) {
     const REGATUL: Retailer = findRetailerByIndex('REGATUL');
     const GEEK_MARKET: Retailer = findRetailerByIndex('GEEK_MARKET');
 
+    if(gameIDs.length > 0) {
+        console.log(gameIDs);
+        const boardiacsFetches = gameIDs.slice(0, 5).map(id => {
+            return fetch(BOARDIACS.search, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8"
+                },
+                body: JSON.stringify({
+                    id
+                })
+            });
+        });
+
+        const raftulCuJocuri = await Promise.allSettled(boardiacsFetches);
+        raftulCuJocuri.forEach((result, index) => {
+            if (result.status === 'fulfilled') {
+                result.value.json()
+                  .then((boardiacsContent: any) => {
+                      if (Array.isArray(boardiacsContent)) {
+                          const dataBoardiacs: Game[] = boardiacsContent.map(g => {
+                              return {
+                                  ...g,
+                                  image: g.thumbnail,
+                                  url: `${BOARDIACS.site}/list/${g.list_id}#${g.id}`,
+                                  retailer: BOARDIACS
+                              }
+                          }).filter(g => g.status === 'available');
+                          if(dataBoardiacs.length > 0) {
+                              games = [...games, ...dataBoardiacs];
+                          }
+                          console.log(`${BOARDIACS.site}: ${dataBoardiacs.length} games...`);
+                      }
+                  });
+            } else {
+                console.error(`Fetch ${index} failed with reason:`, result.reason);
+            }
+        });
+    }
+
+    // return json({
+    //     status: 'success',
+    //     games: games.sort((a: Game, b: Game) => parseFloat(b.price) - parseFloat(a.price)),
+    // });
+
     await Promise.allSettled([
         fetch(PION.search + search),
         fetch(LEXSHOP.search + search),
@@ -80,15 +125,7 @@ export async function GET({url, fetch}) {
         fetch(MAGAZINUL_DE_SAH.search + search),
         fetch(LUDICUS.search + search),
         fetch(JOCOZAUR.search + search),
-        fetch(BOARDIACS.search, {
-            method: "POST",
-            headers: {
-                "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8"
-            },
-            body: JSON.stringify({
-                id: gameIDs?.[0]
-            })
-        }),
+        // boardiacsFetches,
         fetch(REGATUL.search + search),
         fetch(`${GEEK_MARKET.search}${search}&zone=${zone}`)
     ])
@@ -96,7 +133,7 @@ export async function GET({url, fetch}) {
                          redGoblinResponse, kritResponse, barlogResponse,
                          guildHallResponse, gameologyResponse,
                          magazinulDeSahResponse, ludicusResponse,
-                         jocozaurResponse, boardiacsResponse, regatResponse, geekMarketResponse]) => {
+                         jocozaurResponse, regatResponse, geekMarketResponse]) => {
 
                 try {
                     if (pionResponse?.value) {
@@ -266,24 +303,29 @@ export async function GET({url, fetch}) {
                     console.error(`Exception for JOCOZAUR: ${e?.message}`);
                 }
 
-                try {
-                    if (boardiacsResponse?.value) {
-                        const boardiacsContent = await boardiacsResponse.value.json();
-                        // console.log(boardiacsContent)
-                        const dataBoardiacs: Game[] = boardiacsContent.map(g => {
-                            return {
-                                ...g,
-                                image: g.thumbnail,
-                                url: `${BOARDIACS.site}/list/${g.list_id}#${g.id}`,
-                                retailer: BOARDIACS
-                            }
-                        }).filter(g => g.status === 'available');
-                        games = [...games, ...dataBoardiacs];
-                        // console.log('BOARDIACS: ', dataBoardiacs);
-                    }
-                } catch (e) {
-                    console.error(`Exception for BOARDIACS: ${e?.message}`);
-                }
+                // try {
+                //     if (boardiacsResponse?.value) {
+                //        const v = await boardiacsResponse.value;
+                //        const val = await v.text();
+                //        console.log(val)
+                //
+                //         const boardiacsContent = await boardiacsResponse.value.json();
+                //         if(Array.isArray(boardiacsContent)) {
+                //             const dataBoardiacs: Game[] = boardiacsContent.map(g => {
+                //                 return {
+                //                     ...g,
+                //                     image: g.thumbnail,
+                //                     url: `${BOARDIACS.site}/list/${g.list_id}#${g.id}`,
+                //                     retailer: BOARDIACS
+                //                 }
+                //             }).filter(g => g.status === 'available');
+                //             games = [...games, ...dataBoardiacs];
+                //             // console.log('BOARDIACS: ', dataBoardiacs);
+                //         }
+                //     }
+                // } catch (e) {
+                //     console.error(`Exception for BOARDIACS: ${e?.message}`);
+                // }
 
                 try {
                     if (regatResponse?.value) {
@@ -353,6 +395,5 @@ export async function GET({url, fetch}) {
         status: 'success',
         games: games.sort((a: Game, b: Game) => parseFloat(b.price) - parseFloat(a.price)),
         executionTime
-    })
-        ;
+    });
 }
