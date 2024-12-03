@@ -112,7 +112,7 @@
                     return {
                         id: k.item?.id,
                         name: k.name,
-                        thumbnail: k.images?.mediacard?.src,
+                        thumbnail: k.item.imageSets?.mediacard?.src,
                         url: k.orderUrl,
                         price: 0,
                         retailer: {name: "Kickstarter"},
