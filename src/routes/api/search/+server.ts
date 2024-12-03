@@ -160,16 +160,10 @@ export async function GET({url, fetch}) {
 
                 try {
                     if (lexshopResponse?.value) {
-                        let dataLexshop = await lexshopResponse.value.json()
-                        dataLexshop = [...dataLexshop.suggestions].map((game) => {
-                            return {
-                                name: game.value,
-                                image: game.cover?.split('src="')[1]?.split('&crop=')[0].replace('45-45', '500-500'),
-                                url: LEXSHOP.site + game.link,
-                                price: game.pret,
-                                retailer: LEXSHOP
-                            };
-                        });
+                        let dataLexshopContent = await lexshopResponse.value.text()
+                        const obj = JSON.parse(dataLexshopContent);
+                        const html = obj.suggestions?.[0]?.value;
+                        let dataLexshop = extractShopifyGamesFromHtml(new JSDOM(html), LEXSHOP);
                         games = [...games, ...dataLexshop];
                     }
                 } catch (e) {
@@ -377,7 +371,7 @@ export async function GET({url, fetch}) {
             }
         )
 
-    console.log(`Sorting ${games.length} results...`)
+    console.log(`Sorting ${games.length} results...`, games)
     const endTime: Date = new Date();
     const executionTime: number = Math.abs(endTime.getMilliseconds() - startTime.getMilliseconds());
 
