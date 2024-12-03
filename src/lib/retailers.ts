@@ -91,7 +91,7 @@ export const retailers: Retailer[] = [
         name: "Ludicus.ro",
         logo: "https://ludicus.ro/cdn/shop/files/Ludicus_Logo_Website_szinezett-02_180x@2x.png?v=1687429790",
         site: "https://ludicus.ro/",
-        search: "https://ludicus.ro/search/suggest?resources%5Btype%5D=product&resources%5Blimit%5D=4&section_id=predictive-search&q=",
+        search: "https://ludicus.ro/search/suggest?section_id=predictive-search&q=",
         index: "LUDICUS",
     },
 

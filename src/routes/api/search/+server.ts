@@ -5,9 +5,9 @@ import {
     extractFromRedGoblinHtml,
     extractGoMagGamesFromHtml,
     extractPrestashopGamesFromHtml,
-    extractShopifyGamesFromHtml,
+    extractShopifyGamesFromHtml, extractShopifyGamesFromHtmlJOCOZAUR, extractShopifyGamesFromHtmlLUDICUS,
     promotionCalculator
-} from "$lib/utils";
+} from '$lib/utils';
 import {JSDOM} from 'jsdom';
 
 export async function GET({url, fetch}) {
@@ -279,7 +279,7 @@ export async function GET({url, fetch}) {
                     if (ludicusResponse?.value) {
                         let dataLudicus: Game[];
                         const ludicusContent = await ludicusResponse.value.text();
-                        dataLudicus = extractShopifyGamesFromHtml(new JSDOM(ludicusContent), LUDICUS);
+                        dataLudicus = extractShopifyGamesFromHtmlLUDICUS(new JSDOM(ludicusContent), LUDICUS);
                         games = [...games, ...dataLudicus];
                     }
                 } catch (e) {
@@ -290,7 +290,7 @@ export async function GET({url, fetch}) {
                     if (jocozaurResponse?.value) {
                         let dataJocozaur: Game[];
                         const jocozaurContent = await jocozaurResponse.value.text();
-                        dataJocozaur = extractShopifyGamesFromHtml(new JSDOM(jocozaurContent), JOCOZAUR);
+                        dataJocozaur = extractShopifyGamesFromHtmlJOCOZAUR(new JSDOM(jocozaurContent), JOCOZAUR);
                         games = [...games, ...dataJocozaur];
                     }
                 } catch (e) {
@@ -371,7 +371,7 @@ export async function GET({url, fetch}) {
             }
         )
 
-    console.log(`Sorting ${games.length} results...`, games)
+    console.log(`Sorting ${games.length} results...`)
     const endTime: Date = new Date();
     const executionTime: number = Math.abs(endTime.getMilliseconds() - startTime.getMilliseconds());
 

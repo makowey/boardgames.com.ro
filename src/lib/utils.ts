@@ -53,6 +53,46 @@ export function extractShopifyGamesFromHtml(dom: any, retailer: Retailer) {
     return games.filter(game => game.name !== undefined);
 }
 
+export function extractShopifyGamesFromHtmlJOCOZAUR(dom: any, retailer: Retailer) {
+    const el = dom.window.document;
+    const games: Game[] = [];
+    const childBoxes = el?.getElementById('predictive-search-results-products-list').getElementsByClassName('predictive-search__list-item');
+    for (let i = 0; i < childBoxes?.length; i++) {
+        const acBox = childBoxes[i];
+        games.push({
+            name: acBox?.getElementsByClassName('predictive-search__item-heading')[0].innerHTML,
+            image: acBox?.getElementsByTagName('a')[0].getElementsByTagName('img')[0].getAttribute('src'),
+            url: acBox?.getElementsByTagName('a')[0].getAttribute('href'),
+            price: acBox?.getElementsByClassName('price-item--last')[0].innerHTML,
+            retailer
+        });
+    }
+
+    console.log(`Filtering ${games.length} games for ${retailer.name}`);
+
+    return games.filter(game => game.name !== undefined);
+}
+
+export function extractShopifyGamesFromHtmlLUDICUS(dom: any, retailer: Retailer) {
+    const el = dom.window.document;
+    const games: Game[] = [];
+    const childBoxes = el?.getElementById('predictive-search-results-products-list').getElementsByClassName('predictive-search__list-item');
+    for (let i = 0; i < childBoxes?.length; i++) {
+        const acBox = childBoxes[i];
+        games.push({
+            name: acBox?.getElementsByTagName('a')[0].getElementsByTagName('img')[0].getAttribute('alt'),
+            image: acBox?.getElementsByTagName('a')[0].getElementsByTagName('img')[0].getAttribute('src'),
+            url: retailer.site + acBox?.getElementsByTagName('a')[0].getAttribute('href'),
+            price: acBox?.getElementsByClassName('price-item--last')?.[0]?.innerHTML,
+            retailer
+        });
+    }
+
+    console.log(`Filtering ${games.length} games for ${retailer.name}`);
+
+    return games.filter(game => game.name !== undefined);
+}
+
 export function extractPrestashopGamesFromHtml(dom: any, retailer: Retailer) {
     const el = dom.window.document;
     const games: Game[] = [];
