@@ -91,8 +91,8 @@ importers:
         specifier: ^3.8.6
         version: 3.8.6(postcss-load-config@4.0.2(postcss@8.4.31))(postcss@8.4.31)(svelte@4.2.19)
       svelte-youtube-embed:
-        specifier: ^0.2.9
-        version: 0.2.9
+        specifier: ^0.3.3
+        version: 0.3.3(svelte@4.2.19)
       tailwindcss:
         specifier: 3.3.3
         version: 3.3.3
@@ -1679,8 +1679,10 @@ packages:
       typescript:
         optional: true
 
-  svelte-youtube-embed@0.2.9:
-    resolution: {integrity: sha512-daC+1314HkEx3u/nNGJG0/4uS7fixgxB3OGgxetmxVvDfAGKAc9ZFsKL7Fh3ABTLwwSN4VNwUQMm4I7oWrzpLg==}
+  svelte-youtube-embed@0.3.3:
+    resolution: {integrity: sha512-g4+53JauVB+Jwz486lVqW8PUTnoP1SinECWhmQSCaKuh6zrYiAOFRpzMG6vW1TaQfSigiLWyUactFWipo4lsfQ==}
+    peerDependencies:
+      svelte: ^4.0.0
 
   svelte@4.2.19:
     resolution: {integrity: sha512-IY1rnGr6izd10B0A8LqsBfmlT5OILVuZ7XsI0vdGPEvuonFV7NYEUK4dAkm9Zg2q0Um92kYjTpS1CAP3Nh/KWw==}
@@ -3378,7 +3380,9 @@ snapshots:
       postcss-load-config: 4.0.2(postcss@8.4.31)
       typescript: 5.7.2
 
-  svelte-youtube-embed@0.2.9: {}
+  svelte-youtube-embed@0.3.3(svelte@4.2.19):
+    dependencies:
+      svelte: 4.2.19
 
   svelte@4.2.19:
     dependencies:

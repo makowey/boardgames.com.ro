@@ -7,6 +7,7 @@
     import Icon from "@iconify/svelte";
     import {HOW_TO_PLAY} from "$lib/retailers";
     import LottieAnimation from "./player/LottieAnimation.svelte";
+    import Youtube from "svelte-youtube-embed";
 
     export let game: Game;
     export let loading: boolean = true;
@@ -116,7 +117,7 @@
 
             {#if youtubeId}
                 <div class="w-full place-self-center">
-<!--                    <Youtube id="{youtubeId}"/>-->
+                    <Youtube id="{youtubeId}"/>
                 </div>
             {/if}
         </div>
