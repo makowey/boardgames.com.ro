@@ -116,7 +116,7 @@
             {/if}
 
             {#if youtubeId}
-                <div class="w-full place-self-center">
+                <div class="w-3/4 place-self-center">
                     <Youtube id="{youtubeId}"/>
                 </div>
             {/if}
