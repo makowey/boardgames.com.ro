@@ -1,6 +1,6 @@
 import {json} from "@sveltejs/kit";
-import {BggClient} from "boardgamegeekclient";
-import type {BggThingDto} from "boardgamegeekclient/dist/cjs/dto";
+import { BggThingDto } from '@kfijolek/boardgamegeekclient/dist/cjs/dto';
+import { BggClient } from '@kfijolek/boardgamegeekclient';
 
 const client = BggClient.Create();
 

@@ -1,8 +1,8 @@
 import {json} from "@sveltejs/kit";
-import {BggClient} from "boardgamegeekclient";
-import type {BggUserDto} from "boardgamegeekclient/dist/cjs/dto";
 import type {Game} from "$lib/types";
 import {GEEK_MARKET} from "$lib/retailers";
+import { BggUserDto } from '@kfijolek/boardgamegeekclient/dist/cjs/dto';
+import { BggClient } from '@kfijolek/boardgamegeekclient';
 
 const client = BggClient.Create();
 
@@ -15,7 +15,8 @@ export async function GET({fetch, url}) {
     let allResults = [];
     const GEEK_MARKET_API = `https://api.geekdo.com/api/market/products?ajax=1&objecttype=thing`;
     if (username) {
-        const bggUsers: BggUserDto[] = await client.user.query({
+        let bggUsers: BggUserDto[];
+        bggUsers = await client.user.query({
             name: username || 'makowey'
         });
         const currentUser = bggUsers[0];
