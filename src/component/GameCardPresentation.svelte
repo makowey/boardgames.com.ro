@@ -74,11 +74,13 @@
 {:else if game?.name}
     <div class="card card-hover flex flex-col sm:flex-row shadow-2xl overflow-hidden rounded-lg m-10">
         <div class="relative aspect-video overflow-hidden sm:aspect-square sm:max-w-[270px] bg-white">
-            <img
-                    class="object-contain sm:object-cover w-full h-full"
-                    src={game.image}
-                    alt="Game thumbnail"
-            />
+            <a href="{game.url ?? '/'}" target="_blank">
+                    <img
+                        class="object-contain sm:object-cover w-full h-full"
+                        src={game.image}
+                        alt="Game thumbnail"
+                />
+            </a>
         </div>
         <div class="card-body p-6 flex flex-col gap-3 flex-1">
             <h2 class="card-title text-left font-bold text-2xl">

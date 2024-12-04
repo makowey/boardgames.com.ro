@@ -51,7 +51,7 @@
             .then(r => r.json())
             .then(r => {
                 loading = false;
-                openTheModal(r.data);
+                openTheModal({...r.data, url: selectedGame.url});
             })
     }
 
