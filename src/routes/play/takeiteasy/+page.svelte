@@ -11,11 +11,11 @@
 </script>
 
 <div class="row-container">
+	<iframe src="https://takeiteasy-game.vercel.app" title="Take it Easy - Boardgame" class="iframe" allowfullscreen/>
 	<div class="first-row">
 		<div style="float: right; margin: 10px;">Enable fullscreen mode</div>
 		<img src="/assets/fullscreen.png" alt="Full Screen" class="iframe-button btn right-1" on:click={toggleFullscreen}/>
 	</div>
-	<iframe src="https://takeiteasy-game.vercel.app" title="Take it Easy - Boardgame" class="iframe" allowfullscreen/>
 </div>
 
 <style>
