@@ -1,6 +1,6 @@
 <div class="row-container">
 	<div class="first-row"></div>
-	<iframe src="https://takeiteasy-game.vercel.app" title="Take it Easy - Boardgame" class="second-row"/>
+	<iframe src="https://takeiteasy-game.vercel.app" title="Take it Easy - Boardgame" class="second-row" allowfullscreen/>
 </div>
 
 <style>
