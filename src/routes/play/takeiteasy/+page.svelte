@@ -1,6 +1,4 @@
 <script>
-	import { SlideToggle } from '@skeletonlabs/skeleton';
-
 	let fullscreen = false;
 	function toggleFullscreen() {
 		const iframe = document.getElementsByClassName('iframe')?.[0];
@@ -21,7 +19,7 @@
 </div>
 
 <style>
-    .row-container {display: flex; width: 100%; height: 100%; flex-direction: column; background-color: blue; overflow: hidden;}
+    .row-container {display: flex; width: 100%; height: 100%; flex-direction: column; background-color: black; overflow: hidden;}
     .iframe { flex-grow: 1; border: none; margin: 0; padding: 0; }
 		.iframe-button {
 				width: 70px;
