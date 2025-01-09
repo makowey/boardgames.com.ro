@@ -19,12 +19,13 @@
 </div>
 
 <style>
-    .row-container {display: flex; width: 100%; height: 100%; flex-direction: column; background-color: black; overflow: hidden;}
+    .row-container {display: flex; width: 100%; height: 100%; flex-direction: column; background-color: #264226; overflow: hidden;}
     .iframe { flex-grow: 1; border: none; margin: 0; padding: 0; }
 		.iframe-button {
 				width: 70px;
 				right: 10px;
 				float: right;
 				cursor: pointer;
+				color: #ffffff;
 		}
 </style>
