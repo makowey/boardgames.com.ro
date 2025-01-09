@@ -8,11 +8,14 @@
 
 		console.log('Fullscreen mode: ', fullscreen);
 	}
+
+	let url = 'https://takeiteasy-game.vercel.app';
 </script>
 
 <div class="row-container">
-	<iframe src="https://takeiteasy-game.vercel.app" title="Take it Easy - Boardgame" class="iframe" allowfullscreen/>
+	<iframe src="{url}" title="Take it Easy - Boardgame" class="iframe" allowfullscreen/>
 	<div class="first-row">
+		<span class="m-5">If fullscreen is not working go <a href="{url}" class="font-bold uppercase text-xl text-emerald-400 p-2">here</a></span>
 		<div style="float: right; margin: 10px;">Enable fullscreen mode</div>
 		<img src="/assets/fullscreen.png" alt="Full Screen" class="iframe-button btn right-1" on:click={toggleFullscreen}/>
 	</div>
