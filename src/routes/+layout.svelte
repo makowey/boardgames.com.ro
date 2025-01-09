@@ -1,6 +1,14 @@
 <script lang="ts">
     import '../app.postcss';
-    import {AppBar, AppShell, getToastStore, initializeStores, storePopup, Toast} from '@skeletonlabs/skeleton';
+    import {
+        AppBar,
+        AppShell,
+        getToastStore,
+        initializeStores,
+        SlideToggle,
+        storePopup,
+        Toast
+    } from '@skeletonlabs/skeleton';
     import { LightSwitch } from '@skeletonlabs/skeleton';
     import Icon from '@iconify/svelte';
 
