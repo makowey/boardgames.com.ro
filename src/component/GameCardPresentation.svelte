@@ -112,7 +112,7 @@
 			</div>
 
 			{#if game.url.indexOf('biblionar') > -1}
-				<a href="{game.url}" class="card p-2 font-semibold mx-auto text-2xl text-center" target="_blank">Play the game now</a>
+				<a href="{game.url}" class="card p-2 font-semibold mx-auto text-2xl text-center" target="_blank">Play NOW</a>
 			{/if}
 
 			<!--            <SlideToggle name="how-to-play" bind:checked={hTP} active="bg-primary-500" size="sm" label="How to play?"/>-->
