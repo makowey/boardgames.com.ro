@@ -15,6 +15,7 @@ const biblionar = [
 export const playableGames: Game[] =
 	bggDB
 		.filter(g => biblionar.some(b => b.id === g.ID))
+		.sort((a, b) => a.Average > b.Average ? -1 : 1)
 		.map(g => {
 			return {
 				id: g.ID,
