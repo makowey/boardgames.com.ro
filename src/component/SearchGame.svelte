@@ -10,6 +10,7 @@
     import Icon from "@iconify/svelte";
     import {getModalStore, Modal, type ModalSettings} from "@skeletonlabs/skeleton";
     import {deduplicateGames} from "$lib/utils";
+    import { playableGames } from '$lib/biblionar';
 
 
     export let findGame = '';
@@ -183,6 +184,8 @@
             </div>
         {:else }
 
+            <Gallery anchor="play" title="Playable Games" games={playableGames} bind:selection={hotSelection}
+                     on:onLoad={loadGame}/>
             <Gallery anchor="news" title="New Releases" games={newGames} bind:selection={hotSelection}
                      on:onLoad={loadGame}/>
             <Gallery anchor="hot" title="BGG Hotlist" games={hotGames} bind:selection={hotSelection}
