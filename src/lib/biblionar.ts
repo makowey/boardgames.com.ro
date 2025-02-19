@@ -9,6 +9,10 @@ const biblionar = [
 	{
 		id: '385761',
 		URL: 'https://biblionar.ro/games/faraway'
+	},
+	{
+		id: '29355',
+		URL: 'https://biblionar.ro/games/knister'
 	}
 ];
 
