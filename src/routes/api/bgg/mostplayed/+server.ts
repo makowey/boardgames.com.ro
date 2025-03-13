@@ -6,8 +6,8 @@ import {json} from "@sveltejs/kit";
 
 export async function GET({fetch}) {
 
-    const currentMonthID: number = 350165;
-    const currentMonthName: string = 'DECEMBER';
+    const currentMonthID: number = 354537;
+    const currentMonthName: string = 'FEBRUARY';
 
     console.log(`Search for [mostplayed list for ${currentMonthName}] on BGG`);
     const response1 = await fetch(`https://api.geekdo.com/api/listitems?page=1&listid=${currentMonthID}`);
