@@ -43,7 +43,7 @@ export async function GET({fetch}) {
             status: 'ok',
             size: items.length,
             currentMonth: currentMonthName,
-            title: `BGG MostPlayed [${currentMonthName} 2024]`,
+            title: `BGG MostPlayed [${currentMonthName} 2025]`,
             data: items
         });
     }
