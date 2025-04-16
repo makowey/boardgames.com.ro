@@ -25,9 +25,11 @@
     let hotGames: Game[] = [];
     let mostPlayedGames: Game[] = [];
     let mostPlayedGamesTitle: string = 'BGG MostPlayed';
+    let mostBuyedGamesTitle: string = 'BGG Most Buyed';
     let topGames: Game[] = [];
     let newGames: Game[] = [];
     let kickstarters: Game[] = [];
+    let ownership: Game[] = [];
     let hotSelection: Game;
     let loading: boolean = false;
     let howToPlay: boolean = true;
@@ -37,6 +39,7 @@
 
     onMount(() => {
         loadMostPLayedGames();
+        loadOwnerships();
         loadHotGames();
         loadKickstarters();
         loadTopGames();
@@ -71,6 +74,15 @@
                 mostPlayedGames = r.data;
                 mostPlayedGamesTitle = r.title;
             })
+    }
+
+    function loadOwnerships() {
+        fetch('/api/bgg/trends')
+          .then(r => r.json())
+          .then(r => {
+              ownership = r.data;
+              mostBuyedGamesTitle = r.title;
+          });
     }
 
     function loadTopGames() {
@@ -194,6 +206,8 @@
                      bind:selection={hotSelection}
                      on:onLoad={loadGame}/>
             <Gallery anchor="kickstarters" title="Kickstarters" games={kickstarters} bind:selection={hotSelection}
+                     on:onLoad={loadGame}/>
+            <Gallery anchor="trends" title={mostBuyedGamesTitle} games={ownership} bind:selection={hotSelection}
                      on:onLoad={loadGame}/>
             <Gallery anchor="top50" title="BGG Top 50" games={topGames} bind:selection={hotSelection}
                      on:onLoad={loadGame}/>
