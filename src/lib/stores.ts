@@ -1,5 +1,5 @@
-import {readable, writable} from 'svelte/store';
+import { readable, writable } from 'svelte/store';
 
 export const isMobile = writable(false);
 
-export const loadingAnimations = readable(["handLoading", "triangleLoading", "search"]); //"loading", "circleLoading"
+export const loadingAnimations = readable(['handLoading', 'triangleLoading', 'search']); //"loading", "circleLoading"
