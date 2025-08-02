@@ -1,0 +1,18 @@
+{
+	"permissions": {
+		"allow": [
+			"Bash(node:*)",
+			"Bash(npm update)",
+			"Bash(npm ls:*)",
+			"Bash(npm view:*)",
+			"Bash(npm install)",
+			"Bash(npm install:*)",
+			"Bash(pnpm install:*)",
+			"Bash(npm run build:*)",
+			"Bash(npm run lint)",
+			"Bash(npm run check:*)",
+			"Bash(npm run format:*)"
+		],
+		"deny": []
+	}
+}
